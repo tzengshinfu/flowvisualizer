@@ -9,7 +9,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:flowvisualizer.flowview"
+		"onView:flowvisualizer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -17,8 +17,8 @@
 			"explorer": [
 				{
 					"type": "webview",
-					"id": "flowvisualizer.flowview",
-					"name": "FlowVisualizer FlowView"
+					"id": "flowvisualizer",
+					"name": "FlowVisualizer"
 				}
 			]
 		}
