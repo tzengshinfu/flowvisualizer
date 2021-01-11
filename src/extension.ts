@@ -42,7 +42,8 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 
 	public createFlowBlockHtml(code: string) {
 		const sourceCode = `
-		//開始		
+		//開始
+		//開始2		
 		console.log('start');		
 
 		var var1 = 2;			
@@ -53,6 +54,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		
 		/**
 		非同步計算
+		非同步計算2
 		*/
 		async function calculateAsync() {
 			//#region 
@@ -147,6 +149,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 			await calculateAsync();
 			
 			//結束
+			//結束2
 			console.log('completed');
 		}());
 		
@@ -167,7 +170,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				case "ExpressionStatement": {
 					var comment = (() => {
 						if (item.leadingComments) {
-							return '';
+							return item.leadingComments.map((item)=>{return item.value;}).join('\n');
 						}
 					})();
 					item.leadingComments = null;
