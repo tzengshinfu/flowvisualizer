@@ -3,6 +3,7 @@ import * as parser from '@babel/parser';
 import * as t from '@babel/traverse';
 import generate, * as g from '@babel/generator';
 import { ExpressionStatement, traverse } from '@babel/types';
+import * as fs from 'fs';
 
 export function activate(context: vscode.ExtensionContext) {
 	const provider = new FlowVisualizerViewProvider(context.extensionUri);
@@ -31,7 +32,9 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 						//if (code) {
 						var flowBlockHtml = this.createFlowBlockHtml(code);
 
-						webviewView.webview.html = webviewView.webview.html.replace(/(\<div\ id\=\"flow\-block\"\>).*(\<\/div\>)/s, '$1' + flowBlockHtml + '$2');
+						//webviewView.webview.html = webviewView.webview.html.replace(/(\<div\ id\=\"flow\-block\"\>).*(\<\/div\>)/s, '$1' + flowBlockHtml + '$2');
+						var filePath = 'D:\\Desktop\\test.html';
+						fs.writeFileSync(filePath, flowBlockHtml, 'utf8');
 						//}
 					}
 					break;
@@ -41,10 +44,12 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	public createFlowBlockHtml(code: string) {
+		var result = '';
 		const sourceCode = `
 		//開始
 		//開始2		
-		console.log('start');		
+		console.log('start'); //開始3
+		//開始4
 
 		var var1 = 2;			
 		
@@ -161,44 +166,47 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 			});
 		};`;
 		const ast = parser.parse(sourceCode);
-		const codeNodes = parser.parse(sourceCode).program.body;
-		const functionNodes = codeNodes.filter((node) => { return node.type.toString() === 'FunctionDeclaration'; });
-		const flowNodes = codeNodes.filter((node) => { return node.type.toString() !== 'FunctionDeclaration'; });
-		var result = '';
-		flowNodes.forEach((item) => {
-			switch (item.type.toString()) {
-				case "ExpressionStatement": {
-					var comment = (() => {
-						if (item.leadingComments) {
-							return item.leadingComments.map((item)=>{return item.value;}).join('\n');
-						}
-					})();
-					item.leadingComments = null;
+		//const codeNodes = parser.parse(sourceCode).program.body;
 
-					var a = generate(item);
-					break;
-				}
-				case 'VariableDeclaration': {
-					break;
-				}
-				case 'TryStatement': {
-					break;
-				}
-				case 'EmptyStatement': {
-					break;
+		// codeNodes.forEach((item) => {
+		// 	switch (item.type.toString()) {
+
+		// 	}
+		// });
+		traverse(ast, {
+			enter(path) {
+				switch (path.type.toString()) {
+					case 'DoWhileStatement': {
+						result += '<div>' + generate(path).code + '</div>';
+						break;
+					}
+					case 'WhileStatement': {
+						result += '<div>' + generate(path).code + '</div>';
+						break;
+					}
+					case 'ForStatement':
+					case 'ForInStatement':
+					case 'ForOfStatement': {
+						result += '<div>' + generate(path).code + '</div>';
+						break;
+					}
+					case 'IfStatement': {
+						result += '<div>' + generate(path).code + '</div>';
+						break;
+					}
+					case 'SwitchStatement': {
+						result += '<div>' + generate(path).code + '</div>';
+						break;
+					}
+					case 'TryStatement': {
+						result += '<div>' + generate(path).code + '</div>';
+						break;
+					}
 				}
 			}
-			result += item.type + '\n';
 		});
-		//traverse(ast, {
-		//	enter(path) {
-		//		//if (path.type === 'FunctionDeclaration') {
-		//		//console.log(path.type);
-		//		//}
-		//	}
-		//})
 		//const result = generate(ast);
-
+		result = result.replace(/\s/g, '&nbsp;').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/g, '<br />');
 		return result;
 	}
 
