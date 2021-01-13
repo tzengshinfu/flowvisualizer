@@ -88,11 +88,15 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		
 				switch (var2) {
 					case 1:
+					case 3:
+						console.log(var2);
 						var2 = 2;
 						break;
 				
+					case 4:
 					case 2:
 						var2 = 1;
+						console.log(var2);
 						break;
 				
 					default:
@@ -176,39 +180,41 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		traverse(ast, {
 			enter(path) {
 				switch (path.type.toString()) {
-					case 'DoWhileStatement': {
-						result += '<div>' + generate(path).code + '</div>';
-						break;
-					}
-					case 'WhileStatement': {
-						result += '<div>' + generate(path).code + '</div>';
-						break;
-					}
-					case 'ForStatement':
-					case 'ForInStatement':
-					case 'ForOfStatement': {
-						result += '<div>' + generate(path).code + '</div>';
-						break;
-					}
-					case 'IfStatement': {
-						result += '<div>' + generate(path).code + '</div>';
-						break;
-					}
+					// case 'DoWhileStatement': {
+					// 	result += '<div>' + generate(path).code + '</div>';
+					// 	break;
+					// }
+					// case 'WhileStatement': {
+					// 	result += '<div>' + generate(path).code + '</div>';
+					// 	break;
+					// }
+					// case 'ForStatement':
+					// case 'ForInStatement':
+					// case 'ForOfStatement': {
+					// 	result += '<div>' + generate(path).code + '</div>';
+					// 	break;
+					// }
+					// case 'IfStatement': {
+					// 	result += '<div>' + generate(path).code + '</div>';
+					// 	break;
+					// }
 					case 'SwitchStatement': {
 						result += '<div>' + generate(path).code + '</div>';
 						break;
 					}
-					case 'TryStatement': {
+					// case 'TryStatement': {
+					// 	result += '<div>' + generate(path).code + '</div>';
+					// 	break;
+					// }
+					// case 'FunctionDeclaration':
+					// case 'ExpressionStatement':
+					// case 'DebuggerStatement':
+					// case 'BlockStatement': {
+					// 	result += '<div>' + generate(path).code + '</div>';
+					// 	break;
+					// }
+					default:
 						result += '<div>' + generate(path).code + '</div>';
-						break;
-					}
-					case 'FunctionDeclaration':
-					case 'ExpressionStatement':
-					case 'DebuggerStatement':
-					case 'BlockStatement': {
-						result += '<div>' + generate(path).code + '</div>';
-						break;
-					}
 				}
 			}
 		});
