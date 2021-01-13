@@ -179,43 +179,44 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		// });
 		traverse(ast, {
 			enter(path) {
-				switch (path.type.toString()) {
-					// case 'DoWhileStatement': {
-					// 	result += '<div>' + generate(path).code + '</div>';
-					// 	break;
-					// }
-					// case 'WhileStatement': {
-					// 	result += '<div>' + generate(path).code + '</div>';
-					// 	break;
-					// }
-					// case 'ForStatement':
-					// case 'ForInStatement':
-					// case 'ForOfStatement': {
-					// 	result += '<div>' + generate(path).code + '</div>';
-					// 	break;
-					// }
-					// case 'IfStatement': {
-					// 	result += '<div>' + generate(path).code + '</div>';
-					// 	break;
-					// }
-					case 'SwitchStatement': {
-						result += '<div>' + generate(path).code + '</div>';
-						break;
-					}
-					// case 'TryStatement': {
-					// 	result += '<div>' + generate(path).code + '</div>';
-					// 	break;
-					// }
-					// case 'FunctionDeclaration':
-					// case 'ExpressionStatement':
-					// case 'DebuggerStatement':
-					// case 'BlockStatement': {
-					// 	result += '<div>' + generate(path).code + '</div>';
-					// 	break;
-					// }
-					default:
-						result += '<div>' + generate(path).code + '</div>';
-				}
+				console.log(path.type);
+				// switch (path.type.toString()) {
+				// 	// case 'DoWhileStatement': {
+				// 	// 	result += '<div>' + generate(path).code + '</div>';
+				// 	// 	break;
+				// 	// }
+				// 	// case 'WhileStatement': {
+				// 	// 	result += '<div>' + generate(path).code + '</div>';
+				// 	// 	break;
+				// 	// }
+				// 	// case 'ForStatement':
+				// 	// case 'ForInStatement':
+				// 	// case 'ForOfStatement': {
+				// 	// 	result += '<div>' + generate(path).code + '</div>';
+				// 	// 	break;
+				// 	// }
+				// 	// case 'IfStatement': {
+				// 	// 	result += '<div>' + generate(path).code + '</div>';
+				// 	// 	break;
+				// 	// }
+				// 	case 'SwitchStatement': {
+				// 		result += '<div>' + generate(path).code + '</div>';
+				// 		break;
+				// 	}
+				// 	// case 'TryStatement': {
+				// 	// 	result += '<div>' + generate(path).code + '</div>';
+				// 	// 	break;
+				// 	// }
+				// 	// case 'FunctionDeclaration':
+				// 	// case 'ExpressionStatement':
+				// 	// case 'DebuggerStatement':
+				// 	// case 'BlockStatement': {
+				// 	// 	result += '<div>' + generate(path).code + '</div>';
+				// 	// 	break;
+				// 	// }
+				// 	default:
+				// 		result += '<div>' + generate(path).code + '</div>';
+				// }
 			}
 		});
 		//const result = generate(ast);
