@@ -170,7 +170,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 			});
 		};`;
 		const ast = parser.parse(sourceCode);
-		//const codeNodes = parser.parse(sourceCode).program.body;
+		//const codeNodes = parser.parse(sourceCode).program.body[0];
 
 		// codeNodes.forEach((item) => {
 		// 	switch (item.type.toString()) {
@@ -179,7 +179,18 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		// });
 		traverse(ast, {
 			enter(path) {
-				console.log(path.type);
+				//if (path.type.toString() !== 'File' && path.type.toString() !== 'Program') {
+				//	result += '--' + '<div>' + path.type;
+				//}
+				//if (path.type.toString() === 'CatchClause') {
+				//	var d = '--' + '<div>' + path.type;
+				//	result += d;
+				//}
+				//else {
+					var d = '--' + '<div>' + path.type;
+					console.log(d);
+				//}
+				//console.log(path.type);
 				// switch (path.type.toString()) {
 				// 	// case 'DoWhileStatement': {
 				// 	// 	result += '<div>' + generate(path).code + '</div>';
@@ -217,6 +228,20 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				// 	default:
 				// 		result += '<div>' + generate(path).code + '</div>';
 				// }
+			},
+			exit(path) {
+				//console.log(path.type);
+				//if (path.type.toString() !== 'File' && path.type.toString() !== 'Program') {
+				//	result += path.type + '</div>' + '--';
+				//}
+				//if (path.type.toString() === 'CatchClause') {
+				//	var dv = path.type + '</div>' + '--';
+				//	result += dv;
+				//}
+				//else {
+					var dv = path.type + '</div>' + '--';
+					console.log(dv);
+				//}
 			}
 		});
 		//const result = generate(ast);
