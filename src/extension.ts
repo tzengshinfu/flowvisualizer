@@ -326,7 +326,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				//	return;
 				//}
 				//else {
-				var dv = '    ' + path.type + '</div>' + '\n';
+				var dv = '</div>' + '\n';
 				result += dv;
 				//}
 				//console.log(path.type);
