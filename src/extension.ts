@@ -45,6 +45,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 
 	public createFlowBlockHtml(code: string) {
 		var result = '';
+		var flowCode = '';
 		const sourceCode = `
 		//開始
 		//開始2		
@@ -169,7 +170,15 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				var ary1 = [1, 2, 3];
 		
 				ary1.forEach(function(item, index, array){
-					item = item + 1;
+					if (item === 1) {
+						item = item + 3;
+					}
+					else if (item === 2) {
+						item = item + 2;
+					}
+					else {
+						item = item + 1;
+					}					
 				});
 			}
 			else if (var1 === 4) {
@@ -249,16 +258,22 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 					return;
 				}
 
-				//if (path.type.toString() === 'ExpressionStatement') {
-				//	skip = true;
-				//}
+				var blockHead = '\n' + '<div>' + path.type;
+				flowCode += blockHead;
+
+				if (path.type.toString() === 'CallExpression') {
+
+				}
+
+				if (path.type.toString() === 'ExpressionStatement') {
+					result += '<div>';
+				}
 
 				//if (skip === true) {
 				//	return;
 				//}
 				//else {
-				var d = '--' + '<div>' + path.type;
-				result += d;
+
 				//}
 				if (['ExportAllDeclaration', 'ExportDefaultDeclaration', 'ExportNamedDeclaration', 'ImportDeclaration'].includes(path.type.toString())) {
 
@@ -318,6 +333,13 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 					return;
 				}
 
+				var blockTail = '</div>' + '\n';
+				flowCode += blockTail;
+
+				if (path.type.toString() === 'ExpressionStatement') {
+					result += '/<div>';
+				}
+
 				//if (path.type.toString() === 'ExpressionStatement') {
 				//	skip = false;
 				//}
@@ -326,8 +348,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				//	return;
 				//}
 				//else {
-				var dv = '</div>' + '\n';
-				result += dv;
+
 				//}
 				//console.log(path.type);
 
@@ -347,7 +368,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		});
 		//const result = generate(ast);
 		//result = result.replace(/\s/g, '&nbsp;').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/g, '<br />');
-		return result;
+		return flowCode;
 	}
 
 	private _createInitialViewHtml(webview: vscode.Webview) {
