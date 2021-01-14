@@ -261,7 +261,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				var blockHead = '\n' + '<div>' + path.type;
 				flowCode += blockHead;
 
-				if (path.type.toString() === 'CallExpression') {
+				if (path.type.toString() === 'MemberExpression') {
 
 				}
 
