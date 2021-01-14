@@ -52,8 +52,43 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		//開始4
 
 		var var1 = 2;			
+
+		class Rectangle {
+			constructor(height, width) {
+				this.height = height;
+				this.width = width;
+			}
+			
+			// Getter
+			get area() {
+				return this.calcArea();
+			}
+			// Method
+			calcArea() {
+				return this.height * this.width;
+			}
+		}
 		
 		function plus(n) {
+			var p = new Object();
+			
+			loop1:
+			for (var pp of p) {		
+				console.log(pp);
+
+				loop2:
+				for (var ppp in pp) {
+					if (ppp === 1) {
+						break loop1;
+					}
+					else {
+						continue loop2;
+					}
+
+					console.log(ppp);
+				}
+			}
+
 			return n + 1;
 		}
 		
@@ -79,6 +114,14 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		}
 		
 		function minus(n) {
+			var a;		
+
+			with (Math) {
+			  a = PI * r * r;
+			}
+
+			console.log(a);
+
 			return n - 1;
 		}
 		
@@ -113,7 +156,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		
 				while (var3 >= 10) {
 					result += minus(var3);
-					contiune;
+					continue;
 				}
 		
 				do {
@@ -128,6 +171,34 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				ary1.forEach(function(item, index, array){
 					item = item + 1;
 				});
+			}
+			else if (var1 === 4) {
+				const square = new Rectangle(10, 10);
+
+				console.log(square.area); // 100
+			}
+			else if (var1 === 5) {
+				var num = function message(x) {
+					return x + x;
+				}
+				
+				console.log(num(7)); // returns 14
+
+				var num2 = function (x) {
+					return x + x;
+				}
+				
+				console.log(num2(7)); // returns 14
+
+				(function () {
+					console.log('Immediately Invoked Function Expression.');
+				})();
+
+				var num3 = (function () {
+					return 14;
+				})();
+
+				console.log(num3); //14
 			}
 			else {
 				let task1 = new Promise((resolve, reject) => {
@@ -170,25 +241,38 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 			});
 		};`;
 		const ast = parser.parse(sourceCode);
-		//const codeNodes = parser.parse(sourceCode).program.body[0];
+		let skip = false;
 
-		// codeNodes.forEach((item) => {
-		// 	switch (item.type.toString()) {
-
-		// 	}
-		// });
 		traverse(ast, {
 			enter(path) {
-				//if (path.type.toString() !== 'File' && path.type.toString() !== 'Program') {
-				//	result += '--' + '<div>' + path.type;
+				if (['File', 'Program'].includes(path.type.toString())) {
+					return;
+				}
+
+				//if (path.type.toString() === 'ExpressionStatement') {
+				//	skip = true;
 				//}
+
+				//if (skip === true) {
+				//	return;
+				//}
+				//else {
+				var d = '--' + '<div>' + path.type;
+				result += d;
+				//}
+				if (['ExportAllDeclaration', 'ExportDefaultDeclaration', 'ExportNamedDeclaration', 'ImportDeclaration'].includes(path.type.toString())) {
+
+				}
+
+				//var d = '<div>' + path.type + '\n';
+				//result += d;
+
 				//if (path.type.toString() === 'CatchClause') {
 				//	var d = '--' + '<div>' + path.type;
 				//	result += d;
 				//}
 				//else {
-					var d = '--' + '<div>' + path.type;
-					console.log(d);
+
 				//}
 				//console.log(path.type);
 				// switch (path.type.toString()) {
@@ -230,22 +314,39 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				// }
 			},
 			exit(path) {
-				//console.log(path.type);
-				//if (path.type.toString() !== 'File' && path.type.toString() !== 'Program') {
-				//	result += path.type + '</div>' + '--';
+				if (['File', 'Program'].includes(path.type.toString())) {
+					return;
+				}
+
+				//if (path.type.toString() === 'ExpressionStatement') {
+				//	skip = false;
 				//}
+				//
+				//if (skip === true) {
+				//	return;
+				//}
+				//else {
+				var dv = '    ' + path.type + '</div>' + '\n';
+				result += dv;
+				//}
+				//console.log(path.type);
+
+				//var dv = '    ' + path.type + '</div>' + '\n';
+				//result += dv;
+
+
+
 				//if (path.type.toString() === 'CatchClause') {
 				//	var dv = path.type + '</div>' + '--';
 				//	result += dv;
 				//}
 				//else {
-					var dv = path.type + '</div>' + '--';
-					console.log(dv);
+
 				//}
 			}
 		});
 		//const result = generate(ast);
-		result = result.replace(/\s/g, '&nbsp;').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/g, '<br />');
+		//result = result.replace(/\s/g, '&nbsp;').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/g, '<br />');
 		return result;
 	}
 
