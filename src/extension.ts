@@ -47,14 +47,24 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		var result = '';
 		var flowCode = '';
 		const sourceCode = `
+		//test
+		//test2
+
 		//開始
-		//開始2		
-		console.log('start'); //開始3
+		console.log('start');
 		//開始4
 
-		var var1 = 2;			
+		var var1 = 2;	
+		
+		class Triangle {
+			/** innerComment1 */
+		}
 
-		class Rectangle {
+		function Test() {
+			//innerComment2
+		}
+
+		class Rectangle {			
 			constructor(height, width) {
 				this.height = height;
 				this.width = width;
@@ -251,22 +261,27 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		};`;
 		const ast = parser.parse(sourceCode);
 		let skip = false;
+		let aboveNode = '';
 
 		traverse(ast, {
 			enter(path) {
-				if (['File', 'Program'].includes(path.type.toString())) {
-					return;
-				}
+				//if (['File', 'Program'].includes(path.type.toString())) {
+				//	return;
+				//}
 
-				var blockHead = '\n' + '<div>' + path.type;
-				flowCode += blockHead;
-
-				if (path.type.toString() === 'MemberExpression') {
-
-				}
+				//var blockHead = '\n' + '<div>' + path.type;
+				//flowCode += blockHead;
 
 				if (path.type.toString() === 'ExpressionStatement') {
 					result += '<div>';
+
+					if (path.leadingComments) {
+						path.leadingComments.forEach((comment) => { result += '//' + comment.value + '\n' });
+					}
+				}
+
+				if (path.type.toString() === 'ClassDeclaration') {
+					console.log(path);
 				}
 
 				//if (skip === true) {
@@ -327,16 +342,21 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				// 	default:
 				// 		result += '<div>' + generate(path).code + '</div>';
 				// }
+				aboveNode = path.type.toString();
 			},
 			exit(path) {
-				if (['File', 'Program'].includes(path.type.toString())) {
-					return;
-				}
+				//if (['File', 'Program'].includes(path.type.toString())) {
+				//	return;
+				//}
 
-				var blockTail = '</div>' + '\n';
-				flowCode += blockTail;
+				//var blockTail = '</div>' + '\n';
+				//flowCode += blockTail;
 
 				if (path.type.toString() === 'ExpressionStatement') {
+					if (path.trailingComments) {
+						path.trailingComments.forEach((comment) => { result += '//' + comment.value + '\n' });
+					}
+
 					result += '/<div>';
 				}
 
