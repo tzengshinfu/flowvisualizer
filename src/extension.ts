@@ -190,6 +190,8 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 						item = item + 1;
 					}					
 				});
+
+				var ary2 = ary1.filter((item)=>{return item > 1;});
 			}
 			else if (var1 === 4) {
 				const square = new Rectangle(10, 10);
@@ -276,12 +278,12 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 					result += '<div>';
 
 					if (path.leadingComments) {
-						path.leadingComments.forEach((comment) => { result += '//' + comment.value + '\n' });
+						path.leadingComments.forEach((comment) => { result += comment.value + '\n'; });
 					}
 				}
 
-				if (path.type.toString() === 'ClassDeclaration') {
-					console.log(path);
+				if (path.type.toString() === 'CallExpression') {
+					var a =generate(path).code;
 				}
 
 				//if (skip === true) {
