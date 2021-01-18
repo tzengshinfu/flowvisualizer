@@ -4,6 +4,7 @@ import * as t from '@babel/traverse';
 import generate, * as g from '@babel/generator';
 import { ExpressionStatement, traverse } from '@babel/types';
 import * as fs from 'fs';
+import { notEqual } from 'assert';
 
 export function activate(context: vscode.ExtensionContext) {
 	const provider = new FlowVisualizerViewProvider(context.extensionUri);
@@ -47,7 +48,10 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		var result = '';
 		var flowCode = '';
 		const sourceCode = `
+		//變數ppp-start
 		var ppp = 1;
+		//變數ppp-end
+
 		if (ppp === 1) {
 			console.log(ppp);
 		}
@@ -322,9 +326,17 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 					return;
 				}
 
-				//if (['ExpressionStatement'].includes(node.type.toString())) {
-				//	Object.assign(node, { headTags: '<div>' });
-				//}
+				if (['VariableDeclaration'].includes(node.type.toString())) {
+					result += '<div>';
+
+					if (node.leadingComments) {
+						node.leadingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+					}
+				}
+
+				if (['VariableDeclarator'].includes(node.type.toString())) {
+					result += '<div>';
+				}
 
 				var blockHead = '\n' + '<div>' + node.type;
 				flowCode += blockHead;
@@ -355,9 +367,17 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 					return;
 				}
 
-				//if (['ExpressionStatement'].includes(node.type.toString())) {
-				//	Object.assign(node, { tailTags: '</div>' });
-				//}
+				if (['VariableDeclaration'].includes(node.type.toString())) {
+					result += '<div>';
+
+					if (node.trailingComments) {
+						node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+					}
+				}
+
+				if (['VariableDeclarator'].includes(node.type.toString())) {
+					result += '<div>';
+				}
 
 				var blockTail = '</div>' + '\n';
 				flowCode += blockTail;
