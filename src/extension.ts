@@ -47,8 +47,52 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		var result = '';
 		var flowCode = '';
 		const sourceCode = `
+		var ppp = 1;
+		if (ppp === 1) {
+			console.log(ppp);
+		}
+
+		if (ppp === 1) {
+			console.log(ppp);
+		}
+		else {
+			console.log(ppp);
+		}
+
+		if (ppp === 1) {
+			console.log(ppp);
+		}
+		else if (ppp === 2) {
+			//comment1
+		}
+		else if (ppp === 3) {
+			/*
+			test
+			test2
+			*/
+		}	
+
+		if (ppp === 1) {
+			console.log(ppp);
+		}
+		else if (ppp === 2) {
+			//comment1
+		}
+		else if (ppp === 3) {
+			/*
+			test
+			test2
+			*/
+		}
+		else {
+			console.log('else');
+		}
+
 		//test
-		//test2
+		/**comment1
+		 * comment2
+		 * comment3
+		 */
 
 		//開始
 		console.log('start');
@@ -91,6 +135,15 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 				for (var ppp in pp) {
 					if (ppp === 1) {
 						break loop1;
+					}
+					else if (ppp === 2) {
+						//comment1
+					}
+					else if (ppp === 3) {
+						/*
+						test
+						test2
+						*/
 					}
 					else {
 						continue loop2;
@@ -262,130 +315,69 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 			});
 		};`;
 		const ast = parser.parse(sourceCode);
-		let skip = false;
-		let aboveNode = '';
 
 		traverse(ast, {
-			enter(path) {
-				//if (['File', 'Program'].includes(path.type.toString())) {
-				//	return;
-				//}
-
-				//var blockHead = '\n' + '<div>' + path.type;
-				//flowCode += blockHead;
-
-				if (path.type.toString() === 'ExpressionStatement') {
-					result += '<div>';
-
-					if (path.leadingComments) {
-						path.leadingComments.forEach((comment) => { result += comment.value + '\n'; });
-					}
+			enter(node) {
+				if (['File', 'Program'].includes(node.type.toString())) {
+					return;
 				}
 
-				if (path.type.toString() === 'CallExpression') {
-					var a =generate(path).code;
-				}
-
-				//if (skip === true) {
-				//	return;
+				//if (['ExpressionStatement'].includes(node.type.toString())) {
+				//	Object.assign(node, { headTags: '<div>' });
 				//}
-				//else {
 
-				//}
-				if (['ExportAllDeclaration', 'ExportDefaultDeclaration', 'ExportNamedDeclaration', 'ImportDeclaration'].includes(path.type.toString())) {
+				var blockHead = '\n' + '<div>' + node.type;
+				flowCode += blockHead;
 
-				}
-
-				//var d = '<div>' + path.type + '\n';
-				//result += d;
-
-				//if (path.type.toString() === 'CatchClause') {
-				//	var d = '--' + '<div>' + path.type;
-				//	result += d;
-				//}
-				//else {
-
-				//}
-				//console.log(path.type);
-				// switch (path.type.toString()) {
-				// 	// case 'DoWhileStatement': {
-				// 	// 	result += '<div>' + generate(path).code + '</div>';
-				// 	// 	break;
-				// 	// }
-				// 	// case 'WhileStatement': {
-				// 	// 	result += '<div>' + generate(path).code + '</div>';
-				// 	// 	break;
-				// 	// }
-				// 	// case 'ForStatement':
-				// 	// case 'ForInStatement':
-				// 	// case 'ForOfStatement': {
-				// 	// 	result += '<div>' + generate(path).code + '</div>';
-				// 	// 	break;
-				// 	// }
-				// 	// case 'IfStatement': {
-				// 	// 	result += '<div>' + generate(path).code + '</div>';
-				// 	// 	break;
-				// 	// }
-				// 	case 'SwitchStatement': {
-				// 		result += '<div>' + generate(path).code + '</div>';
-				// 		break;
-				// 	}
-				// 	// case 'TryStatement': {
-				// 	// 	result += '<div>' + generate(path).code + '</div>';
-				// 	// 	break;
-				// 	// }
-				// 	// case 'FunctionDeclaration':
-				// 	// case 'ExpressionStatement':
-				// 	// case 'DebuggerStatement':
-				// 	// case 'BlockStatement': {
-				// 	// 	result += '<div>' + generate(path).code + '</div>';
-				// 	// 	break;
-				// 	// }
-				// 	default:
-				// 		result += '<div>' + generate(path).code + '</div>';
+				// if (['ForOfStatement'
+				// 	, 'WhileStatement'
+				// 	, 'TryStatement'
+				// 	, 'ThrowStatement'
+				// 	, 'SwitchStatement'
+				// 	, 'ReturnStatement'
+				// 	, 'LabeledStatement'
+				// 	, 'IfStatement'
+				// 	, 'ForInStatement'
+				// 	, 'ForStatement'
+				// 	, 'DoWhileStatement'
+				// 	, 'ContinueStatement'
+				// 	, 'BreakStatement'].includes(node.type.toString())) {
+				// 	var code = generate(node).code;
+				// 	console.log(code);
 				// }
-				aboveNode = path.type.toString();
+
+				if (['ExportAllDeclaration', 'ExportDefaultDeclaration', 'ExportNamedDeclaration', 'ImportDeclaration'].includes(node.type.toString())) {
+
+				}
 			},
-			exit(path) {
-				//if (['File', 'Program'].includes(path.type.toString())) {
-				//	return;
-				//}
-
-				//var blockTail = '</div>' + '\n';
-				//flowCode += blockTail;
-
-				if (path.type.toString() === 'ExpressionStatement') {
-					if (path.trailingComments) {
-						path.trailingComments.forEach((comment) => { result += '//' + comment.value + '\n' });
-					}
-
-					result += '/<div>';
+			exit(node) {
+				if (['File', 'Program'].includes(node.type.toString())) {
+					return;
 				}
 
-				//if (path.type.toString() === 'ExpressionStatement') {
-				//	skip = false;
+				//if (['ExpressionStatement'].includes(node.type.toString())) {
+				//	Object.assign(node, { tailTags: '</div>' });
 				//}
-				//
-				//if (skip === true) {
-				//	return;
-				//}
-				//else {
 
-				//}
-				//console.log(path.type);
+				var blockTail = '</div>' + '\n';
+				flowCode += blockTail;
 
-				//var dv = '    ' + path.type + '</div>' + '\n';
-				//result += dv;
-
-
-
-				//if (path.type.toString() === 'CatchClause') {
-				//	var dv = path.type + '</div>' + '--';
-				//	result += dv;
-				//}
-				//else {
-
-				//}
+				// if (['ForOfStatement'
+				// 	, 'WhileStatement'
+				// 	, 'TryStatement'
+				// 	, 'ThrowStatement'
+				// 	, 'SwitchStatement'
+				// 	, 'ReturnStatement'
+				// 	, 'LabeledStatement'
+				// 	, 'IfStatement'
+				// 	, 'ForInStatement'
+				// 	, 'ForStatement'
+				// 	, 'DoWhileStatement'
+				// 	, 'ContinueStatement'
+				// 	, 'BreakStatement'].includes(node.type.toString())) {
+				// 	var code = generate(node).code;
+				// 	console.log(code);
+				// }
 			}
 		});
 		//const result = generate(ast);
