@@ -49,7 +49,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		var flowCode = '';
 		const sourceCode = `
 		//變數ppp-start
-		var ppp = 1;
+		const ppp = 1;
 		//變數ppp-end
 
 		if (ppp === 1) {
@@ -102,7 +102,7 @@ class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 		console.log('start');
 		//開始4
 
-		var var1 = 2;	
+		let var1 = 2;	
 		
 		class Triangle {
 			/** innerComment1 */
