@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.window.registerWebviewViewProvider(FlowVisualizerViewProvider.id, provider));
 }
 
-class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
+export class FlowVisualizerViewProvider implements vscode.WebviewViewProvider {
 	public static readonly id = 'flowvisualizer';
 	private _view?: vscode.WebviewView;
 
