@@ -305,9 +305,9 @@ function createFlowBlockHtml(code: string) {
 		enter(node) {
 			if (isFile(node) || isProgram(node)) {
 				return;
-			}
+			}			
 
-			add(node, undefined);
+			addParent(node, undefined);
 
 			if (isVariableDeclaration(node)) {
 				result += '<div>';
@@ -322,16 +322,16 @@ function createFlowBlockHtml(code: string) {
 
 			if (isVariableDeclarator(node)) {
 				if (node.id) {
-					add(node.id, node);
+					addParent(node.id, node);
 				}
 
 				if (node.init) {
-					add(node.init, node);
+					addParent(node.init, node);
 				}
 				return;
 			}
 
-			if (isVariableDeclarator((node.extra!['parent'] as Node))) {
+			if (isVariableDeclarator(getParent(node))) {
 				if (isIdentifier(node)) {
 					result += node.name + ' ' + '=' + ' ';
 				}
@@ -409,10 +409,18 @@ function createFlowBlockHtml(code: string) {
 	return flowCode;
 }
 
-function add(node: Node, parentNode: Node | undefined) {
+function addParent(node: Node, parentNode: Node | undefined) {
 	if (node.extra === undefined) {
 		node.extra = {};
 	}
 
 	Object.assign(node.extra, { parent: parentNode });
+}
+
+function getParent(node: Node) : Node | undefined {
+	if (node.extra !== undefined) {
+		return (node.extra!['parent'] as Node);
+	}
+
+	return undefined;
 }
