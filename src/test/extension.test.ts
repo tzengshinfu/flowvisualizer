@@ -14,7 +14,7 @@ function getFlowBlockHtml(code: string) {
 	var result = '';
 	var flowCode = '';
 	const sourceCode = `	
-	var aaa1;
+	var aaa1 = 3333;
 	if (aaa1) 
 	console.log(aaa1);
 
@@ -321,6 +321,24 @@ function getFlowBlockHtml(code: string) {
 				return;
 			}
 
+			if (path.isVariableDeclaration()) {
+				result += '<div>';
+
+				if (path.node.leadingComments) {
+					path.node.leadingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+				}
+
+				result += '<div>' + path.node.kind + ' ';
+			}
+
+			if (path.isIdentifier()) {
+				result += path.node.name;
+			}
+
+			if (path.isNumericLiteral()) {
+				result += (path.key === 'init' ? '= ' : '') + path.node.value;
+			}
+
 			if (path.isIfStatement()) {
 				result += '<div>';
 
@@ -335,11 +353,9 @@ function getFlowBlockHtml(code: string) {
 				result += '<span style="order:99">';
 				result += '<div>';
 				result += 'if (';
-
-				if (path.isIdentifier()) {
-					result += path.node.name;
-				}
 			}
+
+
 
 			if (path.key === 'consequent') {
 				debugger;
@@ -355,15 +371,7 @@ function getFlowBlockHtml(code: string) {
 
 
 			//
-			//if (path.isVariableDeclaration()) {
-			//	result += '<div>';
-			//
-			//	if (path.node.leadingComments) {
-			//		path.node.leadingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
-			//	}
-			//
-			//	result += '<div>' + path.node.kind;
-			//}
+
 			//
 			//if (path.isIdentifier() && path.parentPath.isVariableDeclarator()) {
 			//	result += ' ' + path.node.name;
@@ -414,6 +422,15 @@ function getFlowBlockHtml(code: string) {
 				return;
 			}
 
+			if (path.isVariableDeclaration()) {
+				if (path.node.trailingComments) {
+					path.node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+				}
+
+				result += ';';
+				result += '</div>';
+			}
+
 			if (path.isIfStatement()) {
 				if (!path.node.alternate) {
 					result += '<span style="order: 1"><div>無條件</div><div>無行為</div></span>';
@@ -441,13 +458,7 @@ function getFlowBlockHtml(code: string) {
 				result += '</div>';
 			}
 
-			//if (path.isVariableDeclaration()) {
-			//	if (path.node.trailingComments) {
-			//		path.node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
-			//	}
-			//
-			//	result += '</div>';
-			//}
+
 
 			//if (['VariableDeclaration'].includes(node.type)) {
 			//	if (node.trailingComments) {
