@@ -1,28 +1,32 @@
 import * as assert from 'assert';
-import * as chai from 'chai';
 import * as parser from '@babel/parser';
-import * as t from '@babel/traverse';
-import generate, * as g from '@babel/generator';
-import { ExpressionStatement, traverse, isFile, isProgram, isVariableDeclaration, isVariableDeclarator, VariableDeclaration, isIdentifier, Node, isNumericLiteral } from '@babel/types';
+import traverse from '@babel/traverse';
+import { VariableDeclaration } from '@babel/types';
 
 describe('extension.ts', () => {
 	it('test createFlowBlockHtml', () => {
-		var f = createFlowBlockHtml('');
+		var f = getFlowBlockHtml('');
 		assert.equal(3, 3);
 	});
 });
 
-function createFlowBlockHtml(code: string) {
+function getFlowBlockHtml(code: string) {
 	var result = '';
 	var flowCode = '';
-	const sourceCode = `
-	//變數ppp-start
-	/*
-	test
-	test2
-	*/
-	var ppp = 1, aaa=2, bbb;
-	//變數ppp-end
+	const sourceCode = `	
+	var aaa1;
+	if (aaa1) 
+	console.log(aaa1);
+
+	var a;
+	if (a===2) 
+	console.log(a);
+
+	var a;
+	if (a===2) 
+	console.log(a);
+	else
+	console.log(a+1);
 
 	var num3 = (function () {
 		if (ppp === 1) {
@@ -32,6 +36,15 @@ function createFlowBlockHtml(code: string) {
 			return 15;
 		}
 	})();
+
+	//變數ppp-start
+	/*
+	test
+	test2
+	*/
+	var ppp = 1, aaa=2, bbb;
+	//變數ppp-end
+
 
 	if (ppp === 1) {
 		console.log(ppp);
@@ -300,49 +313,79 @@ function createFlowBlockHtml(code: string) {
 		});
 	};`;
 	const ast = parser.parse(sourceCode);
+	let caseOrder = 0;
 
 	traverse(ast, {
-		enter(node) {
-			if (isFile(node) || isProgram(node)) {
+		enter(path) {
+			if (path.isFile() || path.isProgram()) {
 				return;
-			}			
+			}
 
-			addParent(node, undefined);
-
-			if (isVariableDeclaration(node)) {
+			if (path.isIfStatement()) {
 				result += '<div>';
 
-				if (node.leadingComments) {
-					node.leadingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+				if (path.node.leadingComments) {
+					path.node.leadingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
 				}
 
-				result += '<div>' + ((node as VariableDeclaration).kind) + ' ';
-				return;
+				result += '<div>';
 			}
 
-			if (isVariableDeclarator(node)) {
-				if (node.id) {
-					addParent(node.id, node);
-				}
+			if (path.key === 'test') {
+				result += '<span style="order:99">';
+				result += '<div>';
+				result += 'if (';
 
-				if (node.init) {
-					addParent(node.init, node);
+				if (path.isIdentifier()) {
+					result += path.node.name;
 				}
-				return;
 			}
 
-			if (isVariableDeclarator(getParent(node))) {
-				if (isIdentifier(node)) {
-					result += node.name + ' ' + '=' + ' ';
-				}
-
-				if (isNumericLiteral(node)) {
-					result += node.extra!['raw'] + ';';
-				}
-				return;
+			if (path.key === 'consequent') {
+				debugger;
 			}
 
-			var blockHead = '\n' + '<div>' + node.type;
+
+
+
+
+			if (path.isIdentifier() && path.key === 'left' && path.parentPath.isBinaryExpression() && path.parentPath.key === 'test') {
+				result += path.node.name;
+			}
+
+
+			//
+			//if (path.isVariableDeclaration()) {
+			//	result += '<div>';
+			//
+			//	if (path.node.leadingComments) {
+			//		path.node.leadingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+			//	}
+			//
+			//	result += '<div>' + path.node.kind;
+			//}
+			//
+			//if (path.isIdentifier() && path.parentPath.isVariableDeclarator()) {
+			//	result += ' ' + path.node.name;
+			//}
+			//
+			//if (path.isNumericLiteral() && path.parentPath.isVariableDeclarator()) {
+			//	result += ' ' + '=' + ' ' + path.node.value.toString();
+			//}
+
+
+			//if (isVariableDeclarator(getParent(node))) {
+			//	if (isIdentifier(node)) {
+			//		result += node.name + ' ' + '=' + ' ';
+			//	}
+			//
+			//	if (isNumericLiteral(node)) {
+			//		result += node.extra!['raw'] + ';';
+			//	}
+			//	return;
+			//}
+
+			var blockHead = '\n' + '<div>' + path.type;
 			flowCode += blockHead;
 
 			// if (['ForOfStatement'
@@ -362,26 +405,61 @@ function createFlowBlockHtml(code: string) {
 			// 	console.log(code);
 			// }
 
-			if (['ExportAllDeclaration', 'ExportDefaultDeclaration', 'ExportNamedDeclaration', 'ImportDeclaration'].includes(node.type.toString())) {
+			if (['ExportAllDeclaration', 'ExportDefaultDeclaration', 'ExportNamedDeclaration', 'ImportDeclaration'].includes(path.type.toString())) {
 
 			}
 		},
-		exit(node) {
-			if (isFile(node) || isProgram(node)) {
+		exit(path) {
+			if (path.isFile() || path.isProgram()) {
 				return;
 			}
 
-			if (['VariableDeclaration'].includes(node.type)) {
-				if (node.trailingComments) {
-					node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+			if (path.isIfStatement()) {
+				if (!path.node.alternate) {
+					result += '<span style="order: 1"><div>無條件</div><div>無行為</div></span>';
+				}
+
+				result += '</div>';
+
+				if (path.node.trailingComments) {
+					path.node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
 				}
 
 				result += '</div>';
 			}
 
-			if (['VariableDeclarator'].includes(node.type)) {
+			if (path.key === 'test') {
+				result += ')';
 				result += '</div>';
 			}
+
+			if (path.isIdentifier() && path.key === 'test') {
+				result += '</div>';
+			}
+
+			if (path.isBinaryExpression() && path.key === 'test') {
+				result += '</div>';
+			}
+
+			//if (path.isVariableDeclaration()) {
+			//	if (path.node.trailingComments) {
+			//		path.node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+			//	}
+			//
+			//	result += '</div>';
+			//}
+
+			//if (['VariableDeclaration'].includes(node.type)) {
+			//	if (node.trailingComments) {
+			//		node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
+			//	}
+			//
+			//	result += '</div>';
+			//}
+			//
+			//if (['VariableDeclarator'].includes(node.type)) {
+			//	result += '</div>';
+			//}
 
 			var blockTail = '</div>' + '\n';
 			flowCode += blockTail;
@@ -409,18 +487,18 @@ function createFlowBlockHtml(code: string) {
 	return flowCode;
 }
 
-function addParent(node: Node, parentNode: Node | undefined) {
-	if (node.extra === undefined) {
-		node.extra = {};
-	}
+// function addParent(node: Node, parentNode: Node | undefined) {
+// 	if (node.extra === undefined) {
+// 		node.extra = {};
+// 	}
 
-	Object.assign(node.extra, { parent: parentNode });
-}
+// 	Object.assign(node.extra, { parent: parentNode });
+// }
 
-function getParent(node: Node) : Node | undefined {
-	if (node.extra !== undefined) {
-		return (node.extra!['parent'] as Node);
-	}
+// function getParent(node: Node): Node | undefined {
+// 	if (node.extra !== undefined) {
+// 		return (node.extra!['parent'] as Node);
+// 	}
 
-	return undefined;
-}
+// 	return undefined;
+// }
