@@ -2,10 +2,13 @@ import * as assert from 'assert';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
 import { VariableDeclaration } from '@babel/types';
+import * as fs from 'fs';
 
 describe('extension.ts', () => {
 	it('test createFlowBlockHtml', () => {
 		var f = getFlowBlockHtml('');
+		var filePath = 'D:\\Desktop\\test.html';
+		fs.writeFileSync(filePath, f, 'utf8');
 		assert.equal(3, 3);
 	});
 });
@@ -14,7 +17,7 @@ function getFlowBlockHtml(code: string) {
 	var result = '';
 	var flowCode = '';
 	const sourceCode = `	
-	var aaa1 = 3333;
+	var aaa1 = 3333, bbb1;
 	if (aaa1) 
 	console.log(aaa1);
 
@@ -321,6 +324,23 @@ function getFlowBlockHtml(code: string) {
 				return;
 			}
 
+			flowCode += '\n' + '<div>' + path.type;
+		},
+		exit(path) {
+			if (path.isFile() || path.isProgram()) {
+				return;
+			}
+
+			flowCode += '</div>' + '\n';
+		}
+	});
+	/*
+	traverse(ast, {
+		enter(path) {
+			if (path.isFile() || path.isProgram()) {
+				return;
+			}
+
 			if (path.isVariableDeclaration()) {
 				result += '<div>';
 
@@ -329,14 +349,20 @@ function getFlowBlockHtml(code: string) {
 				}
 
 				result += '<div>' + path.node.kind + ' ';
+
+				return;
 			}
 
-			if (path.isIdentifier()) {
-				result += path.node.name;
+			if (path.isVariableDeclarator()) {
+				if (path.key > 0) {
+					result += ", ";
+				}
+
+				return;
 			}
 
 			if (path.isNumericLiteral()) {
-				result += (path.key === 'init' ? '= ' : '') + path.node.value;
+				result += (path.key === 'init' ? ' = ' : '') + path.node.extra!['rawValue'];
 			}
 
 			if (path.isIfStatement()) {
@@ -355,7 +381,9 @@ function getFlowBlockHtml(code: string) {
 				result += 'if (';
 			}
 
-
+			if (path.isIdentifier()) {
+				result += path.node.name;
+			}
 
 			if (path.key === 'consequent') {
 				debugger;
@@ -423,12 +451,16 @@ function getFlowBlockHtml(code: string) {
 			}
 
 			if (path.isVariableDeclaration()) {
+				result += ';';
+				result += '</div>';
+
 				if (path.node.trailingComments) {
 					path.node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
 				}
 
-				result += ';';
 				result += '</div>';
+
+				return;
 			}
 
 			if (path.isIfStatement()) {
@@ -493,6 +525,7 @@ function getFlowBlockHtml(code: string) {
 			// }
 		}
 	});
+	*/
 	//const result = generate(ast);
 	//result = result.replace(/\s/g, '&nbsp;').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/g, '<br />');
 	return flowCode;
