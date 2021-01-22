@@ -327,11 +327,19 @@ function getFlowBlockHtml(sourceCode: string) {
 
 	traverse(ast, {
 		enter(path) {
+			if (path.isFile() || path.isProgram()) {
+				return;
+			}
+
 			if (path.key === 'test') {
 				path.addComment
 			}
 		},
 		exit(path) {
+			if (path.isFile() || path.isProgram()) {
+				return;
+			}
+			
 			if (path.key === 'test') {
 				path.addComment('CommentLine', '</ooo>');
 			}
