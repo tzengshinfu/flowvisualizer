@@ -10,6 +10,7 @@ describe('extension.ts', () => {
 	it('Test getFlowBlockHtml', () => {
 		const sourceCode = `	
 		var aaa1 = 3333, bbb1;
+		//1
 		if (aaa1) 
 		console.log(aaa1);
 
@@ -319,222 +320,29 @@ describe('extension.ts', () => {
 	});
 });
 
-function getFlowBlockHtml(code: string) {
+function getFlowBlockHtml(sourceCode: string) {
 	let flowblockHtml = '';
 
-	const ast = parser.parse(code);
+	const ast = parser.parse(sourceCode);
 
 	traverse(ast, {
 		enter(path) {
-			if (path.isFile() || path.isProgram()) {
-				return;
-			}
-
-			flowblockHtml += '\n' + '<div>' + path.type;
-		},
-		exit(path) {
-			if (path.isFile() || path.isProgram()) {
-				return;
-			}
-
-			flowblockHtml += '</div>' + '\n';
-		}
-	});
-	/*
-	traverse(ast, {
-		enter(path) {
-			if (path.isFile() || path.isProgram()) {
-				return;
-			}
-
-			if (path.isVariableDeclaration()) {
-				result += '<div>';
-
-				if (path.node.leadingComments) {
-					path.node.leadingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
-				}
-
-				result += '<div>' + path.node.kind + ' ';
-
-				return;
-			}
-
-			if (path.isVariableDeclarator()) {
-				if (path.key > 0) {
-					result += ", ";
-				}
-
-				return;
-			}
-
-			if (path.isNumericLiteral()) {
-				result += (path.key === 'init' ? ' = ' : '') + path.node.extra!['rawValue'];
-			}
-
-			if (path.isIfStatement()) {
-				result += '<div>';
-
-				if (path.node.leadingComments) {
-					path.node.leadingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
-				}
-
-				result += '<div>';
-			}
-
 			if (path.key === 'test') {
-				result += '<span style="order:99">';
-				result += '<div>';
-				result += 'if (';
-			}
-
-			if (path.isIdentifier()) {
-				result += path.node.name;
-			}
-
-			if (path.key === 'consequent') {
-				debugger;
-			}
-
-
-
-
-
-			if (path.isIdentifier() && path.key === 'left' && path.parentPath.isBinaryExpression() && path.parentPath.key === 'test') {
-				result += path.node.name;
-			}
-
-
-			//
-
-			//
-			//if (path.isIdentifier() && path.parentPath.isVariableDeclarator()) {
-			//	result += ' ' + path.node.name;
-			//}
-			//
-			//if (path.isNumericLiteral() && path.parentPath.isVariableDeclarator()) {
-			//	result += ' ' + '=' + ' ' + path.node.value.toString();
-			//}
-
-
-			//if (isVariableDeclarator(getParent(node))) {
-			//	if (isIdentifier(node)) {
-			//		result += node.name + ' ' + '=' + ' ';
-			//	}
-			//
-			//	if (isNumericLiteral(node)) {
-			//		result += node.extra!['raw'] + ';';
-			//	}
-			//	return;
-			//}
-
-			var blockHead = '\n' + '<div>' + path.type;
-			flowCode += blockHead;
-
-			// if (['ForOfStatement'
-			// 	, 'WhileStatement'
-			// 	, 'TryStatement'
-			// 	, 'ThrowStatement'
-			// 	, 'SwitchStatement'
-			// 	, 'ReturnStatement'
-			// 	, 'LabeledStatement'
-			// 	, 'IfStatement'
-			// 	, 'ForInStatement'
-			// 	, 'ForStatement'
-			// 	, 'DoWhileStatement'
-			// 	, 'ContinueStatement'
-			// 	, 'BreakStatement'].includes(node.type.toString())) {
-			// 	var code = generate(node).code;
-			// 	console.log(code);
-			// }
-
-			if (['ExportAllDeclaration', 'ExportDefaultDeclaration', 'ExportNamedDeclaration', 'ImportDeclaration'].includes(path.type.toString())) {
-
+				path.addComment
 			}
 		},
 		exit(path) {
-			if (path.isFile() || path.isProgram()) {
-				return;
-			}
-
-			if (path.isVariableDeclaration()) {
-				result += ';';
-				result += '</div>';
-
-				if (path.node.trailingComments) {
-					path.node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
-				}
-
-				result += '</div>';
-
-				return;
-			}
-
-			if (path.isIfStatement()) {
-				if (!path.node.alternate) {
-					result += '<span style="order: 1"><div>無條件</div><div>無行為</div></span>';
-				}
-
-				result += '</div>';
-
-				if (path.node.trailingComments) {
-					path.node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
-				}
-
-				result += '</div>';
-			}
-
 			if (path.key === 'test') {
-				result += ')';
-				result += '</div>';
+				path.addComment('CommentLine', '</ooo>');
 			}
-
-			if (path.isIdentifier() && path.key === 'test') {
-				result += '</div>';
-			}
-
-			if (path.isBinaryExpression() && path.key === 'test') {
-				result += '</div>';
-			}
-
-
-
-			//if (['VariableDeclaration'].includes(node.type)) {
-			//	if (node.trailingComments) {
-			//		node.trailingComments.forEach((comment) => { result += '<div>' + comment.value + '</div>'; });
-			//	}
-			//
-			//	result += '</div>';
-			//}
-			//
-			//if (['VariableDeclarator'].includes(node.type)) {
-			//	result += '</div>';
-			//}
-
-			var blockTail = '</div>' + '\n';
-			flowCode += blockTail;
-
-			// if (['ForOfStatement'
-			// 	, 'WhileStatement'
-			// 	, 'TryStatement'
-			// 	, 'ThrowStatement'
-			// 	, 'SwitchStatement'
-			// 	, 'ReturnStatement'
-			// 	, 'LabeledStatement'
-			// 	, 'IfStatement'
-			// 	, 'ForInStatement'
-			// 	, 'ForStatement'
-			// 	, 'DoWhileStatement'
-			// 	, 'ContinueStatement'
-			// 	, 'BreakStatement'].includes(node.type.toString())) {
-			// 	var code = generate(node).code;
-			// 	console.log(code);
-			// }
 		}
 	});
-	*/
-	//#region 1
-	//const result1 = generate(ast);
-	//#endregion
-	//result = result.replace(/\s/g, '&nbsp;').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/g, '<br />');
+
+	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
+	let code1 = code.replace(/ /g, '&nbsp;');
+	let code2 = code1.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+	let code3 = code2.replace(/\n/g, '<br />');
+	flowblockHtml = code3;
+
 	return flowblockHtml;
 }
