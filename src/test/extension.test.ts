@@ -9,8 +9,15 @@ import * as os from 'os';
 describe('extension.ts', () => {
 	it('Test getFlowBlockHtml', () => {
 		const sourceCode = `	
+		//file
+
+		//header1 
+		//header2 
 		var aaa1 = 3333, bbb1;
-		//1
+		//tail1
+		//tail2
+
+		//if
 		if (aaa1) 
 		console.log(aaa1);
 
@@ -331,8 +338,21 @@ function getFlowBlockHtml(sourceCode: string) {
 				return;
 			}
 
-			if (path.key === 'test') {
-				path.addComment
+			var leadingComments = path.node.leadingComments;
+			var innerComments = path.node.innerComments;
+			var trailingComments = path.node.trailingComments;
+
+			path.node.leadingComments = null;	
+			path.node.innerComments = null;
+			path.node.trailingComments = null;
+
+			if (path.isVariableDeclaration()) {	
+				
+				//path.addComment('leading', '&lt;div&gt;', true);
+			}
+
+			if (path.isIfStatement()) {		
+				//path.addComment('leading', '&lt;div&gt;', true);
 			}
 		},
 		exit(path) {
@@ -340,8 +360,12 @@ function getFlowBlockHtml(sourceCode: string) {
 				return;
 			}
 			
-			if (path.key === 'test') {
-				path.addComment('CommentLine', '</ooo>');
+			if (path.isVariableDeclaration()) {
+				//path.addComment('trailing', '&lt;/div&gt;', true);
+			}
+
+			if (path.isIfStatement()) {
+				//path.addComment('trailing', '&lt;/div&gt;', true);
 			}
 		}
 	});
