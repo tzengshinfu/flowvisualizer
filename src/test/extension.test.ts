@@ -1,10 +1,15 @@
 import * as assert from 'assert';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
-import { VariableDeclaration } from '@babel/types';
+import { VariableDeclaration, Comment } from '@babel/types';
 import * as fs from 'fs';
 import generate from "@babel/generator";
 import * as os from 'os';
+import { transform } from "@babel/core";
+import * as types from '@babel/types'
+
+
+
 
 describe('extension.ts', () => {
 	it('Test getFlowBlockHtml', () => {
@@ -17,13 +22,15 @@ describe('extension.ts', () => {
 		//tail1
 		//tail2
 
-		//if
+		//if-start
 		if (aaa1) 
+		//if-end
 		console.log(aaa1);
 
 		var a;
-		if (a===2) 
-		console.log(a);
+		if (a===2) {
+			console.log(a);
+		}
 
 		var a;
 		if (a===2) 
@@ -332,40 +339,62 @@ function getFlowBlockHtml(sourceCode: string) {
 
 	const ast = parser.parse(sourceCode);
 
+	const result = transform(sourceCode, { plugins: [get1] });
+
+
+	function get1({ types: t }: { types: typeof types }) {
+		return {
+
+		}
+	}
+
 	traverse(ast, {
 		enter(path) {
 			if (path.isFile() || path.isProgram()) {
 				return;
 			}
 
-			var leadingComments = path.node.leadingComments;
-			var innerComments = path.node.innerComments;
-			var trailingComments = path.node.trailingComments;
-
-			path.node.leadingComments = null;	
-			path.node.innerComments = null;
+			path.node.leadingComments = null;
 			path.node.trailingComments = null;
+			let comments = [];
 
-			if (path.isVariableDeclaration()) {	
-				
-				//path.addComment('leading', '&lt;div&gt;', true);
+			if (path.isVariableDeclaration()) {
+				path.addComment(CommentType.Leading, DivTag.Start, false);
+				path.addComment(CommentType.Trailing, DivTag.End, false);
 			}
 
-			if (path.isIfStatement()) {		
-				//path.addComment('leading', '&lt;div&gt;', true);
+			if (path.isIfStatement()) {
+				comments.push(DivTag.Start);
+
+				path.addComment(CommentType.Leading, DivTag.Start, false);
+				path.addComment(CommentType.Trailing, DivTag.End, false);
+
+				if (!path.node.alternate) {
+					comments.push('span');
+					path.addComment(CommentType.Leading, 'span', false);
+				}
+			}
+
+			if (path.key === 'consequent') {
+				//path.addComment('leading', '&lt;/div&gt;', false);
+				//path.addComment('leading', '&lt;div&gt;', false);
 			}
 		},
 		exit(path) {
 			if (path.isFile() || path.isProgram()) {
 				return;
 			}
-			
+
 			if (path.isVariableDeclaration()) {
-				//path.addComment('trailing', '&lt;/div&gt;', true);
+
 			}
 
 			if (path.isIfStatement()) {
-				//path.addComment('trailing', '&lt;/div&gt;', true);
+
+			}
+
+			if (path.key === 'test') {
+				//debugger;
 			}
 		}
 	});
@@ -377,4 +406,14 @@ function getFlowBlockHtml(sourceCode: string) {
 	flowblockHtml = code3;
 
 	return flowblockHtml;
+}
+
+enum CommentType {
+	Leading = 'leading',
+	Trailing = 'trailing',
+}
+
+enum DivTag {
+	Start = '&lt;div&gt;',
+	End = '&lt;/div&gt;',
 }
