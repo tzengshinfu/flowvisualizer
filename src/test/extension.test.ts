@@ -5,11 +5,6 @@ import { VariableDeclaration, Comment } from '@babel/types';
 import * as fs from 'fs';
 import generate from "@babel/generator";
 import * as os from 'os';
-import { transform } from "@babel/core";
-import * as types from '@babel/types'
-
-
-
 
 describe('extension.ts', () => {
 	it('Test getFlowBlockHtml', () => {
@@ -339,15 +334,6 @@ function getFlowBlockHtml(sourceCode: string) {
 
 	const ast = parser.parse(sourceCode);
 
-	const result = transform(sourceCode, { plugins: [get1] });
-
-
-	function get1({ types: t }: { types: typeof types }) {
-		return {
-
-		}
-	}
-
 	traverse(ast, {
 		enter(path) {
 			if (path.isFile() || path.isProgram()) {
@@ -356,28 +342,37 @@ function getFlowBlockHtml(sourceCode: string) {
 
 			path.node.leadingComments = null;
 			path.node.trailingComments = null;
-			let comments = [];
+			let leadingComments = [];
+			let trailingComments = [];
 
 			if (path.isVariableDeclaration()) {
-				path.addComment(CommentType.Leading, DivTag.Start, false);
-				path.addComment(CommentType.Trailing, DivTag.End, false);
+				leadingComments.push(DivTag.Start);
+				trailingComments.push(DivTag.End);
+				leadingComments.reverse().forEach((comment) => {path.addComment(CommentType.Leading, comment, false);});
+				trailingComments.reverse().forEach((comment) => {path.addComment(CommentType.Trailing, comment, false);});
 			}
 
 			if (path.isIfStatement()) {
-				comments.push(DivTag.Start);
-
-				path.addComment(CommentType.Leading, DivTag.Start, false);
-				path.addComment(CommentType.Trailing, DivTag.End, false);
-
+				leadingComments.push(DivTag.Start);
+				trailingComments.push(DivTag.End);
+				
 				if (!path.node.alternate) {
-					comments.push('span');
-					path.addComment(CommentType.Leading, 'span', false);
+					leadingComments.push(SpanTag.Start);
+					leadingComments.push(SpanTag.End);
 				}
+
+				leadingComments.reverse().forEach((comment) => {path.addComment(CommentType.Leading, comment, false);});
+				trailingComments.reverse().forEach((comment) => {path.addComment(CommentType.Trailing, comment, false);});
 			}
 
 			if (path.key === 'consequent') {
-				//path.addComment('leading', '&lt;/div&gt;', false);
-				//path.addComment('leading', '&lt;div&gt;', false);
+				trailingComments.push(SpanTag.End);
+				trailingComments.push(DivTag.Start);
+				leadingComments.push(DivTag.End);
+				leadingComments.push(DivTag.Start);
+
+				leadingComments.reverse().forEach((comment) => {path.addComment(CommentType.Leading, comment, false);});
+				trailingComments.reverse().forEach((comment) => {path.addComment(CommentType.Trailing, comment, false);});
 			}
 		},
 		exit(path) {
@@ -416,4 +411,9 @@ enum CommentType {
 enum DivTag {
 	Start = '&lt;div&gt;',
 	End = '&lt;/div&gt;',
+}
+
+enum SpanTag {
+	Start = '&lt;span&gt;',
+	End = '&lt;/span&gt;'
 }
