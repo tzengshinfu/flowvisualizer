@@ -34,12 +34,14 @@ function getFlowBlockHtml(sourceCode: string) {
 			path.node.leadingComments = null;
 			let comments: string[] = [];
 			const commentType = 'leading';
+			const lt = '&lt;';
+			const gt = '&gt;';
 
 			if (path.isIfStatement()) {
-				comments.push('&lt;div data-node-type="IfStatement"&gt;');
+				comments.push(`${lt}div data-node-type="IfStatement"${gt}`);
 
 				if (!path.node.alternate) {
-					comments.push('&lt;span data-node-type="IfAlternative"&gt;');
+					comments.push(`${lt}span data-node-type="IfAlternative"${gt}`);
 					comments.push('passthrouth');
 					comments.push('&lt;/span data-node-type="IfAlternative"&gt;');
 				}
@@ -71,6 +73,8 @@ function getFlowBlockHtml(sourceCode: string) {
 			path.node.trailingComments = null;
 			let comments: string[] = [];
 			const commentType = 'trailing';
+			const lt = '&lt;';
+			const gt = '&gt;';
 
 			if (path.isIfStatement()) {
 				comments.push('&lt;/div data-node-type="IfStatement"&gt;');
