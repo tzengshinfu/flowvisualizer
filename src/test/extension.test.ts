@@ -33,16 +33,22 @@ function getFlowBlockHtml(sourceCode: string) {
 	const gt = '&gt;';
 	const ast = parser.parse(sourceCode);
 
-
 	traverse(ast, {
 		enter(path) {
-			if (path.isFile() || path.isProgram()) {
+			if (path.isFile()) {
 				return;
 			}
 
 			path.node.leadingComments = null;
 			let comments: string[] = [];
 			const commentType = 'leading';
+
+			if (path.isProgram()) {
+				comments = [];
+				comments.push(`${lt}div data-node-type="Program" style="border-width:3px;border-style:dashed;border-color:#FFAC55;padding-top: 5px;padding-right: 5px;padding-left:5px"${gt}`);
+				comments.push(`${lt}div${gt}🏁${lt}/div${gt}`);
+				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			}
 
 			if (path.isVariableDeclaration()) {
 				comments = [];
@@ -74,12 +80,12 @@ function getFlowBlockHtml(sourceCode: string) {
 			if (path.key === 'alternate') {
 				comments = [];
 				comments.push(`${lt}div data-node-type="IfAlternate" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="display: table-cell;background-color: skyblue;padding-top: 5px;padding-right: 5px;padding-left:5px;"${gt}`);
-				comments.push(`⤵${lt}br/ ${gt}`);
+				comments.push(`${lt}div${gt}else↘️${lt}/div${gt}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 		},
 		exit(path) {
-			if (path.isFile() || path.isProgram()) {
+			if (path.isFile()) {
 				return;
 			}
 
@@ -87,10 +93,18 @@ function getFlowBlockHtml(sourceCode: string) {
 			let comments: string[] = [];
 			const commentType = 'trailing';
 
+			if (path.isProgram()) {
+				comments = [];
+				comments.push(`${lt}div${gt}🥅${lt}/div${gt}`);
+				comments.push(`${lt}/div data-node-type="Program"${gt}`);
+				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+			}
+
 			if (path.isVariableDeclaration()) {
 				comments = [];
 				comments.push(`${lt}/div data-node-type="VariableDeclaration"${gt}`);
-				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+				comments.push(`${lt}div${gt}⬇️${lt}/div${gt}`);
+				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.isIfStatement()) {
@@ -98,9 +112,8 @@ function getFlowBlockHtml(sourceCode: string) {
 
 				if (!path.node.alternate) {
 					comments.push(`${lt}div data-node-type="IfAlternative" style="display: table-cell;background-color: skyblue"${gt}`);
-					comments.push(`⤵${lt}br/ ${gt}`);
-					comments.push(`passthrouth${lt}br/ ${gt}`);
-					comments.push(`passthrouth${lt}br/ ${gt}`);
+					comments.push(`${lt}div${gt}else↘️${lt}/div${gt}`);
+					comments.push(`${lt}div style="text-align:right;"${gt}⬇️${lt}/div${gt}`);
 					comments.push(`${lt}/div data-node-type="IfAlternative"${gt}`);
 				}
 
