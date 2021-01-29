@@ -77,8 +77,8 @@ function getFlowBlockHtml_if(sourceCode: string) {
 
 			if (path.isIfStatement()) {
 				comments = [];
-				var ali = _getPathLevel(path) !== '->' ? ';margin-bottom:-3px;' : '';
-				comments.push(`${lt}div data-node-type="IfStatement" style="display: table;border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};margin: 0 auto${ali}"${gt}`);
+				var alignBottom = _getPathLevel(path) !== '->' ? ';margin-bottom:-3px;' : '';
+				comments.push(`${lt}div data-node-type="IfStatement" style="display: table;border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};margin: 0 auto${alignBottom}"${gt}`);
 				comments.push(`${lt}div data-node-type="IfCondition" style="display: table-row"${gt}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
