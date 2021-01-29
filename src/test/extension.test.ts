@@ -5,13 +5,13 @@ import { VariableDeclaration, Comment, Node } from '@babel/types';
 import * as fs from 'fs';
 import generate from "@babel/generator";
 
-describe('getFlowBlockHtml', () => {
-	it('test if-then-else', () => {
-		const sourceCode = fs.readFileSync('./src/test/test-if-then-else.js', 'utf8');
-		const flowblockHtml = getFlowBlockHtml(sourceCode);
-		const htmlFilePath = './src/test/test-if-then-else-result.html';
+describe('getFlowBlockHtml', function () {
+	it.skip('test if', function () {
+		const sourceCode = fs.readFileSync('./src/test/test-if.js', 'utf8');
+		const flowblockHtml = getFlowBlockHtml_if(sourceCode);
+		const htmlFilePath = './src/test/test-if-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-if-then-else-chart.html';
+		const chartFilePath = './src/test/test-if-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -24,9 +24,27 @@ describe('getFlowBlockHtml', () => {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
+	it('test loop', function () {
+		const sourceCode = fs.readFileSync('./src/test/test-loop.js', 'utf8');
+		const flowblockHtml = getFlowBlockHtml_loop(sourceCode);
+		const htmlFilePath = './src/test/test-loop-result.html';
+		const pathLevelChart = getPathLevelChart(sourceCode);
+		const chartFilePath = './src/test/test-loop-chart.html';
+
+		if (fs.existsSync(htmlFilePath)) {
+			fs.unlinkSync(htmlFilePath);
+		}
+		if (fs.existsSync(chartFilePath)) {
+			fs.unlinkSync(chartFilePath);
+		}
+
+		fs.writeFileSync(htmlFilePath, 'flowblockHtml', 'utf8');
+		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
+		assert.equal(fs.existsSync(htmlFilePath), true);
+	});
 });
 
-function getFlowBlockHtml(sourceCode: string) {
+function getFlowBlockHtml_if(sourceCode: string) {
 	let flowblockHtml = '';
 
 	const lt = '&lt;';
@@ -171,6 +189,10 @@ function getFlowBlockHtml(sourceCode: string) {
 	flowblockHtml = '<html>' + '<body>' + code + '</body>' + '</html>';
 
 	return flowblockHtml;
+}
+
+function getFlowBlockHtml_loop(sourceCode: string) {
+
 }
 
 function _getPathLevel(path: NodePath<Node>, previousLevel: string | null = null): string {
