@@ -45,27 +45,29 @@ function getFlowBlockHtml(sourceCode: string) {
 
 			if (path.isProgram()) {
 				comments = [];
-				comments.push(`${lt}div data-node-type="Program" style="border-width:3px;border-style:dashed;border-color:#FFAC55;padding-top: 5px;padding-right: 5px;padding-left:5px"${gt}`);
-				comments.push(`${lt}div${gt}🏁${lt}/div${gt}`);
+				comments.push(`${lt}div data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js" style="border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px"${gt}`);
+				comments.push(`${lt}div style="display: table;border-radius: 50%;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;margin: 0 auto;background-color: ${Color.Mustard}"${gt}🏁${lt}/div${gt}`);
+				comments.push(`${lt}div style="display: table;margin: 0 auto"${gt}⬇️${lt}/div${gt}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.isVariableDeclaration()) {
 				comments = [];
-				comments.push(`${lt}div data-node-type="VariableDeclaration" style="border-width:3px;border-style:dashed;border-color:#FFAC55;padding-top: 5px;padding-right: 5px;padding-left:5px"${gt}`);
+				comments.push(`${lt}div data-node-type="VariableDeclaration" style="display: table;border:groove;border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;;margin: 0 auto;background-color: ${Color.Lemon}"${gt}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.isIfStatement()) {
 				comments = [];
-				comments.push(`${lt}div data-node-type="IfStatement" style="display: table;border-width:3px;border-style:dashed;border-color:#FFAC55"${gt}`);
+				var ali = _getPathLevel(path) !== '->' ? ';margin-bottom:-3px;' : '';
+				comments.push(`${lt}div data-node-type="IfStatement" style="display: table;border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};margin: 0 auto${ali}"${gt}`);
 				comments.push(`${lt}div data-node-type="IfCondition" style="display: table-row"${gt}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'test') {
 				comments = [];
-				comments.push(`${lt}div data-node-type="IfConsequent" style="display: table-cell;background-color: pink"${gt}`);
+				comments.push(`${lt}div data-node-type="IfConsequent" style="display: table-cell;background-color: ${Color.Pink}"${gt}`);
 				comments.push(`${lt}div data-node-type="IfTest" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="padding-top: 5px;padding-right: 5px;padding-left:5px;"${gt}`);
 				comments.push('if-statement-begin');
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
@@ -79,7 +81,7 @@ function getFlowBlockHtml(sourceCode: string) {
 
 			if (path.key === 'alternate') {
 				comments = [];
-				comments.push(`${lt}div data-node-type="IfAlternate" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="display: table-cell;background-color: skyblue;padding-top: 5px;padding-right: 5px;padding-left:5px;"${gt}`);
+				comments.push(`${lt}div data-node-type="IfAlternate" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="display: table-cell;background-color: ${Color.Skyblue};padding-top: 5px;padding-right: 5px;padding-left:5px;"${gt}`);
 				comments.push(`${lt}div${gt}else↘️${lt}/div${gt}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
@@ -95,7 +97,7 @@ function getFlowBlockHtml(sourceCode: string) {
 
 			if (path.isProgram()) {
 				comments = [];
-				comments.push(`${lt}div${gt}🥅${lt}/div${gt}`);
+				comments.push(`${lt}div style="display: table;border-radius: 50%;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;margin: 0 auto;background-color: ${Color.Greenyellow}"${gt}🏠${lt}/div${gt}`);
 				comments.push(`${lt}/div data-node-type="Program"${gt}`);
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
@@ -103,7 +105,7 @@ function getFlowBlockHtml(sourceCode: string) {
 			if (path.isVariableDeclaration()) {
 				comments = [];
 				comments.push(`${lt}/div data-node-type="VariableDeclaration"${gt}`);
-				comments.push(`${lt}div${gt}⬇️${lt}/div${gt}`);
+				comments.push(`${lt}div style="display: table;margin: 0 auto"${gt}⬇️${lt}/div${gt}`);
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
@@ -111,14 +113,19 @@ function getFlowBlockHtml(sourceCode: string) {
 				comments = [];
 
 				if (!path.node.alternate) {
-					comments.push(`${lt}div data-node-type="IfAlternative" style="display: table-cell;background-color: skyblue"${gt}`);
+					comments.push(`${lt}div data-node-type="IfAlternative" style="display: table-cell;background-color: ${Color.Skyblue}"${gt}`);
 					comments.push(`${lt}div${gt}else↘️${lt}/div${gt}`);
-					comments.push(`${lt}div style="text-align:right;"${gt}⬇️${lt}/div${gt}`);
+					comments.push(`${lt}div style="text-align:right;"${gt}${lt}div${gt}🚪🚶${lt}/div${gt}${lt}/div${gt}`);
 					comments.push(`${lt}/div data-node-type="IfAlternative"${gt}`);
 				}
 
 				comments.push(`${lt}/div data-node-type="IfCondition"${gt}`);
 				comments.push(`${lt}/div data-node-type="IfStatement"${gt}`);
+
+				if (_getPathLevel(path) === '->') {
+					comments.push(`${lt}div style="display: table;margin: 0 auto"${gt}⬇️${lt}/div${gt}`);
+				}
+
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
@@ -204,4 +211,13 @@ function getPathLevelChart(sourceCode: string) {
 	});
 
 	return pathLevel;
+}
+
+enum Color {
+	Silver = '#c0c0c0',
+	Pink = '#FFC0CB',
+	Skyblue = '#87CEEB',
+	Greenyellow = '#9ACD32',
+	Lemon = '#fff700',
+	Mustard = '#FFDB58',
 }
