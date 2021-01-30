@@ -1,7 +1,7 @@
-switch ('') {
-	case '':
+switch (var1) {
+	case '1':
 		break;
-	case '': {
+	case '2': {
 
 	}
 		break;
