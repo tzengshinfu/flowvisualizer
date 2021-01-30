@@ -64,7 +64,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 			if (path.isProgram()) {
 				comments = [];
 				comments.push(`${lt}div data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js" style="border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px"${gt}`);
-				comments.push(`${lt}div style="display: table;border-radius: 50%;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;margin: 0 auto;background-color: ${Color.Mustard}"${gt}🏁${lt}/div${gt}`);
+				comments.push(`${lt}div style="display: table;border-radius: 50%;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;padding-bottom:5px;margin: 0 auto;background-color: ${Color.Mustard}"${gt}🏁${lt}/div${gt}`);
 				comments.push(`${lt}div style="display: table;margin: 0 auto"${gt}⬇️${lt}/div${gt}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
@@ -85,8 +85,8 @@ function getFlowBlockHtml_if(sourceCode: string) {
 
 			if (path.key === 'test') {
 				comments = [];
-				comments.push(`${lt}div data-node-type="IfConsequent" style="display: table-cell;background-color: ${Color.Pink}"${gt}`);
-				comments.push(`${lt}div data-node-type="IfTest" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="padding-top: 5px;padding-right: 5px;padding-left:5px;"${gt}`);
+				comments.push(`${lt}div data-node-type="IfConsequent" style="display: table-cell;background-color: PaleVioletRed"${gt}`);
+				comments.push(`${lt}div data-node-type="IfTest" style="background-color: pink" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="padding-top: 5px;padding-right: 5px;padding-left:5px;"${gt}`);
 				comments.push('if-statement-begin');
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
@@ -115,7 +115,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 
 			if (path.isProgram()) {
 				comments = [];
-				comments.push(`${lt}div style="display: table;border-radius: 50%;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;margin: 0 auto;background-color: ${Color.Greenyellow}"${gt}🏠${lt}/div${gt}`);
+				comments.push(`${lt}div style="display: table;border-radius: 50%;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;padding-bottom:5px;margin: 0 auto;background-color: ${Color.Greenyellow}"${gt}🏠${lt}/div${gt}`);
 				comments.push(`${lt}/div data-node-type="Program"${gt}`);
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
