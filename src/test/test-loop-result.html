@@ -25,6 +25,10 @@
 			background-color: orange;
 		}
 
+		.skyblue-background {
+			background-color: skyblue;
+		}
+
 		.div-alignment-center {
 			margin: 0 auto;
 		}
@@ -32,23 +36,26 @@
 </head>
 
 <body>
-	<div class="table gray-border-3px oragne-background div-alignment-center"
+	<div class="table gray-border-3px div-alignment-center"
 		style="padding-top: 5px;padding-right: 5px;padding-left:5px;">
 		<div class="row">
-			<div class="cell">while(true)</div>
-			<div class="cell" style="transform: rotate(270deg);text-align: center;">⤴️</div>
+			<div class="cell oragne-background">while(true)</div>
+			<div class="cell skyblue-background">
+			<div style="transform: rotate(270deg);margin: 0 0 0 -1px;">⤴️</div>	
+			</div>
 		</div>
 		<div class="row">
-			<div class="cell">{
+			<div class="cell oragne-background">{
 				console.log('test');<br />
 				console.log('test');<br />
 				console.log('test');<br />
 				}</div>
-			<div class="cell" style="vertical-align: middle;">⬆️<br />🔁<br />⬆️</div>
-		</div>
-		<div class="row">
-			<div class="cell" style="display: table-cell;text-align: right;"></div>
-			<div style="display: table-cell;text-align: right;">⤴️</div>
+			<div class="cell skyblue-background" style=" position:relative;">
+				<!-- <div>⬆️</div> -->
+				<div style="position:absolute; top:0">🔁</div>
+				<!-- <div>⬆️</div> -->
+				<div style="position:absolute;bottom:0;">⤴️</div>
+			</div>
 		</div>
 	</div>
 	</div>

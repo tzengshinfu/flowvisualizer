@@ -6,8 +6,8 @@ import * as fs from 'fs';
 import generate from "@babel/generator";
 
 describe('getFlowBlockHtml', function () {
-	it.skip('test if', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-if.js', 'utf8');
+	it('test if', function () {
+		const sourceCode = fs.readFileSync('./src/test/test-if-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_if(sourceCode);
 		const htmlFilePath = './src/test/test-if-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
@@ -24,8 +24,8 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it('test loop', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-loop.js', 'utf8');
+	it.skip('test loop', function () {
+		const sourceCode = fs.readFileSync('./src/test/test-loop-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_loop(sourceCode);
 		const htmlFilePath = './src/test/test-loop-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
