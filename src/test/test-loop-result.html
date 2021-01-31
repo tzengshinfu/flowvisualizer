@@ -14,47 +14,68 @@
 			display: table-cell;
 		}
 
-		.gray-border-3px {
+		.border-gray-3px-rounded {
 			border-style: solid;
 			border-color: gray;
 			border-width: 3px;
 			border-radius: 5px;
 		}
 
-		.oragne-background {
-			background-color: orange;
+		.background-pink {
+			background-color: pink;
 		}
 
-		.skyblue-background {
+		.background-deeppink {
+			background-color: deeppink;
+		}
+
+		.background-skyblue {
 			background-color: skyblue;
 		}
 
-		.div-alignment-center {
+		.background-deepskyblue {
+			background-color: deepskyblue;
+		}
+
+		.alignment-div-center {
 			margin: 0 auto;
+		}
+
+		.rotate-270deg {
+			transform: rotate(270deg);
+			margin: 0 0 0 -2px;
+		}
+
+		.padding-5px {
+			padding-top: 5px;
+			padding-left:5px;
+			padding-right: 5px;
+			padding-bottom: 5px;
 		}
 	</style>
 </head>
 
 <body>
-	<div class="table gray-border-3px div-alignment-center"
-		style="padding-top: 5px;padding-right: 5px;padding-left:5px;">
+	<div class="table border-gray-3px-rounded alignment-div-center">
 		<div class="row">
-			<div class="cell oragne-background">while(true)</div>
-			<div class="cell skyblue-background">
-			<div style="transform: rotate(270deg);margin: 0 0 0 -1px;">⤴️</div>	
+			<div class="cell background-deeppink padding-5px">while(true)</div>
+			<div class="cell background-skyblue">
+			<div class="rotate-270deg">⤴️</div>	
 			</div>
 		</div>
 		<div class="row">
-			<div class="cell oragne-background">{
-				console.log('test');<br />
-				console.log('test');<br />
-				console.log('test');<br />
-				}</div>
-			<div class="cell skyblue-background" style=" position:relative;">
-				<!-- <div>⬆️</div> -->
-				<div style="position:absolute; top:0">🔁</div>
-				<!-- <div>⬆️</div> -->
-				<div style="position:absolute;bottom:0;">⤴️</div>
+			<div class="cell background-pink padding-5px">
+				{console.log('test');}<br>
+				{console.log('test');}<br>
+				{console.log('test');}<br>
+				{console.log('test');}<br>
+				{console.log('test');}<br>
+				{console.log('test');}<br>
+				{console.log('test');}<br>
+			</div>
+			<div class="cell background-skyblue">
+				<div>🔄</div>
+				<div style="position:sticky; bottom:0">⤴️</div>
 			</div>
 		</div>
 	</div>
