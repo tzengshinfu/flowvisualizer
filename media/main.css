@@ -2,39 +2,53 @@ body {
 	background-color: transparent;
 }
 
-.color-list {
-	list-style: none;
-	padding: 0;
+.table {
+	display: table;
 }
 
-.color-entry {
-	width: 100%;
-	display: flex;
-	margin-bottom: 0.4em;
-	border: 1px solid var(--vscode-input-border);
+.row {
+	display: table-row;
 }
 
-.color-preview {
-	width: 2em;
-	height: 2em;
+.cell {
+	display: table-cell;
 }
 
-.color-preview:hover {
-	outline: inset white;
+.border-3px-rounded-gray {
+	border-style: solid;
+	border-color: gray;
+	border-width: 3px;
+	border-radius: 50%;
 }
 
-.color-input {
-	display: block;
-	flex: 1;
-	width: 100%;
-	color: var(--vscode-input-foreground);
-	background-color: var(--vscode-input-background);
-	border: none;
-	padding: 0 0.6em;
+.background-pink {
+	background-color: pink;
 }
 
-.add-color-button {
-	display: block;
-	border: none;
+.background-deeppink {
+	background-color: deeppink;
+}
+
+.background-skyblue {
+	background-color: skyblue;
+}
+
+.background-deepskyblue {
+	background-color: deepskyblue;
+}
+
+.alignment-div-center {
 	margin: 0 auto;
+}
+
+.rotate-270deg {
+	transform: rotate(270deg);
+	margin: 0 0 0 -2px;
+}
+
+.padding-5px {
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
 }
