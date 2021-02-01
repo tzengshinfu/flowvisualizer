@@ -47,8 +47,8 @@ describe('getFlowBlockHtml', function () {
 function getFlowBlockHtml_if(sourceCode: string) {
 	let flowblockHtml = '';
 
-	const C = '&lt;'; //because C looks like <
-	const D = '&gt;'; //because D looks like >
+	const C = '&lt;'; //because C looks like '<'
+	const D = '&gt;'; //because D looks like '>'
 	const ast = parser.parse(sourceCode);
 	const style = fs.readFileSync('./media/main.css', 'utf8');
 
@@ -64,44 +64,38 @@ function getFlowBlockHtml_if(sourceCode: string) {
 
 			if (path.isProgram()) {
 				comments = [];
-				comments.push(`${C}div data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js" style="border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px"${D}`);
-				comments.push(`${C}div class="table border-3px-rounded-gray" style="border-radius: 50%;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;padding-bottom:5px;margin: 0 auto;background-color: ${Color.Mustard}"${D}🏁${C}/div${D}`);
-				comments.push(`${C}div style="display: table;margin: 0 auto;margin-bottom:2px"${D}⬇️${C}/div${D}`);
-				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
-			}
-
-			if (path.isVariableDeclaration()) {
-				comments = [];
-				comments.push(`${C}div data-node-type="VariableDeclaration" style="display: table;border:groove;border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;;margin: 0 auto;background-color: ${Color.Lemon}"${D}`);
+				comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
+				comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver padding-5px alignment-div-center background-mustard"${D}🏁${C}/div${D}`);
+				comments.push(`${C}div class="table alignment-div-center"${D}⬇️${C}/div${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.isIfStatement()) {
 				comments = [];
 				var alignBottom = _getPathLevel(path) !== '->' ? ';margin-bottom:-3px;margin-right:-7px;' : '';
-				comments.push(`${C}div data-node-type="IfStatement" style="display: table;border-radius: 3px;border-width:3px;border-style:solid;border-color:${Color.Silver};margin: 0 auto${alignBottom}"${D}`);
-				comments.push(`${C}div data-node-type="IfCondition" style="display: table-row;"${D}`);
+				comments.push(`${C}div class="table border-rounded-3px border-3px-solid-silver alignment-div-center" data-node-type="IfStatement" style="${alignBottom}"${D}`);
+				comments.push(`${C}div class="row" data-node-type="IfCondition"${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'test') {
 				comments = [];
-				comments.push(`${C}div data-node-type="IfConsequent" style="display: table-cell;background-color: PaleVioletRed;border-right:3px solid silver"${D}`);
-				comments.push(`${C}div data-node-type="IfTest" style="background-color: pink" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="padding-top: 5px;padding-right: 5px;padding-left:5px;"${D}`);
+				comments.push(`${C}div class="cell background-pink border-right-3px-solid-silver" data-node-type="IfConsequent"${D}`);
+				comments.push(`${C}div class="padding-5px background-deeppink" data-node-type="IfTest" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 				comments.push('if-statement-begin');
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'consequent') {
 				comments = [];
-				comments.push(`${C}div data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="padding-top: 5px;padding-right: 5px;padding-left:5px;"${D}`);
+				comments.push(`${C}div class="padding-5px" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'alternate') {
 				comments = [];
-				comments.push(`${C}div data-node-type="IfAlternate" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}" style="display: table-cell;background-color: ${Color.Skyblue};padding-top: 5px;padding-right: 5px;padding-left:5px;"${D}`);
-				comments.push(`${C}div${D}else↘️${C}/div${D}`);
+				comments.push(`${C}div class="cell padding-5px background-skyblue" data-node-type="IfAlternate" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+				comments.push(`${C}div class="background-deepskyblue"${D}else↘️${C}/div${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 		},
@@ -116,15 +110,8 @@ function getFlowBlockHtml_if(sourceCode: string) {
 
 			if (path.isProgram()) {
 				comments = [];
-				comments.push(`${C}div style="display: table;border-radius: 50%;border-width:3px;border-style:solid;border-color:${Color.Silver};padding-top: 5px;padding-right: 5px;padding-left:5px;padding-bottom:5px;margin: 0 auto;background-color: ${Color.Greenyellow}"${D}🏠${C}/div${D}`);
+				comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver padding-5px alignment-div-center background-greenyellow"${D}🏠${C}/div${D}`);
 				comments.push(`${C}/div data-node-type="Program"${D}`);
-				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
-			}
-
-			if (path.isVariableDeclaration()) {
-				comments = [];
-				comments.push(`${C}/div data-node-type="VariableDeclaration"${D}`);
-				comments.push(`${C}div style="display: table;margin: 0 auto;margin-bottom:2px"${D}⬇️${C}/div${D}`);
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
@@ -132,8 +119,8 @@ function getFlowBlockHtml_if(sourceCode: string) {
 				comments = [];
 
 				if (!path.node.alternate) {
-					comments.push(`${C}div data-node-type="IfAlternative" style="display: table-cell;background-color: ${Color.Skyblue}"${D}`);
-					comments.push(`${C}div${D}else↘️${C}/div${D}`);
+					comments.push(`${C}div class="cell background-skyblue" data-node-type="IfAlternative"${D}`);
+					comments.push(`${C}div class="background-deepskyblue"${D}else↘️${C}/div${D}`);
 					comments.push(`${C}div style="text-align:right;"${D}${C}div${D}🚪🚶${C}/div${D}${C}/div${D}`);
 					comments.push(`${C}/div data-node-type="IfAlternative"${D}`);
 				}
@@ -142,7 +129,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 				comments.push(`${C}/div data-node-type="IfStatement"${D}`);
 
 				if (_getPathLevel(path) === '->') {
-					comments.push(`${C}div style="display: table;margin: 0 auto;margin-bottom:2px"${D}⬇️${C}/div${D}`);
+					comments.push(`${C}div class="table alignment-div-center" style="margin-bottom:2px"${D}⬇️${C}/div${D}`);
 				}
 
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
