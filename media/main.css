@@ -28,16 +28,16 @@ body {
 	background-color: pink;
 }
 
-.background-deeppink {
-	background-color: deeppink;
-}
-
 .background-skyblue {
 	background-color: skyblue;
 }
 
-.background-deepskyblue {
-	background-color: deepskyblue;
+.background-aliceblue {
+	background-color: #EEF9FD;
+}
+
+.background-lavenderblush {
+	background-color: #FFF6F8;
 }
 
 .background-mustard {
@@ -48,8 +48,16 @@ body {
 	background-color: #9ACD32;
 }
 
-.alignment-div-center {
+.alignment-self-center {
 	margin: 0 auto;
+}
+
+.alignment-inner-top {
+	vertical-align: top;
+}
+
+.alignment-inner-middle {
+	vertical-align: middle;
 }
 
 .rotate-270deg {

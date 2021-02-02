@@ -38,7 +38,9 @@ while (i < 5) {
 	console.log(n);
 }
 
-labelCancelLoops: while (true) {
+//break+label 敘述句
+labelCancelLoops:
+while (true) {
 	console.log('Outer loops: ' + x);
 	while (true) {
 		console.log('Inner loops: ' + z);
@@ -46,6 +48,7 @@ labelCancelLoops: while (true) {
 	}
 }
 
+//continue+label 敘述句
 checkiandj:
 while (i < 4) {
 	console.log(i);
@@ -61,4 +64,5 @@ while (i < 4) {
 	}
 	console.log('i = ' + i);
 	console.log('j = ' + j);
+	continue checkiandj;
 }

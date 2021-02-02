@@ -1,56 +1,149 @@
-<html>
+<html><head><style type="text/css">body {
+	background-color: transparent;
+}
 
-<head>
-	<link rel="stylesheet" href="../../media/main.css">
-</head>
+.table {
+	display: table;
+}
 
-<body>
-	<div class="table border-3px-rounded-gray alignment-div-center">
-		<div class="row">
-			<div class="cell background-deeppink padding-5px">while(true)</div>
-			<div class="cell background-skyblue">
-				<div class="rotate-270deg">⤴️</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="cell background-pink padding-5px">
-				{console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');}<br>
-			</div>
-			<div class="cell background-skyblue" style="position: relative;">
-				<div>🔄</div>
-				<div style="position: absolute;; bottom:0;clear: both;">⤴️</div>
-			</div>
-		</div>
-	</div>
-	<div>
-		<div class="row">
-			<div class="cell background-deeppink padding-5px">for (var i = 0; i &lt; ary.length; i++)</div>
-			<div class="cell background-skyblue">
-				<div class="rotate-270deg">⤴️</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="cell background-pink padding-5px">
-				{console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');<br>
-				console.log('test');}<br>
-			</div>
-			<div class="cell background-skyblue" style="position: relative;">
-				<div>🔄</div>
-				<div style="position: absolute;; bottom:0;clear: both;">⤴️</div>
-			</div>
-		</div>
-	</div>
-</body>
+.row {
+	display: table-row;
+}
 
-</html>
+.cell {
+	display: table-cell;
+}
+
+.border-right-3px-solid-silver {
+	border-right: 3px solid silver;
+}
+
+.border-3px-solid-silver {
+	border-style: solid;
+	border-color: silver;
+	border-width: 3px;
+}
+
+.background-pink {
+	background-color: pink;
+}
+
+.background-skyblue {
+	background-color: skyblue;
+}
+
+.background-aliceblue {
+	background-color: #EEF9FD;
+}
+
+.background-lavenderblush {
+	background-color: #FFF6F8;
+}
+
+.background-mustard {
+	background-color: #FFDB58;
+}
+
+.background-greenyellow {
+	background-color: #9ACD32;
+}
+
+.alignment-self-center {
+	margin: 0 auto;
+}
+
+.alignment-inner-top {
+	vertical-align: top;
+}
+
+.alignment-inner-middle {
+	vertical-align: middle;
+}
+
+.rotate-270deg {
+	transform: rotate(270deg);
+	margin: 0 0 0 -2px;
+}
+
+.padding-5px {
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+
+.border-rounded-3px {
+	border-radius: 3px;
+}
+
+.border-rounded-50percent {
+	border-radius: 50%;
+}
+</style></head><body>
+for (let i = 0; i < options.length; i++) {
+  console.log(i);
+}
+
+
+for (let i in arr) {
+  console.log(i);
+}
+
+
+for (let i of arr) {
+  console.log(i);
+}
+
+
+do {
+  console.log(i);
+} while (i < 5);
+
+
+while (n < 3) {
+  console.log(i);
+}
+
+
+for (let i = 0; i < a.length; i++) {
+  break;
+}
+
+
+while (i < 5) {
+  i++;
+  if (i === 3) {
+    continue;
+  }
+  n += i;
+  console.log(n);
+}
+
+
+labelCancelLoops:
+while (true) {
+  console.log('Outer loops: ' + x);
+  while (true) {
+    console.log('Inner loops: ' + z);
+    break labelCancelLoops;
+  }
+}
+
+
+checkiandj:
+while (i < 4) {
+  console.log(i);
+  i += 1;
+  checkj:
+  while (j > 4) {
+    console.log(j);
+    j -= 1;
+    if (j % 2 === 0) {
+      continue checkj;
+    }
+    console.log(j + ' is odd.');
+  }
+  console.log('i = ' + i);
+  console.log('j = ' + j);
+  continue checkiandj;
+}</body></html>
