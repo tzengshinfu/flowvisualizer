@@ -30,11 +30,7 @@ for (let i = 0; i < a.length; i++) {
 
 //while+continue 敘述句
 while (i < 5) {
-	i++;
-	if (i === 3) {
-		continue;
-	}
-	n += i;
+	continue;
 	console.log(n);
 }
 
@@ -56,10 +52,7 @@ while (i < 4) {
 	checkj:
 	while (j > 4) {
 		console.log(j);
-		j -= 1;
-		if ((j % 2) === 0) {
-			continue checkj;
-		}
+		continue checkj;
 		console.log(j + ' is odd.');
 	}
 	console.log('i = ' + i);

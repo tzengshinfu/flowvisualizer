@@ -221,6 +221,14 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 				//comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
+
+			if (path.key === 'body') {
+				comments = [];
+				comments.push(`${C}div${D}`); //IfConsequent
+				//comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
+				//comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			}
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -260,19 +268,26 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 				//comments.push(`${C}/div${D}`); //IfConsequentHead
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
+
+			if (path.key === 'body') {
+				comments = [];
+				comments.push(`${C}/div${D}`); //IfConsequent
+				//comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
+				//comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			}
 		}
 	});
 
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
-	//code = code.replace(/(\*\/)\s*if\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
-	//code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	//code = code.replace(/\/\*for-statement-begin\*\//g, 'for (');
-	//code = code.replace(/ \/\*for-statement-end\*\//g, ')');
-	//code = code.replace(/\*\/\s*else\s*\/\*/g, ' ');
-	//code = code.replace(/&lt;/g, '<');
-	//code = code.replace(/&gt;/g, '>');
-	//code = code.replace(/\/\*/g, '');
-	//code = code.replace(/\*\//g, '');
+	code = code.replace(/(\*\/)\s*for\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
+	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
+	code = code.replace(/\/\*for-statement-begin\*\//g, 'for (');
+	code = code.replace(/ \/\*for-statement-end\*\//g, ')');
+	code = code.replace(/&lt;/g, '<');
+	code = code.replace(/&gt;/g, '>');
+	code = code.replace(/\/\*/g, '');
+	code = code.replace(/\*\//g, '');
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
