@@ -72,8 +72,8 @@ function getFlowBlockHtml_if(sourceCode: string) {
 
 			if (path.isIfStatement()) {
 				comments = [];
-				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`);
-				comments.push(`${C}div class="row"${D}`); //IfStatementBody
+				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`); //IfStatement
+				comments.push(`${C}div class="row"${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
@@ -125,7 +125,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 					comments.push(`${C}/div${D}`); //IfAlternative
 				}
 
-				comments.push(`${C}/div${D}`); //IfStatementBody
+				comments.push(`${C}/div${D}`);
 				comments.push(`${C}/div${D}`); //IfStatement
 
 				if (_getPathLevel(path) === '->') {
@@ -201,32 +201,22 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 
 			if (path.isForStatement()) {
 				comments = [];
-				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //LoopStatement
-				comments.push(`${C}div class="row"${D}`); //LoopStatementBody
+				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
+				comments.push(`${C}div class="row"${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'init' && path.parentPath.isForStatement()) {
 				comments = [];
-				comments.push(`${C}div${D}`); //IfConsequent
-				comments.push('for-statement-begin');
-				//comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
-				//comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
-				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
-			}
-
-			if (path.key === 'update') {
-				comments = [];
-				//comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
-				//comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+				comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
+				comments.push('for-statement-begin');	
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'body') {
 				comments = [];
-				comments.push(`${C}div${D}`); //IfConsequent
-				//comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
-				//comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+				comments.push(`${C}div class="row"${D}`);
+				comments.push(`${C}div${D}`); //ForStatementBody
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 		},
@@ -248,32 +238,32 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 
 			if (path.isForStatement()) {
 				comments = [];
-				comments.push(`${C}/div${D}`); //LoopStatementBody
-				comments.push(`${C}/div${D}`); //LoopStatement
-				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
-			}
-
-			if (path.key === 'init') {
-				comments = [];
-				//comments.push(`${C}/div${D}`); //IfConsequentHead
-				//comments.push(`${C}/div${D}`); //IfConsequentHead
+				comments.push(`${C}/div${D}`);
+				comments.push(`${C}/div${D}`);
+				comments.push(`${C}/div${D}`); //ForStatement
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'update') {
 				comments = [];
 				comments.push('for-statement-end');
+				comments.push(`${C}/div${D}`); //ForStatementHead
+				comments.push(`${C}div class="cell background-pink"${D}`);
+				comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
 				comments.push(`${C}/div${D}`);
-				//comments.push(`${C}/div${D}`); //IfConsequentHead
-				//comments.push(`${C}/div${D}`); //IfConsequentHead
+				comments.push(`${C}/div${D}`); //ForStatementBody
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'body') {
 				comments = [];
-				comments.push(`${C}/div${D}`); //IfConsequent
-				//comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
-				//comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+				comments.push(`${C}/div${D}`); //ForStatementBody
+				comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
+				comments.push(`${C}/div${D}`);
+				comments.push(`${C}div class="row"${D}`);
+				comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
+				comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
+				comments.push(`${C}/div${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 		}
