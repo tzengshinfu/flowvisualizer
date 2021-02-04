@@ -65,14 +65,14 @@ function getFlowBlockHtml_if(sourceCode: string) {
 			if (path.isProgram()) {
 				comments = [];
 				comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
-				comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-self-center"${D}🏁${C}/div${D}`);
-				comments.push(`${C}div class="table alignment-self-center"${D}⬇️${C}/div${D}`);
+				comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-parent-center"${D}🏁${C}/div${D}`);
+				comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.isIfStatement()) {
 				comments = [];
-				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-self-center" data-node-type="IfStatement"${D}`);
+				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`);
 				comments.push(`${C}div class="row"${D}`); //IfStatementBody
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
@@ -110,7 +110,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 
 			if (path.isProgram()) {
 				comments = [];
-				comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-self-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
+				comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-parent-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
 				comments.push(`${C}/div${D}`); //Program
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
@@ -129,7 +129,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 				comments.push(`${C}/div${D}`); //IfStatement
 
 				if (_getPathLevel(path) === '->') {
-					comments.push(`${C}div class="table alignment-self-center"${D}⬇️${C}/div${D}`);
+					comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 				}
 
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
@@ -194,15 +194,15 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 			if (path.isProgram()) {
 				comments = [];
 				comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
-				comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-self-center"${D}🏁${C}/div${D}`);
-				comments.push(`${C}div class="table alignment-self-center"${D}⬇️${C}/div${D}`);
+				comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-parent-center"${D}🏁${C}/div${D}`);
+				comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
-			if (path.isForStatement() || path.isForInStatement() || path.isForOfStatement() || path.isDoWhileStatement() || path.isWhileStatement() || path.isLabeledStatement()) {
+			if (path.isForStatement()) {
 				comments = [];
-				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-self-center" data-node-type="IfStatement"${D}`);
-				comments.push(`${C}div class="row"${D}`); //IfStatementBody
+				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //LoopStatement
+				comments.push(`${C}div class="row"${D}`); //LoopStatementBody
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
@@ -241,15 +241,15 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 
 			if (path.isProgram()) {
 				comments = [];
-				comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-self-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
+				comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-parent-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
 				comments.push(`${C}/div${D}`); //Program
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
-			if (path.isForStatement() || path.isForInStatement() || path.isForOfStatement() || path.isDoWhileStatement() || path.isWhileStatement() || path.isLabeledStatement()) {
+			if (path.isForStatement()) {
 				comments = [];
-				comments.push(`${C}/div${D}`); //IfStatementBody
-				comments.push(`${C}/div${D}`); //IfStatement
+				comments.push(`${C}/div${D}`); //LoopStatementBody
+				comments.push(`${C}/div${D}`); //LoopStatement
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
