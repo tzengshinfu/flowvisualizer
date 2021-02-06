@@ -257,8 +257,10 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 
 			if (path.key === 'body') {
 				comments = [];
+				comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}`);
+				comments.push(`🔄${C}/div${D}`);
+				comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}${C}/div${D}`);
 				comments.push(`${C}/div${D}`); //ForStatementBody
-				comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 				comments.push(`${C}/div${D}`);
 				comments.push(`${C}div class="row"${D}`);
 				comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
