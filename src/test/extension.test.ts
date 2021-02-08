@@ -199,13 +199,13 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
-			if (path.isForStatement()) {
+			if (path.isForStatement() || path.isForInStatement() || path.isForOfStatement()) {
 				comments = [];
 				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
-			if (path.key === 'init' && path.parentPath.isForStatement()) {
+			if ((path.key === 'init' && path.parentPath.isForStatement()) || (path.key === 'left' && (path.parentPath.isForInStatement() || path.parentPath.isForOfStatement()))) {
 				comments = [];
 				comments.push(`${C}div class="row"${D}`); //row
 				comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
@@ -236,17 +236,18 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
-			if (path.isForStatement()) {
+			if (path.isForStatement() || path.isForInStatement() || path.isForOfStatement()) {
 				comments = [];
 				comments.push(`${C}div class="row"${D}`);// row
 				comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
 				comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
 				comments.push(`${C}/div${D}`); //row
 				comments.push(`${C}/div${D}`); //ForStatement
+				comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
-			if (path.key === 'update') {
+			if (path.key === 'update' || (path.key === 'right' && (path.parentPath.isForInStatement() || path.parentPath.isForOfStatement()))) {
 				comments = [];
 				comments.push('for-statement-end');
 				comments.push(`${C}/div${D}`); //ForStatementHead
@@ -262,11 +263,6 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 				comments.push(`${C}/div${D}`); //ForStatementBody
 				comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 				comments.push(`${C}/div${D}`); //row
-				//comments.push(`11${C}br${D}22`); //row	
-				//comments.push(`${C}div class="row"${D}`);// row
-				//comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
-				//comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
-				//comments.push(`${C}/div${D}`); //row
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 		}
