@@ -3,6 +3,7 @@ for (let i = 0; i < options.length; i++) {
 	console.log(i);
 }
 
+/*
 //for+in 敘述句
 for (let i in arr) {
 	console.log(i);
@@ -59,3 +60,4 @@ while (i < 4) {
 	console.log('j = ' + j);
 	continue checkiandj;
 }
+*/

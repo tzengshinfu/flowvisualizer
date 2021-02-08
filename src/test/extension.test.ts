@@ -193,7 +193,7 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 
 			if (path.isProgram()) {
 				comments = [];
-				comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
+				comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`); //Program
 				comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-parent-center"${D}🏁${C}/div${D}`);
 				comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
@@ -202,21 +202,21 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 			if (path.isForStatement()) {
 				comments = [];
 				comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
-				comments.push(`${C}div class="row"${D}`);
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'init' && path.parentPath.isForStatement()) {
 				comments = [];
+				comments.push(`${C}div class="row"${D}`); //row
 				comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
-				comments.push('for-statement-begin');	
+				comments.push('for-statement-begin');
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'body') {
 				comments = [];
-				comments.push(`${C}div class="row"${D}`);
-				comments.push(`${C}div${D}`); //ForStatementBody
+				comments.push(`${C}div class="row"${D}`); //row
+				comments.push(`${C}div class="cell background-lavenderblush padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 		},
@@ -238,8 +238,10 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 
 			if (path.isForStatement()) {
 				comments = [];
-				comments.push(`${C}/div${D}`);
-				comments.push(`${C}/div${D}`);
+				comments.push(`${C}div class="row"${D}`);// row
+				comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
+				comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
+				comments.push(`${C}/div${D}`); //row
 				comments.push(`${C}/div${D}`); //ForStatement
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
@@ -251,21 +253,20 @@ function getFlowBlockHtml_loop(sourceCode: string) {
 				comments.push(`${C}div class="cell background-pink"${D}`);
 				comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
 				comments.push(`${C}/div${D}`);
-				comments.push(`${C}/div${D}`); //ForStatementBody
+				comments.push(`${C}/div${D}`); //row
 				comments.forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 
 			if (path.key === 'body') {
 				comments = [];
-				comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}`);
-				comments.push(`🔄${C}/div${D}`);
-				comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}${C}/div${D}`);
 				comments.push(`${C}/div${D}`); //ForStatementBody
-				comments.push(`${C}/div${D}`);
-				comments.push(`${C}div class="row"${D}`);
-				comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
-				comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
-				comments.push(`${C}/div${D}`);
+				comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
+				comments.push(`${C}/div${D}`); //row
+				//comments.push(`11${C}br${D}22`); //row	
+				//comments.push(`${C}div class="row"${D}`);// row
+				//comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
+				//comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
+				//comments.push(`${C}/div${D}`); //row
 				comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 			}
 		}
