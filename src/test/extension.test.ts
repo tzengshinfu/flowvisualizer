@@ -42,12 +42,30 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it('test ForOfStatement', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-forOf-statement.js', 'utf8');
+	it.skip('test ForOfStatement', function () {
+		const sourceCode = fs.readFileSync('./src/test/test-forof-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_forOf(sourceCode);
-		const htmlFilePath = './src/test/test-forOf-result.html';
+		const htmlFilePath = './src/test/test-forof-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-forOf-chart.html';
+		const chartFilePath = './src/test/test-forof-chart.html';
+
+		if (fs.existsSync(htmlFilePath)) {
+			fs.unlinkSync(htmlFilePath);
+		}
+		if (fs.existsSync(chartFilePath)) {
+			fs.unlinkSync(chartFilePath);
+		}
+
+		fs.writeFileSync(htmlFilePath, flowblockHtml, 'utf8');
+		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
+		assert.equal(fs.existsSync(htmlFilePath), true);
+	});
+	it('test DoWhileStatement', function () {
+		const sourceCode = fs.readFileSync('./src/test/test-dowhile-statement.js', 'utf8');
+		const flowblockHtml = getFlowBlockHtml_forOf(sourceCode);
+		const htmlFilePath = './src/test/test-dowhile-result.html';
+		const pathLevelChart = getPathLevelChart(sourceCode);
+		const chartFilePath = './src/test/test-dowhile-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -191,9 +209,9 @@ function enterProgram(path: NodePath<Node>) {
 
 	if (path.isProgram()) {
 		comments = [];
+
 		comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
 		comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-parent-center"${D}🏁${C}/div${D}`);
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 
 		return;
@@ -208,6 +226,8 @@ function enterIfStatement(path: NodePath<Node>) {
 
 	if (path.isIfStatement()) {
 		comments = [];
+		
+		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`); //IfStatement
 		comments.push(`${C}div class="row"${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
@@ -254,6 +274,8 @@ function enterForStatement(path: NodePath<Node>) {
 
 	if (path.isForStatement()) {
 		comments = [];
+		
+		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 
@@ -263,6 +285,7 @@ function enterForStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isForStatement()) {
 		if (path.key === 'init') {
 			comments = [];
+
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
 			comments.push('for-statement-begin');
@@ -273,6 +296,7 @@ function enterForStatement(path: NodePath<Node>) {
 
 		if (path.key === 'body') {
 			comments = [];
+
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-lavenderblush padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
 			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
@@ -290,6 +314,8 @@ function enterForOfStatement(path: NodePath<Node>) {
 
 	if (path.isForInStatement() || path.isForOfStatement()) {
 		comments = [];
+
+		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
 
@@ -299,6 +325,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isForInStatement() || path.parentPath?.isForOfStatement()) {
 		if (path.key === 'left') {
 			comments = [];
+
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
 			comments.push('for-statement-begin');
@@ -309,6 +336,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 
 		if (path.key === 'body') {
 			comments = [];
+
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-lavenderblush padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
 			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
@@ -326,9 +354,13 @@ function exitProgram(path: NodePath<Node>) {
 
 	if (path.isProgram()) {
 		comments = [];
+
+		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-parent-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //Program
 		comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+
+		return;
 	}
 }
 
@@ -350,34 +382,40 @@ function exitIfStatement(path: NodePath<Node>) {
 
 		comments.push(`${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //IfStatement
-
-		if (_getPathLevel(path) === '->') {
-			comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		}
-
 		comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+
+		return;
 	}
 
 	if (path.parentPath?.isIfStatement()) {
 		if (path.key === 'test') {
 			comments = [];
+
 			comments.push('if-statement-end');
 			comments.push(`${C}/div${D}`); //IfConsequentHead
 			comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+
+			return;
 		}
 
 		if (path.key === 'consequent') {
 			comments = [];
+
 			comments.push(`${C}/div${D}`); //IfConsequentBody
 			comments.push(`${C}/div${D}`); //IfConsequent
 			comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+
+			return;
 		}
 
 		if (path.key === 'alternate') {
 			comments = [];
+
 			comments.push(`${C}/div${D}`); //IfAlternateBody
 			comments.push(`${C}/div${D}`); //IfAlternate
 			comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+
+			return;
 		}
 	}
 }
@@ -390,6 +428,7 @@ function exitForStatement(path: NodePath<Node>) {
 
 	if (path.isForStatement()) {
 		comments = [];
+
 		comments.push(`${C}div class="row"${D}`);// row
 		comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
 		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
@@ -404,6 +443,7 @@ function exitForStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isForStatement()) {
 		if (path.key === 'update') {
 			comments = [];
+
 			comments.push('for-statement-end');
 			comments.push(`${C}/div${D}`); //ForStatementHead
 			comments.push(`${C}div class="cell background-pink"${D}`);
@@ -417,6 +457,7 @@ function exitForStatement(path: NodePath<Node>) {
 
 		if (path.key === 'body') {
 			comments = [];
+
 			comments.push(`${C}/div${D}`); //ForStatementBody
 			comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
@@ -435,6 +476,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 
 	if (path.isForInStatement() || path.isForOfStatement()) {
 		comments = [];
+
 		comments.push(`${C}div class="row"${D}`);// row
 		comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
 		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
@@ -449,6 +491,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isForInStatement() || path.parentPath?.isForOfStatement()) {
 		if (path.key === 'right') {
 			comments = [];
+
 			comments.push('for-statement-end');
 			comments.push(`${C}/div${D}`); //ForStatementHead
 			comments.push(`${C}div class="cell background-pink"${D}`);
@@ -462,6 +505,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 
 		if (path.key === 'body') {
 			comments = [];
+			
 			comments.push(`${C}/div${D}`); //ForStatementBody
 			comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
