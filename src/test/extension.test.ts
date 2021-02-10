@@ -401,7 +401,7 @@ function exitForStatement(path: NodePath<Node>) {
 		return;
 	}
 
-	if (path.parentPath?.isForInStatement()) {
+	if (path.parentPath?.isForStatement()) {
 		if (path.key === 'update') {
 			comments = [];
 			comments.push('for-statement-end');
