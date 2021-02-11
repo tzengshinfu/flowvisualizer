@@ -601,3 +601,43 @@ function clearLeadingComments(path: NodePath<Node>) {
 function clearTrailingComments(path: NodePath<Node>) {
 	path.node.trailingComments = null;
 }
+
+function _getPathLevel(path: NodePath<Node>, previousLevel: string | null = null): string {
+	let level = previousLevel ? previousLevel : '';
+
+	if (path.parentPath) {
+		level += '->';
+
+		return _getPathLevel(path.parentPath, level);
+	}
+	else {
+		return level;
+	}
+}
+
+function getPathLevelChart(sourceCode: string) {
+	let pathLevel = '';
+
+	const ast = parser.parse(sourceCode);
+
+	traverse(ast, {
+		enter(path) {
+			if (path.isFile() || path.isProgram()) {
+				return;
+			}
+
+			let level = _getPathLevel(path);
+
+			pathLevel += `\n<div>${level}${path.type},parent=${path.parentPath.type},key=${path.key}`;
+		},
+		exit(path) {
+			if (path.isFile() || path.isProgram()) {
+				return;
+			}
+
+			pathLevel += '</div>\n';
+		}
+	});
+
+	return pathLevel;
+}
