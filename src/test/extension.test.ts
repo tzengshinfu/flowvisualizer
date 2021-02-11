@@ -62,7 +62,7 @@ describe('getFlowBlockHtml', function () {
 	});
 	it('test DoWhileStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-dowhile-statement.js', 'utf8');
-		const flowblockHtml = getFlowBlockHtml_forOf(sourceCode);
+		const flowblockHtml = getFlowBlockHtml_doWhile(sourceCode);
 		const htmlFilePath = './src/test/test-dowhile-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
 		const chartFilePath = './src/test/test-dowhile-chart.html';
@@ -184,6 +184,46 @@ function getFlowBlockHtml_forOf(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitForOfStatement(path);
+		}
+	});
+
+	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
+	code = code.replace(/(\*\/)\s*for\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
+	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
+	code = code.replace(/\/\*for-statement-begin\*\//g, 'for (');
+	code = code.replace(/ \/\*for-statement-end\*\//g, ')');
+	code = code.replace(/&lt;/g, '<');
+	code = code.replace(/&gt;/g, '>');
+	code = code.replace(/\/\*/g, '');
+	code = code.replace(/\*\//g, '');
+	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
+
+	return flowblockHtml;
+}
+
+function getFlowBlockHtml_doWhile(sourceCode: string) {
+	let flowblockHtml = '';
+	const ast = parser.parse(sourceCode);
+	const style = fs.readFileSync('./media/main.css', 'utf8');
+
+	traverse(ast, {
+		enter(path) {
+			if (path.isFile()) {
+				return;
+			}
+
+			clearLeadingComments(path);
+			enterProgram(path);
+			enterDoWhileStatement(path);
+		},
+		exit(path) {
+			if (path.isFile()) {
+				return;
+			}
+
+			clearTrailingComments(path);
+			exitProgram(path);
+			exitDoWhileStatement(path);
 		}
 	});
 
@@ -343,6 +383,23 @@ function enterForOfStatement(path: NodePath<Node>) {
 
 			return;
 		}
+	}
+}
+
+function enterDoWhileStatement(path: NodePath<Node>) {
+	const commentType = 'leading';
+	let comments: string[] = [];
+	const C = '&lt;'; //because C looks like '<'
+	const D = '&gt;'; //because D looks like '>'
+
+	if (path.isDoWhileStatement()) {
+		comments = [];
+
+		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
+		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+
+		return;
 	}
 }
 
@@ -516,59 +573,31 @@ function exitForOfStatement(path: NodePath<Node>) {
 	}
 }
 
+function exitDoWhileStatement(path: NodePath<Node>) {
+	const commentType = 'trailing';
+	let comments: string[] = [];
+	const C = '&lt;'; //because C looks like '<'
+	const D = '&gt;'; //because D looks like '>'
+
+	if (path.isDoWhileStatement()) {
+		comments = [];
+
+		comments.push(`${C}div class="row"${D}`);// row
+		comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
+		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
+		comments.push(`${C}/div${D}`); //row
+		comments.push(`${C}/div${D}`); //ForStatement
+		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
+		comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+
+		return;
+	}
+}
+
 function clearLeadingComments(path: NodePath<Node>) {
 	path.node.leadingComments = null;
 }
 
 function clearTrailingComments(path: NodePath<Node>) {
 	path.node.trailingComments = null;
-}
-
-function _getPathLevel(path: NodePath<Node>, previousLevel: string | null = null): string {
-	let level = previousLevel ? previousLevel : '';
-
-	if (path.parentPath) {
-		level += '->';
-
-		return _getPathLevel(path.parentPath, level);
-	}
-	else {
-		return level;
-	}
-}
-
-function getPathLevelChart(sourceCode: string) {
-	let pathLevel = '';
-
-	const ast = parser.parse(sourceCode);
-
-	traverse(ast, {
-		enter(path) {
-			if (path.isFile() || path.isProgram()) {
-				return;
-			}
-
-			let level = _getPathLevel(path);
-
-			pathLevel += `\n<div>${level}${path.type},parent=${path.parentPath.type},key=${path.key}`;
-		},
-		exit(path) {
-			if (path.isFile() || path.isProgram()) {
-				return;
-			}
-
-			pathLevel += '</div>\n';
-		}
-	});
-
-	return pathLevel;
-}
-
-enum Color {
-	Silver = '#c0c0c0',
-	Pink = '#FFC0CB',
-	Skyblue = '#87CEEB',
-	Greenyellow = '#9ACD32',
-	Lemon = '#fff700',
-	Mustard = '#FFDB58',
 }
