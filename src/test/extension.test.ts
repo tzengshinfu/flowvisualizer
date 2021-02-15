@@ -4,6 +4,7 @@ import traverse, { NodePath } from '@babel/traverse';
 import { VariableDeclaration, Comment, Node } from '@babel/types';
 import * as fs from 'fs';
 import generate from "@babel/generator";
+import { C, D, CommentType } from '../../src/variable';
 
 describe('getFlowBlockHtml', function () {
 	it.skip('test IfStatement', function () {
@@ -242,27 +243,21 @@ function getFlowBlockHtml_doWhile(sourceCode: string) {
 }
 
 function enterProgram(path: NodePath<Node>) {
-	const commentType = 'leading';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isProgram()) {
 		comments = [];
 
 		comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
 		comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-parent-center"${D}🏁${C}/div${D}`);
-		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
 	}
 }
 
 function enterIfStatement(path: NodePath<Node>) {
-	const commentType = 'leading';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isIfStatement()) {
 		comments = [];
@@ -270,7 +265,7 @@ function enterIfStatement(path: NodePath<Node>) {
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`); //IfStatement
 		comments.push(`${C}div class="row"${D}`);
-		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
 	}
@@ -281,7 +276,7 @@ function enterIfStatement(path: NodePath<Node>) {
 			comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
 			comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 			comments.push('if-statement-begin');
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
 		}
@@ -289,7 +284,7 @@ function enterIfStatement(path: NodePath<Node>) {
 		if (path.key === 'consequent') {
 			comments = [];
 			comments.push(`${C}div class="padding-5px" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
 		}
@@ -299,7 +294,7 @@ function enterIfStatement(path: NodePath<Node>) {
 			comments.push(`${C}div class="cell background-aliceblue alignment-inner-top"${D}`); //IfAlternate
 			comments.push(`${C}div class="background-skyblue padding-5px" data-node-type="IfAlternateHead"${D}else↘️${C}/div${D}`);
 			comments.push(`${C}div class="padding-5px" data-node-type="IfAlternateBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
 		}
@@ -307,17 +302,14 @@ function enterIfStatement(path: NodePath<Node>) {
 }
 
 function enterForStatement(path: NodePath<Node>) {
-	const commentType = 'leading';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isForStatement()) {
 		comments = [];
 		
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
-		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
 	}
@@ -329,7 +321,7 @@ function enterForStatement(path: NodePath<Node>) {
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
 			comments.push('for-statement-begin');
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
 		}
@@ -339,7 +331,7 @@ function enterForStatement(path: NodePath<Node>) {
 
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-lavenderblush padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
 		}
@@ -347,17 +339,14 @@ function enterForStatement(path: NodePath<Node>) {
 }
 
 function enterForOfStatement(path: NodePath<Node>) {
-	const commentType = 'leading';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isForInStatement() || path.isForOfStatement()) {
 		comments = [];
 
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
-		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
 	}
@@ -369,7 +358,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
 			comments.push('for-statement-begin');
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
 		}
@@ -379,7 +368,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-lavenderblush padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
 		}
@@ -387,27 +376,21 @@ function enterForOfStatement(path: NodePath<Node>) {
 }
 
 function enterDoWhileStatement(path: NodePath<Node>) {
-	const commentType = 'leading';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isDoWhileStatement()) {
 		comments = [];
 
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
-		comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
 	}
 }
 
 function exitProgram(path: NodePath<Node>) {
-	const commentType = 'trailing';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isProgram()) {
 		comments = [];
@@ -415,17 +398,14 @@ function exitProgram(path: NodePath<Node>) {
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-parent-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //Program
-		comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
 }
 
 function exitIfStatement(path: NodePath<Node>) {
-	const commentType = 'trailing';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isIfStatement()) {
 		comments = [];
@@ -439,7 +419,7 @@ function exitIfStatement(path: NodePath<Node>) {
 
 		comments.push(`${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //IfStatement
-		comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
@@ -450,7 +430,7 @@ function exitIfStatement(path: NodePath<Node>) {
 
 			comments.push('if-statement-end');
 			comments.push(`${C}/div${D}`); //IfConsequentHead
-			comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -460,7 +440,7 @@ function exitIfStatement(path: NodePath<Node>) {
 
 			comments.push(`${C}/div${D}`); //IfConsequentBody
 			comments.push(`${C}/div${D}`); //IfConsequent
-			comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -470,7 +450,7 @@ function exitIfStatement(path: NodePath<Node>) {
 
 			comments.push(`${C}/div${D}`); //IfAlternateBody
 			comments.push(`${C}/div${D}`); //IfAlternate
-			comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -478,10 +458,7 @@ function exitIfStatement(path: NodePath<Node>) {
 }
 
 function exitForStatement(path: NodePath<Node>) {
-	const commentType = 'trailing';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isForStatement()) {
 		comments = [];
@@ -491,8 +468,7 @@ function exitForStatement(path: NodePath<Node>) {
 		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //row
 		comments.push(`${C}/div${D}`); //ForStatement
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
@@ -507,7 +483,7 @@ function exitForStatement(path: NodePath<Node>) {
 			comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
 			comments.push(`${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
-			comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -518,7 +494,7 @@ function exitForStatement(path: NodePath<Node>) {
 			comments.push(`${C}/div${D}`); //ForStatementBody
 			comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -526,10 +502,7 @@ function exitForStatement(path: NodePath<Node>) {
 }
 
 function exitForOfStatement(path: NodePath<Node>) {
-	const commentType = 'trailing';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isForInStatement() || path.isForOfStatement()) {
 		comments = [];
@@ -539,8 +512,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //row
 		comments.push(`${C}/div${D}`); //ForStatement
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
@@ -555,7 +527,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 			comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
 			comments.push(`${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
-			comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -566,7 +538,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 			comments.push(`${C}/div${D}`); //ForStatementBody
 			comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
-			comments.reverse().forEach((comment) => { path.addComment(commentType, comment, false); });
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -574,10 +546,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 }
 
 function exitDoWhileStatement(path: NodePath<Node>) {
-	const commentType = 'trailing';
 	let comments: string[] = [];
-	const C = '&lt;'; //because C looks like '<'
-	const D = '&gt;'; //because D looks like '>'
 
 	if (path.isDoWhileStatement()) {
 		comments = [];
@@ -587,8 +556,7 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //row
 		comments.push(`${C}/div${D}`); //ForStatement
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.forEach((comment) => { path.addComment(commentType, comment, false); });
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
