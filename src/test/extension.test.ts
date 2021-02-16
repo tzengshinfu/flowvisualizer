@@ -387,6 +387,26 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 
 		return;
 	}
+
+	if (path.parentPath?.isDoWhileStatement()) {
+		if (path.key === 'test') {
+			comments = [];
+
+			comments.push(`${C}div class="table alignment-parent-center"${D}111${C}/div${D}`);
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+
+			return;
+		}
+
+		if (path.key === 'body') {
+			comments = [];
+
+			comments.push(`${C}div class="table alignment-parent-center"${D}222${C}/div${D}`);
+			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+
+			return;
+		}
+	}
 }
 
 function exitProgram(path: NodePath<Node>) {
