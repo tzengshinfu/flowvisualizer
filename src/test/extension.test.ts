@@ -261,7 +261,7 @@ function enterIfStatement(path: NodePath<Node>) {
 
 	if (path.isIfStatement()) {
 		comments = [];
-		
+
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`); //IfStatement
 		comments.push(`${C}div class="row"${D}`);
@@ -306,7 +306,7 @@ function enterForStatement(path: NodePath<Node>) {
 
 	if (path.isForStatement()) {
 		comments = [];
-		
+
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
@@ -382,7 +382,7 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 		comments = [];
 
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
+		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //DoWhileStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -392,7 +392,10 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 		if (path.key === 'test') {
 			comments = [];
 
-			comments.push(`${C}div class="table alignment-parent-center"${D}111${C}/div${D}`);
+			comments.push(`${C}div class="row"${D}`);// row
+			comments.push(`${C}div class="cell background-pink"${D}`);
+			comments.push('while (');
+
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -401,7 +404,17 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 		if (path.key === 'body') {
 			comments = [];
 
-			comments.push(`${C}div class="table alignment-parent-center"${D}222${C}/div${D}`);
+			comments.push(`${C}div class="row"${D}`);// row
+			comments.push(`${C}div class="cell background-pink"${D}`);
+			comments.push('do');
+			comments.push(`${C}/div${D}`);
+			comments.push(`${C}div class="cell background-pink"${D}`);
+			comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
+			comments.push(`${C}/div${D}`);
+			comments.push(`${C}/div${D}`); //row
+
+			comments.push(`${C}div class="row"${D}`);// row
+			comments.push(`${C}div class="cell background-pink"${D}`); //DoWhileStatementBody
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -514,7 +527,7 @@ function exitForStatement(path: NodePath<Node>) {
 			comments.push(`${C}/div${D}`); //ForStatementBody
 			comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
-			comments.reverse().forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -554,11 +567,11 @@ function exitForOfStatement(path: NodePath<Node>) {
 
 		if (path.key === 'body') {
 			comments = [];
-			
+
 			comments.push(`${C}/div${D}`); //ForStatementBody
 			comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
-			comments.reverse().forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
@@ -571,14 +584,47 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 	if (path.isDoWhileStatement()) {
 		comments = [];
 
-		comments.push(`${C}div class="row"${D}`);// row
-		comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
-		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
-		comments.push(`${C}/div${D}`); //row
-		comments.push(`${C}/div${D}`); //ForStatement
+		//comments.push(`${C}div class="row"${D}`);// row
+		//comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
+		//comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
+		//comments.push(`${C}/div${D}`); //row
+
+
+		comments.push(`${C}/div${D}`); //DoWhileStatement
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
+	}
+
+	if (path.parentPath?.isDoWhileStatement()) {
+		if (path.key === 'test') {
+			comments = [];
+
+			//comments.push(`${C}/div${D}`);
+			//comments.push('111');
+			comments.push(');');
+			comments.push(`${C}/div${D}`);
+			comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
+			comments.push(`${C}/div${D}`); //row
+
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+		}
+		if (path.key === 'body') {
+			comments = [];
+
+			comments.push(`${C}/div${D}`); //DoWhileStatementBody
+			comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
+			comments.push(`${C}/div${D}`); //row
+			//comments.push(`${C}/div${D}`);
+			//comments.push(`${C}div class="cell background-pink"${D}`);
+			//comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
+			//comments.push(`${C}/div${D}`);
+			//comments.push(`${C}/div${D}`); //row
+
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+			return;
+		}
 	}
 }
 
