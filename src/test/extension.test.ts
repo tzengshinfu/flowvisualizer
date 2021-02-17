@@ -675,18 +675,18 @@ function getPathLevelChart(sourceCode: string) {
 
 			let level = _getPathLevel(path);
 
-			pathLevel += `\n<div>${level}${path.type},parent=${path.parentPath.type},key=${path.key}`;
+			pathLevel += `\n<div>${level}${path.type},parent→${path.parentPath.type},key→${path.key}`;
 
 			if ('name' in path.node) {
-				pathLevel += `,name=${path.node.name}`;
+				pathLevel += `,name→${path.node.name}`;
 			}
 
 			if ('operator' in path.node) {
-				pathLevel += `,operator=${path.node.operator}`;
+				pathLevel += `,operator→${path.node.operator}`;
 			}
 
 			if ('value' in path.node) {
-				pathLevel += `,value=${path.node.value?.toString()}`;
+				pathLevel += `,value→${path.node.value?.toString()}`;
 			}
 		},
 		exit(path) {
