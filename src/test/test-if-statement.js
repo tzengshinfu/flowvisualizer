@@ -1,15 +1,15 @@
 //if 敘述句(無else)
-if (var1 === 1) {
-	console.log(var1);
-}
+//if (var1 === 1) {
+//	console.log(var1);
+//}
 
 //if 敘述句(有else)
-if (var1 === 1) {
-	console.log(var1);
-}
-else {
-	console.log(var2);
-}
+//if (var1 === 1) {
+//	console.log(var1);
+//}
+//else {
+//	console.log(var2);
+//}
 
 //if 敘述句(else if)
 if (ppp1 === 1) {

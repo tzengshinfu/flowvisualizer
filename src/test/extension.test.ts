@@ -7,7 +7,7 @@ import generate from "@babel/generator";
 import { C, D, CommentType } from '../../src/variable';
 
 describe('getFlowBlockHtml', function () {
-	it.skip('test IfStatement', function () {
+	it('test IfStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-if-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_if(sourceCode);
 		const htmlFilePath = './src/test/test-if-result.html';
@@ -61,7 +61,7 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it('test DoWhileStatement', function () {
+	it.skip('test DoWhileStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-dowhile-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_doWhile(sourceCode);
 		const htmlFilePath = './src/test/test-dowhile-result.html';
@@ -110,13 +110,15 @@ function getFlowBlockHtml_if(sourceCode: string) {
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
 	code = code.replace(/(\*\/)\s*if\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
 	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/\/\*if-statement-begin\*\//g, 'if (');
-	code = code.replace(/ \/\*if-statement-end\*\//g, ')');
+	//code = code.replace(/\/\*if-statement-begin\*\//g, 'if (');
+	//code = code.replace(/ \/\*if-statement-end\*\//g, ')');
 	code = code.replace(/\*\/\s*else\s*\/\*/g, ' ');
 	code = code.replace(/&lt;/g, '<');
 	code = code.replace(/&gt;/g, '>');
 	code = code.replace(/\/\*/g, '');
 	code = code.replace(/\*\//g, '');
+	code = code.replace(/{/g, '');
+	code = code.replace(/}/g, '');
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
@@ -262,9 +264,14 @@ function enterIfStatement(path: NodePath<Node>) {
 	if (path.isIfStatement()) {
 		comments = [];
 
+		if (path.key !== 0) {
+			comments.push(`${C}div class="background-skyblue padding-5px" data-node-type="IfAlternateHead"${D}else↘️${C}/div${D}`);
+		}
+
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`); //IfStatement
 		comments.push(`${C}div class="row"${D}`);
+		//comments.push(`remove-start`); //remove original 'if ('
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -273,9 +280,11 @@ function enterIfStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isIfStatement()) {
 		if (path.key === 'test') {
 			comments = [];
+
+			//comments.push(`remove-end`); //remove original 'if ('
 			comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
 			comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
-			comments.push('if-statement-begin');
+			comments.push('if (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -283,6 +292,8 @@ function enterIfStatement(path: NodePath<Node>) {
 
 		if (path.key === 'consequent') {
 			comments = [];
+
+			//comments.push(`remove-end`); //remove original ')'
 			comments.push(`${C}div class="padding-5px" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -291,6 +302,7 @@ function enterIfStatement(path: NodePath<Node>) {
 
 		if (path.key === 'alternate') {
 			comments = [];
+
 			comments.push(`${C}div class="cell background-aliceblue alignment-inner-top"${D}`); //IfAlternate
 			comments.push(`${C}div class="background-skyblue padding-5px" data-node-type="IfAlternateHead"${D}else↘️${C}/div${D}`);
 			comments.push(`${C}div class="padding-5px" data-node-type="IfAlternateBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
@@ -461,8 +473,9 @@ function exitIfStatement(path: NodePath<Node>) {
 		if (path.key === 'test') {
 			comments = [];
 
-			comments.push('if-statement-end');
+			comments.push(')');
 			comments.push(`${C}/div${D}`); //IfConsequentHead
+			//comments.push(`remove-start`); //remove original ')'
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
@@ -470,7 +483,7 @@ function exitIfStatement(path: NodePath<Node>) {
 
 		if (path.key === 'consequent') {
 			comments = [];
-
+			
 			comments.push(`${C}/div${D}`); //IfConsequentBody
 			comments.push(`${C}/div${D}`); //IfConsequent
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
@@ -663,6 +676,18 @@ function getPathLevelChart(sourceCode: string) {
 			let level = _getPathLevel(path);
 
 			pathLevel += `\n<div>${level}${path.type},parent=${path.parentPath.type},key=${path.key}`;
+
+			if ('name' in path.node) {
+				pathLevel += `,name=${path.node.name}`;
+			}
+
+			if ('operator' in path.node) {
+				pathLevel += `,operator=${path.node.operator}`;
+			}
+
+			if ('value' in path.node) {
+				pathLevel += `,value=${path.node.value?.toString()}`;
+			}
 		},
 		exit(path) {
 			if (path.isFile() || path.isProgram()) {
