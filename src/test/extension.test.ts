@@ -7,7 +7,7 @@ import generate from "@babel/generator";
 import { C, D, CommentType } from '../../src/variable';
 
 describe('getFlowBlockHtml', function () {
-	it('test IfStatement', function () {
+	it.skip('test IfStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-if-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_if(sourceCode);
 		const htmlFilePath = './src/test/test-if-result.html';
@@ -110,9 +110,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
 	code = code.replace(/(\*\/)\s*if\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
 	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	//code = code.replace(/\/\*if-statement-begin\*\//g, 'if (');
-	//code = code.replace(/ \/\*if-statement-end\*\//g, ')');
-	code = code.replace(/\*\/\s*else\s*\/\*/g, ' ');
+	code = code.replace(/(\*\/)\s*else\s*(\/\*)/g, '$1' + ' ' + '$2');
 	code = code.replace(/&lt;/g, '<');
 	code = code.replace(/&gt;/g, '>');
 	code = code.replace(/\/\*/g, '');
@@ -153,12 +151,12 @@ function getFlowBlockHtml_for(sourceCode: string) {
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
 	code = code.replace(/(\*\/)\s*for\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
 	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/\/\*for-statement-begin\*\//g, 'for (');
-	code = code.replace(/ \/\*for-statement-end\*\//g, ')');
 	code = code.replace(/&lt;/g, '<');
 	code = code.replace(/&gt;/g, '>');
 	code = code.replace(/\/\*/g, '');
 	code = code.replace(/\*\//g, '');
+	code = code.replace(/{/g, '');
+	code = code.replace(/}/g, '');
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
@@ -193,12 +191,12 @@ function getFlowBlockHtml_forOf(sourceCode: string) {
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
 	code = code.replace(/(\*\/)\s*for\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
 	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/\/\*for-statement-begin\*\//g, 'for (');
-	code = code.replace(/ \/\*for-statement-end\*\//g, ')');
 	code = code.replace(/&lt;/g, '<');
 	code = code.replace(/&gt;/g, '>');
 	code = code.replace(/\/\*/g, '');
 	code = code.replace(/\*\//g, '');
+	code = code.replace(/{/g, '');
+	code = code.replace(/}/g, '');
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
@@ -231,14 +229,17 @@ function getFlowBlockHtml_doWhile(sourceCode: string) {
 	});
 
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
-	code = code.replace(/(\*\/)\s*for\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/\/\*for-statement-begin\*\//g, 'for (');
-	code = code.replace(/ \/\*for-statement-end\*\//g, ')');
-	code = code.replace(/&lt;/g, '<');
-	code = code.replace(/&gt;/g, '>');
-	code = code.replace(/\/\*/g, '');
-	code = code.replace(/\*\//g, '');
+	code = code.replace(/(\*\/)\s*do\s*(\/\*)/g, '$1' + ' ' + '$2');
+	code = code.replace(/(\*\/)\s*while\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
+	code = code.replace(/(\*\/)\s*\);\s*(\/\*)/g, '$1' + ' ' + '$2');
+	//code = code.replace(/\/\*for-statement-begin\*\//g, 'for (');
+	//code = code.replace(/ \/\*for-statement-end\*\//g, ')');
+	//code = code.replace(/&lt;/g, '<');
+	//code = code.replace(/&gt;/g, '>');
+	//code = code.replace(/\/\*/g, '');
+	//code = code.replace(/\*\//g, '');
+	//code = code.replace(/{/g, '');
+	//code = code.replace(/}/g, '');
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
@@ -264,14 +265,13 @@ function enterIfStatement(path: NodePath<Node>) {
 	if (path.isIfStatement()) {
 		comments = [];
 
-		if (path.key !== 0) {
+		if (path.key === 'alternate') {
 			comments.push(`${C}div class="background-skyblue padding-5px" data-node-type="IfAlternateHead"${D}else↘️${C}/div${D}`);
 		}
 
 		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`); //IfStatement
 		comments.push(`${C}div class="row"${D}`);
-		//comments.push(`remove-start`); //remove original 'if ('
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -281,7 +281,6 @@ function enterIfStatement(path: NodePath<Node>) {
 		if (path.key === 'test') {
 			comments = [];
 
-			//comments.push(`remove-end`); //remove original 'if ('
 			comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
 			comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 			comments.push('if (');
@@ -293,7 +292,6 @@ function enterIfStatement(path: NodePath<Node>) {
 		if (path.key === 'consequent') {
 			comments = [];
 
-			//comments.push(`remove-end`); //remove original ')'
 			comments.push(`${C}div class="padding-5px" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -332,7 +330,7 @@ function enterForStatement(path: NodePath<Node>) {
 
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
-			comments.push('for-statement-begin');
+			comments.push('for (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -369,7 +367,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
-			comments.push('for-statement-begin');
+			comments.push('for (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -475,7 +473,6 @@ function exitIfStatement(path: NodePath<Node>) {
 
 			comments.push(')');
 			comments.push(`${C}/div${D}`); //IfConsequentHead
-			//comments.push(`remove-start`); //remove original ')'
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
@@ -483,7 +480,7 @@ function exitIfStatement(path: NodePath<Node>) {
 
 		if (path.key === 'consequent') {
 			comments = [];
-			
+
 			comments.push(`${C}/div${D}`); //IfConsequentBody
 			comments.push(`${C}/div${D}`); //IfConsequent
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
@@ -523,7 +520,7 @@ function exitForStatement(path: NodePath<Node>) {
 		if (path.key === 'update') {
 			comments = [];
 
-			comments.push('for-statement-end');
+			comments.push(')');
 			comments.push(`${C}/div${D}`); //ForStatementHead
 			comments.push(`${C}div class="cell background-pink"${D}`);
 			comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
@@ -567,7 +564,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 		if (path.key === 'right') {
 			comments = [];
 
-			comments.push('for-statement-end');
+			comments.push(')');
 			comments.push(`${C}/div${D}`); //ForStatementHead
 			comments.push(`${C}div class="cell background-pink"${D}`);
 			comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
@@ -597,12 +594,6 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 	if (path.isDoWhileStatement()) {
 		comments = [];
 
-		//comments.push(`${C}div class="row"${D}`);// row
-		//comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
-		//comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
-		//comments.push(`${C}/div${D}`); //row
-
-
 		comments.push(`${C}/div${D}`); //DoWhileStatement
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
@@ -613,8 +604,6 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 		if (path.key === 'test') {
 			comments = [];
 
-			//comments.push(`${C}/div${D}`);
-			//comments.push('111');
 			comments.push(');');
 			comments.push(`${C}/div${D}`);
 			comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
@@ -628,12 +617,6 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 			comments.push(`${C}/div${D}`); //DoWhileStatementBody
 			comments.push(`${C}div class="cell background-pink alignment-inner-middle"${D}🔄${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //row
-			//comments.push(`${C}/div${D}`);
-			//comments.push(`${C}div class="cell background-pink"${D}`);
-			//comments.push(`${C}div class="rotate-270deg"${D}⤴️${C}/div${D}`);
-			//comments.push(`${C}/div${D}`);
-			//comments.push(`${C}/div${D}`); //row
-
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
@@ -678,15 +661,15 @@ function getPathLevelChart(sourceCode: string) {
 			pathLevel += `\n<div>${level}${path.type},parent→${path.parentPath.type},key→${path.key}`;
 
 			if ('name' in path.node) {
-				pathLevel += `,name→${path.node.name}`;
+				pathLevel += `,text→${path.node.name}`;
 			}
 
 			if ('operator' in path.node) {
-				pathLevel += `,operator→${path.node.operator}`;
+				pathLevel += `,text→${path.node.operator}`;
 			}
 
 			if ('value' in path.node) {
-				pathLevel += `,value→${path.node.value?.toString()}`;
+				pathLevel += `,text→${path.node.value?.toString()}`;
 			}
 		},
 		exit(path) {
@@ -698,5 +681,5 @@ function getPathLevelChart(sourceCode: string) {
 		}
 	});
 
-	return pathLevel;
+	return `<html><body>${pathLevel}</body></html>`;
 }
