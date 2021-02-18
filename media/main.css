@@ -60,6 +60,14 @@ body {
 	vertical-align: middle;
 }
 
+.alignment-inner-right {
+	text-align: right;
+}
+
+.alignment-inner-center {
+	text-align: center;
+}
+
 .rotate-270deg {
 	transform: rotate(270deg);
 	margin: 0 0 0 -2px;

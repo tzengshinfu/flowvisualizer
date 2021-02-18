@@ -7,7 +7,7 @@ import generate from "@babel/generator";
 import { C, D, CommentType } from '../../src/variable';
 
 describe('getFlowBlockHtml', function () {
-	it('test IfStatement', function () {
+	it.skip('test IfStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-if-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_if(sourceCode);
 		const htmlFilePath = './src/test/test-if-result.html';
@@ -25,7 +25,7 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it.skip('test ForStatement', function () {
+	it('test ForStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-for-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_for(sourceCode);
 		const htmlFilePath = './src/test/test-for-result.html';
@@ -95,6 +95,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterIfStatement(path);
+			enterExpressionStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -250,7 +251,7 @@ function enterIfStatement(path: NodePath<Node>) {
 			comments = [];
 
 			comments.push(`${C}div class="cell border-right-3px-solid-silver background-lavenderblush alignment-inner-top"${D}`); //IfConsequent
-			comments.push(`${C}div class="background-pink padding-5px" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+			comments.push(`${C}div class="background-pink padding-5px alignment-inner-center" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 			comments.push('if (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -400,6 +401,17 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 	}
 }
 
+function enterExpressionStatement(path: NodePath<Node>) {
+	if (path.isExpressionStatement()) {
+		let comments: string[] = [];
+
+		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+
+		return;
+	}
+}
+
 function exitProgram(path: NodePath<Node>) {
 	let comments: string[] = [];
 
@@ -424,7 +436,8 @@ function exitIfStatement(path: NodePath<Node>) {
 		if (!path.node.alternate) {
 			comments.push(`${C}div class="cell background-aliceblue alignment-inner-top"${D}`); //IfAlternative
 			comments.push(`${C}div class="background-skyblue padding-5px alignment-inner-top" data-node-type="IfAlternateHead"${D}else↘️${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px" style="text-align:right;" data-node-type="IfAlternateBody"${D}${C}div${D}🚪🚶${C}/div${D}${C}/div${D}`);
+			comments.push(`${C}div class="padding-5px alignment-inner-right"${D}⬇️${C}/div${D}`);
+			comments.push(`${C}div class="padding-5px alignment-inner-right" data-node-type="IfAlternateBody"${D}${C}div${D}🚪🚶${C}/div${D}${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //IfAlternative
 		}
 
