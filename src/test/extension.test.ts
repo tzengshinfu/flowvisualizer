@@ -7,7 +7,7 @@ import generate from "@babel/generator";
 import { C, D, CommentType } from '../../src/variable';
 
 describe('getFlowBlockHtml', function () {
-	it.skip('test IfStatement', function () {
+	it('test IfStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-if-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_if(sourceCode);
 		const htmlFilePath = './src/test/test-if-result.html';
@@ -108,15 +108,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 	});
 
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
-	code = code.replace(/(\*\/)\s*if\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/(\*\/)\s*else\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/&lt;/g, '<');
-	code = code.replace(/&gt;/g, '>');
-	code = code.replace(/\/\*/g, '');
-	code = code.replace(/\*\//g, '');
-	code = code.replace(/{/g, '');
-	code = code.replace(/}/g, '');
+	code = replaceTags(code);
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
@@ -149,14 +141,7 @@ function getFlowBlockHtml_for(sourceCode: string) {
 	});
 
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
-	code = code.replace(/(\*\/)\s*for\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/&lt;/g, '<');
-	code = code.replace(/&gt;/g, '>');
-	code = code.replace(/\/\*/g, '');
-	code = code.replace(/\*\//g, '');
-	code = code.replace(/{/g, '');
-	code = code.replace(/}/g, '');
+	code = replaceTags(code);
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
@@ -189,14 +174,7 @@ function getFlowBlockHtml_forOf(sourceCode: string) {
 	});
 
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
-	code = code.replace(/(\*\/)\s*for\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/&lt;/g, '<');
-	code = code.replace(/&gt;/g, '>');
-	code = code.replace(/\/\*/g, '');
-	code = code.replace(/\*\//g, '');
-	code = code.replace(/{/g, '');
-	code = code.replace(/}/g, '');
+	code = replaceTags(code);
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
@@ -229,17 +207,7 @@ function getFlowBlockHtml_doWhile(sourceCode: string) {
 	});
 
 	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
-	code = code.replace(/(\*\/)\s*do\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/(\*\/)\s*while\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2');
-	code = code.replace(/(\*\/)\s*\);\s*(\/\*)/g, '$1' + ' ' + '$2');
-	//code = code.replace(/\/\*for-statement-begin\*\//g, 'for (');
-	//code = code.replace(/ \/\*for-statement-end\*\//g, ')');
-	//code = code.replace(/&lt;/g, '<');
-	//code = code.replace(/&gt;/g, '>');
-	//code = code.replace(/\/\*/g, '');
-	//code = code.replace(/\*\//g, '');
-	//code = code.replace(/{/g, '');
-	//code = code.replace(/}/g, '');
+	code = replaceTags(code);
 	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
 
 	return flowblockHtml;
@@ -630,6 +598,24 @@ function clearLeadingComments(path: NodePath<Node>) {
 
 function clearTrailingComments(path: NodePath<Node>) {
 	path.node.trailingComments = null;
+}
+
+function replaceTags(code: string): string {
+	code = code.replace(/(\*\/)\s*if\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2'); //remove 'if ('
+	//code = code.replace(/(\*\/)\s*\)\s*(\/\*)/g, '$1' + ' ' + '$2');
+	code = code.replace(/(\*\/)\s*else\s*(\/\*)/g, '$1' + ' ' + '$2'); //remove 'else'
+	code = code.replace(/(\*\/)\s*for\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2'); //remove 'for ('
+	code = code.replace(/(\*\/)\s*do\s*(\/\*)/g, '$1' + ' ' + '$2'); //remove 'do'
+	code = code.replace(/(\*\/)\s*while\s*\(\s*(\/\*)/g, '$1' + ' ' + '$2'); //remove 'while ('
+	code = code.replace(/(\*\/)\s*\)\;?\s*(\/\*)/g, '$1' + ' ' + '$2'); //remove ')'
+	code = code.replace(/&lt;/g, '<');
+	code = code.replace(/&gt;/g, '>');
+	code = code.replace(/\/\*/g, '');
+	code = code.replace(/\*\//g, '');
+	code = code.replace(/{/g, '');
+	code = code.replace(/}/g, '');
+
+	return code;
 }
 
 function _getPathLevel(path: NodePath<Node>, previousLevel: string | null = null): string {
