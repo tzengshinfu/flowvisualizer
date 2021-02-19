@@ -25,7 +25,7 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it('test ForStatement', function () {
+	it.skip('test ForStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-for-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_for(sourceCode);
 		const htmlFilePath = './src/test/test-for-result.html';
@@ -129,6 +129,7 @@ function getFlowBlockHtml_for(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterForStatement(path);
+			enterExpressionStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -162,6 +163,7 @@ function getFlowBlockHtml_forOf(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterForOfStatement(path);
+			enterExpressionStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -195,6 +197,7 @@ function getFlowBlockHtml_doWhile(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterDoWhileStatement(path);
+			enterExpressionStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -221,7 +224,7 @@ function enterProgram(path: NodePath<Node>) {
 		comments = [];
 
 		comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
-		comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-parent-center"${D}🏁${C}/div${D}`);
+		comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-outer-center"${D}🏁${C}/div${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -235,11 +238,11 @@ function enterIfStatement(path: NodePath<Node>) {
 		comments = [];
 
 		if (path.key === 'alternate') {
-			comments.push(`${C}div class="background-skyblue padding-5px" data-node-type="IfAlternateHead"${D}else↘️${C}/div${D}`);
+			comments.push(`${C}div class="background-skyblue padding-5px alignment-inner-center" data-node-type="IfAlternateHead"${D}else${C}/div${D}`);
 		}
 
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="IfStatement"${D}`); //IfStatement
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-outer-center" data-node-type="IfStatement"${D}`); //IfStatement
 		comments.push(`${C}div class="row"${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -261,7 +264,7 @@ function enterIfStatement(path: NodePath<Node>) {
 		if (path.key === 'consequent') {
 			comments = [];
 
-			comments.push(`${C}div class="padding-5px" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+			comments.push(`${C}div class="padding-5px alignment-inner-center" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -271,8 +274,8 @@ function enterIfStatement(path: NodePath<Node>) {
 			comments = [];
 
 			comments.push(`${C}div class="cell background-aliceblue alignment-inner-top"${D}`); //IfAlternate
-			comments.push(`${C}div class="background-skyblue padding-5px" data-node-type="IfAlternateHead"${D}else↘️${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px" data-node-type="IfAlternateBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+			comments.push(`${C}div class="background-skyblue padding-5px alignment-inner-center" data-node-type="IfAlternateHead"${D}else${C}/div${D}`);
+			comments.push(`${C}div class="padding-5px alignment-inner-center" data-node-type="IfAlternateBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -286,8 +289,8 @@ function enterForStatement(path: NodePath<Node>) {
 	if (path.isForStatement()) {
 		comments = [];
 
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-outer-center" data-node-type="${path.type}"${D}`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -298,7 +301,7 @@ function enterForStatement(path: NodePath<Node>) {
 			comments = [];
 
 			comments.push(`${C}div class="row"${D}`); //row
-			comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
+			comments.push(`${C}div class="cell background-pink padding-5px alignment-inner-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
 			comments.push('for (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -309,7 +312,7 @@ function enterForStatement(path: NodePath<Node>) {
 			comments = [];
 
 			comments.push(`${C}div class="row"${D}`); //row
-			comments.push(`${C}div class="cell background-lavenderblush padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
+			comments.push(`${C}div class="cell background-lavenderblush padding-5px alignment-inner-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -323,8 +326,8 @@ function enterForOfStatement(path: NodePath<Node>) {
 	if (path.isForInStatement() || path.isForOfStatement()) {
 		comments = [];
 
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //ForStatement
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-outer-center" data-node-type="${path.type}"${D}`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -335,7 +338,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 			comments = [];
 
 			comments.push(`${C}div class="row"${D}`); //row
-			comments.push(`${C}div class="cell background-pink padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
+			comments.push(`${C}div class="cell background-pink padding-5px alignment-inner-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
 			comments.push('for (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -346,7 +349,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 			comments = [];
 
 			comments.push(`${C}div class="row"${D}`); //row
-			comments.push(`${C}div class="cell background-lavenderblush padding-5px" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
+			comments.push(`${C}div class="cell background-lavenderblush padding-5px alignment-inner-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -360,8 +363,8 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 	if (path.isDoWhileStatement()) {
 		comments = [];
 
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-parent-center" data-node-type="${path.type}"${D}`); //DoWhileStatement
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-outer-center" data-node-type="${path.type}"${D}`); //DoWhileStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -372,7 +375,7 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 			comments = [];
 
 			comments.push(`${C}div class="row"${D}`);// row
-			comments.push(`${C}div class="cell background-pink"${D}`);
+			comments.push(`${C}div class="cell background-pink alignment-inner-center"${D}`);
 			comments.push('while (');
 
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
@@ -384,7 +387,7 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 			comments = [];
 
 			comments.push(`${C}div class="row"${D}`);// row
-			comments.push(`${C}div class="cell background-pink"${D}`);
+			comments.push(`${C}div class="cell background-pink alignment-inner-center"${D}`);
 			comments.push('do');
 			comments.push(`${C}/div${D}`);
 			comments.push(`${C}div class="cell background-pink"${D}`);
@@ -393,7 +396,7 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 			comments.push(`${C}/div${D}`); //row
 
 			comments.push(`${C}div class="row"${D}`);// row
-			comments.push(`${C}div class="cell background-pink"${D}`); //DoWhileStatementBody
+			comments.push(`${C}div class="cell background-lavenderblush alignment-inner-center"${D}`); //DoWhileStatementBody
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -405,7 +408,7 @@ function enterExpressionStatement(path: NodePath<Node>) {
 	if (path.isExpressionStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -418,8 +421,8 @@ function exitProgram(path: NodePath<Node>) {
 	if (path.isProgram()) {
 		comments = [];
 
-		comments.push(`${C}div class="table alignment-parent-center"${D}⬇️${C}/div${D}`);
-		comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-parent-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-outer-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //Program
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
@@ -435,9 +438,9 @@ function exitIfStatement(path: NodePath<Node>) {
 
 		if (!path.node.alternate) {
 			comments.push(`${C}div class="cell background-aliceblue alignment-inner-top"${D}`); //IfAlternative
-			comments.push(`${C}div class="background-skyblue padding-5px alignment-inner-top" data-node-type="IfAlternateHead"${D}else↘️${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px alignment-inner-right"${D}⬇️${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px alignment-inner-right" data-node-type="IfAlternateBody"${D}${C}div${D}🚪🚶${C}/div${D}${C}/div${D}`);
+			comments.push(`${C}div class="background-skyblue padding-5px alignment-inner-top alignment-inner-center" data-node-type="IfAlternateHead"${D}else${C}/div${D}`);
+			comments.push(`${C}div class="padding-5px alignment-inner-center"${D}⬇️${C}/div${D}`);
+			comments.push(`${C}div class="padding-5px alignment-inner-center" data-node-type="IfAlternateBody"${D}${C}div${D}🚪🚶${C}/div${D}${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //IfAlternative
 		}
 
