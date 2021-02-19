@@ -79,6 +79,24 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
+	it('test SwitchStatement', function() {
+		const sourceCode = fs.readFileSync('./src/test/test-switch-statement.js', 'utf8');
+		const flowblockHtml = getFlowBlockHtml_switch(sourceCode);
+		const htmlFilePath = './src/test/test-switch-result.html';
+		const pathLevelChart = getPathLevelChart(sourceCode);
+		const chartFilePath = './src/test/test-switch-chart.html';
+
+		if (fs.existsSync(htmlFilePath)) {
+			fs.unlinkSync(htmlFilePath);
+		}
+		if (fs.existsSync(chartFilePath)) {
+			fs.unlinkSync(chartFilePath);
+		}
+
+		fs.writeFileSync(htmlFilePath, flowblockHtml, 'utf8');
+		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
+		assert.equal(fs.existsSync(htmlFilePath), true);
+	});
 });
 
 function getFlowBlockHtml_if(sourceCode: string) {
@@ -207,6 +225,40 @@ function getFlowBlockHtml_doWhile(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitDoWhileStatement(path);
+		}
+	});
+
+	let code = generate(ast, { retainLines: true, retainFunctionParens: true }).code;
+	code = replaceTags(code);
+	flowblockHtml = `<html><head><style type="text/css">${style}</style></head><body>${code}</body></html>`;
+
+	return flowblockHtml;
+}
+
+function getFlowBlockHtml_switch(sourceCode: string) {
+	let flowblockHtml = '';
+	const ast = parser.parse(sourceCode);
+	const style = fs.readFileSync('./media/main.css', 'utf8');
+
+	traverse(ast, {
+		enter(path) {
+			if (path.isFile()) {
+				return;
+			}
+
+			clearLeadingComments(path);
+			enterProgram(path);
+			enterSwitchStatement(path);
+			enterExpressionStatement(path);
+		},
+		exit(path) {
+			if (path.isFile()) {
+				return;
+			}
+
+			clearTrailingComments(path);
+			exitProgram(path);
+			exitSwitchStatement(path);
 		}
 	});
 
@@ -415,6 +467,10 @@ function enterExpressionStatement(path: NodePath<Node>) {
 	}
 }
 
+function enterSwitchStatement(path: NodePath<Node>) {
+
+}
+
 function exitProgram(path: NodePath<Node>) {
 	let comments: string[] = [];
 
@@ -606,6 +662,10 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 			return;
 		}
 	}
+}
+
+function exitSwitchStatement(path: NodePath<Node>) {
+	
 }
 
 function clearLeadingComments(path: NodePath<Node>) {

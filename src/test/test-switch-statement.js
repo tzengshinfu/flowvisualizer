@@ -1,10 +1,26 @@
 switch (var1) {
 	case '1':
-		break;
 	case '2': {
-
+		console.log('2');
 	}
-		break;
-	default:
-		throw '';
 }
+
+// switch (var1) {
+// 	case '1':
+// 		break;
+// 	case '2': {
+
+// 	}
+// 		break;
+// }
+
+// switch (var1) {
+// 	case '1':
+// 		break;
+// 	case '2': {
+
+// 	}
+// 		break;
+// 	default:
+// 		throw '';
+// }
