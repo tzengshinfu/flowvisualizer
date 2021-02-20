@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as parser from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
-import { VariableDeclaration, Comment, Node } from '@babel/types';
+import { Comment, Node } from '@babel/types';
 import * as fs from 'fs';
 import generate from "@babel/generator";
 import { C, D, CommentType } from '../../src/variable';
@@ -148,6 +148,8 @@ function getFlowBlockHtml_for(sourceCode: string) {
 			enterProgram(path);
 			enterForStatement(path);
 			enterExpressionStatement(path);
+			enterContinueStatement(path);
+			enterBreakStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -458,6 +460,28 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 
 function enterExpressionStatement(path: NodePath<Node>) {
 	if (path.isExpressionStatement()) {
+		let comments: string[] = [];
+
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+
+		return;
+	}
+}
+
+function enterContinueStatement(path: NodePath<Node>) {
+	if (path.isContinueStatement()) {
+		let comments: string[] = [];
+
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+
+		return;
+	}
+}
+
+function enterBreakStatement(path: NodePath<Node>) {
+	if (path.isBreakStatement()) {
 		let comments: string[] = [];
 
 		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
