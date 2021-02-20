@@ -25,7 +25,7 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it.skip('test ForStatement', function () {
+	it('test ForStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-for-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_for(sourceCode);
 		const htmlFilePath = './src/test/test-for-result.html';
@@ -79,7 +79,7 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it('test SwitchStatement', function() {
+	it('test SwitchStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-switch-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_switch(sourceCode);
 		const htmlFilePath = './src/test/test-switch-result.html';
@@ -665,7 +665,7 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 }
 
 function exitSwitchStatement(path: NodePath<Node>) {
-	
+
 }
 
 function clearLeadingComments(path: NodePath<Node>) {
