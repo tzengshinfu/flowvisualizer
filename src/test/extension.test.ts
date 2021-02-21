@@ -79,7 +79,7 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it('test SwitchStatement', function () {
+	it.skip('test SwitchStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-switch-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_switch(sourceCode);
 		const htmlFilePath = './src/test/test-switch-result.html';
@@ -113,7 +113,6 @@ function getFlowBlockHtml_if(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterIfStatement(path);
-			enterExpressionStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -123,6 +122,7 @@ function getFlowBlockHtml_if(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitIfStatement(path);
+			exitExpressionStatement(path);
 		}
 	});
 
@@ -147,9 +147,7 @@ function getFlowBlockHtml_for(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterForStatement(path);
-			enterExpressionStatement(path);
 			enterContinueStatement(path);
-			enterBreakStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -159,6 +157,9 @@ function getFlowBlockHtml_for(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitForStatement(path);
+			exitExpressionStatement(path);
+			exitContinueStatement(path);
+			exitBreakStatement(path);
 		}
 	});
 
@@ -183,7 +184,6 @@ function getFlowBlockHtml_forOf(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterForOfStatement(path);
-			enterExpressionStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -193,6 +193,7 @@ function getFlowBlockHtml_forOf(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitForOfStatement(path);
+			exitExpressionStatement(path);
 		}
 	});
 
@@ -217,7 +218,6 @@ function getFlowBlockHtml_doWhile(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterDoWhileStatement(path);
-			enterExpressionStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -227,6 +227,7 @@ function getFlowBlockHtml_doWhile(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitDoWhileStatement(path);
+			exitExpressionStatement(path);
 		}
 	});
 
@@ -251,7 +252,6 @@ function getFlowBlockHtml_switch(sourceCode: string) {
 			clearLeadingComments(path);
 			enterProgram(path);
 			enterSwitchStatement(path);
-			enterExpressionStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -261,6 +261,7 @@ function getFlowBlockHtml_switch(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitSwitchStatement(path);
+			exitExpressionStatement(path);
 		}
 	});
 
@@ -279,6 +280,7 @@ function enterProgram(path: NodePath<Node>) {
 
 		comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
 		comments.push(`${C}div class="table background-mustard border-3px-solid-silver border-rounded-50percent padding-5px alignment-outer-center"${D}🏁${C}/div${D}`);
+		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -343,7 +345,7 @@ function enterForStatement(path: NodePath<Node>) {
 	if (path.isForStatement()) {
 		comments = [];
 
-		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px alignment-outer-center" data-node-type="${path.type}"${D}`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -367,6 +369,7 @@ function enterForStatement(path: NodePath<Node>) {
 
 			comments.push(`${C}div class="row"${D}`); //row
 			comments.push(`${C}div class="cell background-lavenderblush padding-5px alignment-inner-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
+			comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -458,12 +461,12 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 	}
 }
 
-function enterExpressionStatement(path: NodePath<Node>) {
+function exitExpressionStatement(path: NodePath<Node>) {
 	if (path.isExpressionStatement()) {
 		let comments: string[] = [];
 
 		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
-		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
@@ -473,19 +476,32 @@ function enterContinueStatement(path: NodePath<Node>) {
 	if (path.isContinueStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="table alignment-outer-center"${D}`);
+		comments.push(`${C}a href="#top"${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
 	}
 }
 
-function enterBreakStatement(path: NodePath<Node>) {
+function exitContinueStatement(path: NodePath<Node>) {
+	if (path.isContinueStatement()) {
+		let comments: string[] = [];
+
+		comments.push(`${C}/a${D}`);
+		comments.push(`${C}/div${D}`);
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+		return;
+	}
+}
+
+function exitBreakStatement(path: NodePath<Node>) {
 	if (path.isBreakStatement()) {
 		let comments: string[] = [];
 
 		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
-		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
@@ -501,7 +517,6 @@ function exitProgram(path: NodePath<Node>) {
 	if (path.isProgram()) {
 		comments = [];
 
-		comments.push(`${C}div class="table alignment-outer-center"${D}⬇️${C}/div${D}`);
 		comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver alignment-outer-center background-greenyellow padding-5px"${D}🏠${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //Program
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
@@ -571,10 +586,11 @@ function exitForStatement(path: NodePath<Node>) {
 		comments = [];
 
 		comments.push(`${C}div class="row"${D}`);// row
-		comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
+		comments.push(`${C}div class="cell background-pink alignment-inner-center"${D}${C}div class="rotate-270deg"${D}⤴️${C}/div${D}${C}/div${D}`);
 		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //row
 		comments.push(`${C}/div${D}`); //ForStatement
+		comments.push(`${C}div class="padding-5px alignment-inner-center"${D}⬇️${C}/div${D}`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -616,6 +632,8 @@ function exitForOfStatement(path: NodePath<Node>) {
 
 		comments.push(`${C}div class="row"${D}`);// row
 		comments.push(`${C}div class="cell background-pink"${D}${C}/div${D}`);
+		
+
 		comments.push(`${C}div class="cell background-pink"${D}⤴️${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //row
 		comments.push(`${C}/div${D}`); //ForStatement
