@@ -24,47 +24,47 @@ body {
 	border-width: 3px;
 }
 
-.background-pink {
+.backgroundcolor-pink {
 	background-color: pink;
 }
 
-.background-skyblue {
+.backgroundcolor-skyblue {
 	background-color: skyblue;
 }
 
-.background-aliceblue {
+.backgroundcolor-aliceblue {
 	background-color: #EEF9FD;
 }
 
-.background-lavenderblush {
+.backgroundcolor-lavenderblush {
 	background-color: #FFF6F8;
 }
 
-.background-mustard {
+.backgroundcolor-mustard {
 	background-color: #FFDB58;
 }
 
-.background-greenyellow {
+.backgroundcolor-greenyellow {
 	background-color: #9ACD32;
 }
 
-.alignment-outer-center {
+.outer-alignment-center {
 	margin: 0 auto;
 }
 
-.alignment-inner-top {
+.inner-alignment-top {
 	vertical-align: top;
 }
 
-.alignment-inner-middle {
+.inner-alignment-middle {
 	vertical-align: middle;
 }
 
-.alignment-inner-right {
+.inner-alignment-right {
 	text-align: right;
 }
 
-.alignment-inner-center {
+.inner-alignment-center {
 	text-align: center;
 }
 
@@ -86,4 +86,12 @@ body {
 
 .border-rounded-50percent {
 	border-radius: 50%;
+}
+
+.inner-text-nowrap {
+	white-space: nowrap;
+}
+
+.link-text-nounderline {
+	text-decoration:none;
 }
