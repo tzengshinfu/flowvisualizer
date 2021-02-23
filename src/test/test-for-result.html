@@ -68,9 +68,14 @@
 	text-align: center;
 }
 
-.rotate-270deg {
+.rotate-270degree {
 	transform: rotate(270deg);
-	margin: 0 0 0 -2px;
+	backface-visibility: hidden;
+}
+
+.rotate-90degree {
+	transform: rotate(90deg);
+	backface-visibility: hidden;
 }
 
 .padding-5px {
@@ -87,9 +92,35 @@
 .border-rounded-50percent {
 	border-radius: 50%;
 }
-</style></head><body><div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"> <div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center">🏁</div> <div class="table outer-alignment-center">⬇️</div> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="ForStatement"> <div class="row"> <div class="cell backgroundcolor-pink padding-5px inner-alignment-center" data-node-loc-line="2" data-node-loc-column="5"> for (let i = 0; i < options.length; i++ ) </div> <div class="cell backgroundcolor-pink"> <div class="rotate-270deg">⤴️</div> </div> </div> <div class="row"> <div class="cell backgroundcolor-lavenderblush padding-5px inner-alignment-center" data-node-loc-line="2" data-node-loc-column="41"> <div class="table outer-alignment-center">⬇️</div>
-  console.log(i); <div class="table outer-alignment-center">⬇️</div> <div class="table outer-alignment-center"> <a href="#top">
 
-  continue; </a> </div>
-  break; <div class="table outer-alignment-center">⬇️</div>
- </div> <div class="cell backgroundcolor-pink inner-alignment-middle">🔄</div> </div> <div class="row"> <div class="cell backgroundcolor-pink inner-alignment-center"><div class="rotate-270deg">⤴️</div></div> <div class="cell backgroundcolor-pink">⤴️</div> </div> </div> <div class="padding-5px inner-alignment-center">⬇️</div> <div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px">🏠</div> </div></body></html>
+.inner-text-nowrap {
+	white-space: nowrap;
+}
+
+.link-text-nounderline {
+	text-decoration:none;
+}
+
+.move-todown {
+	animation: move-todown 1s infinite;
+}
+
+@keyframes move-todown {
+	0%   { opacity: 0;}
+	100% { opacity: 1; transform: translateY(10px); }	
+}
+
+.move-toleft {
+	animation: move-toleft 1s infinite;
+}
+
+@keyframes move-toleft {
+	0%   { opacity: 0;}
+	100% { opacity: 1; transform: translateX(-10px); }	
+}
+</style></head><body><div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"> <div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center">🏁</div> <div class="table outer-alignment-center">⬇️</div> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="ForStatement"> <div class="row"> <div class="cell backgroundcolor-pink padding-5px inner-alignment-center" data-node-loc-line="2" data-node-loc-column="5"> for (let i = 0; i < options.length; i++ ) </div> <div class="cell backgroundcolor-pink"> <div id="11-continue"> <div class="rotate-270degree">⤴️</div> </div> </div> </div> <div class="row"> <div class="cell backgroundcolor-lavenderblush padding-5px inner-alignment-center" data-node-loc-line="2" data-node-loc-column="41"> <div class="table outer-alignment-center">⬇️</div>{
+  console.log(i); <div class="table outer-alignment-center">⬇️</div> <div class="table outer-alignment-center"> <a href="#11-continue" onmouseenter="(function(){ document.getElementById('11-continue').classList.add('move-toleft'); })();" onmouseleave="(function(){ document.getElementById('11-continue').classList.remove('move-toleft'); })();" >
+
+  continue; </a> </div> <div class="inner-text-nowrap"><a href="#11-exit" class="link-text-nounderline">
+  break; </a></div>
+} </div> <div class="cell backgroundcolor-pink inner-alignment-middle">🔄</div> </div> <div class="row"> <div class="cell backgroundcolor-pink inner-alignment-center"><div class="rotate-90degree">⤴️</div></div> <div class="cell backgroundcolor-pink">⤴️</div> </div> </div> <div class="padding-5px inner-alignment-center" id="11-exit">⬇️</div> <div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px">🏠</div> </div></body></html>

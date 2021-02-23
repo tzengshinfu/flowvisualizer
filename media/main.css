@@ -68,9 +68,14 @@ body {
 	text-align: center;
 }
 
-.rotate-270deg {
+.rotate-270degree {
 	transform: rotate(270deg);
-	margin: 0 0 0 -2px;
+	backface-visibility: hidden;
+}
+
+.rotate-90degree {
+	transform: rotate(90deg);
+	backface-visibility: hidden;
 }
 
 .padding-5px {
@@ -94,4 +99,22 @@ body {
 
 .link-text-nounderline {
 	text-decoration:none;
+}
+
+.move-todown {
+	animation: move-todown 1s infinite;
+}
+
+@keyframes move-todown {
+	0%   { opacity: 0;}
+	100% { opacity: 1; transform: translateY(10px); }	
+}
+
+.move-toleft {
+	animation: move-toleft 1s infinite;
+}
+
+@keyframes move-toleft {
+	0%   { opacity: 0;}
+	100% { opacity: 1; transform: translateX(-10px); }	
 }
