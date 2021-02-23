@@ -118,3 +118,11 @@ body {
 	0%   { opacity: 0;}
 	100% { opacity: 1; transform: translateX(-10px); }	
 }
+
+.text-color-red {
+	color: red;
+}
+
+.text-color-green {
+	color:green;
+}

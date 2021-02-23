@@ -25,7 +25,7 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it('test ForStatement', function () {
+	it.skip('test ForStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-for-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_for(sourceCode);
 		const htmlFilePath = './src/test/test-for-result.html';
@@ -79,7 +79,7 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it.skip('test SwitchStatement', function () {
+	it('test SwitchStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-switch-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_switch(sourceCode);
 		const htmlFilePath = './src/test/test-switch-result.html';
@@ -479,8 +479,8 @@ function enterContinueStatement(path: NodePath<Node>) {
 	if (path.isContinueStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`${C}div class="table outer-alignment-center"${D}`);
-		comments.push(`${C}a href="#${path.parentPath.parentPath.node.start}-continue" onmouseenter="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.add('move-toleft'); })();" onmouseleave="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.remove('move-toleft'); })();" ${D}`);
+		comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.add('move-toleft'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.remove('move-toleft'); })();"${D}`);
+		comments.push(`${C}a class="link-text-nounderline text-color-green" href="#${path.parentPath.parentPath.node.start}-continue"${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -503,7 +503,7 @@ function enterBreakStatement(path: NodePath<Node>) {
 	if (path.isBreakStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`${C}div class="inner-text-nowrap"${D}${C}a href="#${path.parentPath.parentPath.node.start}-exit" class="link-text-nounderline"${D}`);
+		comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.remove('move-todown'); })();"${D}${C}a href="#${path.parentPath.parentPath.node.start}-exit" class="link-text-nounderline text-color-red"${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -522,7 +522,17 @@ function exitBreakStatement(path: NodePath<Node>) {
 }
 
 function enterSwitchStatement(path: NodePath<Node>) {
+	let comments: string[] = [];
 
+	if (path.isSwitchStatement()) {
+		comments = [];
+
+		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchStatement"${D}`); //IfStatement
+		comments.push(`${C}div class="row"${D}`);
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+
+		return;
+	}
 }
 
 function exitProgram(path: NodePath<Node>) {
@@ -549,7 +559,7 @@ function exitIfStatement(path: NodePath<Node>) {
 			comments.push(`${C}div class="cell backgroundcolor-aliceblue inner-alignment-top"${D}`); //IfAlternative
 			comments.push(`${C}div class="backgroundcolor-skyblue padding-5px inner-alignment-top inner-alignment-center" data-node-type="IfAlternateHead"${D}else${C}/div${D}`);
 			comments.push(`${C}div class="padding-5px inner-alignment-center"${D}⬇️${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px inner-alignment-center" data-node-type="IfAlternateBody"${D}${C}div class="inner-text-nowrap"${D}${C}a href="#${path.node.start}-exit" class="link-text-nounderline"${D}🚪🚶${C}/a${D}${C}/div${D}${C}/div${D}`);
+			comments.push(`${C}div class="padding-5px inner-alignment-center" data-node-type="IfAlternateBody"${D}${C}div class="inner-text-nowrap" onmouseover="(function() { document.getElementById('${path.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.node.start}-exit').classList.remove('move-todown'); })();"${D}${C}a href="#${path.node.start}-exit" class="link-text-nounderline"${D}🚪🚶${C}/a${D}${C}/div${D}${C}/div${D}`);
 			comments.push(`${C}div class="table outer-alignment-center"${D}⬇️${C}/div${D}`);
 			comments.push(`${C}/div${D}`); //IfAlternative
 		}
@@ -727,7 +737,50 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 }
 
 function exitSwitchStatement(path: NodePath<Node>) {
+	let comments: string[] = [];
 
+	if (path.isSwitchStatement()) {
+		comments = [];
+
+		comments.push(`${C}/div${D}`);
+		comments.push(`${C}/div${D}`); //SwitchStatement
+		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}⬇️${C}/div${D}`);
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+		return;
+	}
+
+	if (path.parentPath?.isIfStatement()) {
+		if (path.key === 'test') {
+			comments = [];
+
+			comments.push(')');
+			comments.push(`${C}/div${D}`); //IfConsequentHead
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+			return;
+		}
+
+		if (path.key === 'consequent') {
+			comments = [];
+
+			comments.push(`${C}/div${D}`); //IfConsequentBody
+			comments.push(`${C}/div${D}`); //IfConsequent
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+			return;
+		}
+
+		if (path.key === 'alternate') {
+			comments = [];
+
+			comments.push(`${C}/div${D}`); //IfAlternateBody
+			comments.push(`${C}/div${D}`); //IfAlternate
+			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+			return;
+		}
+	}
 }
 
 function clearLeadingComments(path: NodePath<Node>) {

@@ -1,112 +1,132 @@
-<html>
+<html><head><style type="text/css">body {
+	background-color: transparent;
+}
 
-<head>
-	<style type="text/css">
-		body {
-			background-color: transparent;
-		}
+.table {
+	display: table;
+}
 
-		.table {
-			display: table;
-		}
+.row {
+	display: table-row;
+}
 
-		.row {
-			display: table-row;
-		}
+.cell {
+	display: table-cell;
+}
 
-		.cell {
-			display: table-cell;
-		}
+.border-right-3px-solid-silver {
+	border-right: 3px solid silver;
+}
 
-		.border-right-3px-solid-silver {
-			border-right: 3px solid silver;
-		}
+.border-3px-solid-silver {
+	border-style: solid;
+	border-color: silver;
+	border-width: 3px;
+}
 
-		.border-3px-solid-silver {
-			border-style: solid;
-			border-color: silver;
-			border-width: 3px;
-		}
+.backgroundcolor-pink {
+	background-color: pink;
+}
 
-		.backgroundcolor-pink {
-			background-color: pink;
-		}
+.backgroundcolor-skyblue {
+	background-color: skyblue;
+}
 
-		.backgroundcolor-skyblue {
-			background-color: skyblue;
-		}
+.backgroundcolor-aliceblue {
+	background-color: #EEF9FD;
+}
 
-		.backgroundcolor-aliceblue {
-			background-color: #EEF9FD;
-		}
+.backgroundcolor-lavenderblush {
+	background-color: #FFF6F8;
+}
 
-		.backgroundcolor-lavenderblush {
-			background-color: #FFF6F8;
-		}
+.backgroundcolor-mustard {
+	background-color: #FFDB58;
+}
 
-		.backgroundcolor-mustard {
-			background-color: #FFDB58;
-		}
+.backgroundcolor-greenyellow {
+	background-color: #9ACD32;
+}
 
-		.backgroundcolor-greenyellow {
-			background-color: #9ACD32;
-		}
+.outer-alignment-center {
+	margin: 0 auto;
+}
 
-		.outer-alignment-center {
-			margin: 0 auto;
-		}
+.inner-alignment-top {
+	vertical-align: top;
+}
 
-		.inner-alignment-top {
-			vertical-align: top;
-		}
+.inner-alignment-middle {
+	vertical-align: middle;
+}
 
-		.inner-alignment-middle {
-			vertical-align: middle;
-		}
+.inner-alignment-right {
+	text-align: right;
+}
 
-		.inner-alignment-right {
-			text-align: right;
-		}
+.inner-alignment-center {
+	text-align: center;
+}
 
-		.inner-alignment-center {
-			text-align: center;
-		}
+.rotate-270degree {
+	transform: rotate(270deg);
+	backface-visibility: hidden;
+}
 
-		.rotate-270degree {
-			transform: rotate(270deg);
-			margin: 0 0 0 -2px;
-		}
+.rotate-90degree {
+	transform: rotate(90deg);
+	backface-visibility: hidden;
+}
 
-		.padding-5px {
-			padding-top: 5px;
-			padding-left: 5px;
-			padding-right: 5px;
-			padding-bottom: 5px;
-		}
+.padding-5px {
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
 
-		.border-rounded-3px {
-			border-radius: 3px;
-		}
+.border-rounded-3px {
+	border-radius: 3px;
+}
 
-		.border-rounded-50percent {
-			border-radius: 50%;
-		}
-	</style>
-</head>
+.border-rounded-50percent {
+	border-radius: 50%;
+}
 
-<body>
-	<div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js">
-		<div
-			class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center">
-			🏁</div>switch (var1)
-		case '1':
-		case '2':<div class="table outer-alignment-center">⬇️</div>
-		console.log('2');
-		<div class="table outer-alignment-center">⬇️</div>
-		<div
-			class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px">
-			🏠</div>
-	</div>
-</body>
+.inner-text-nowrap {
+	white-space: nowrap;
+}
 
-</html>
+.link-text-nounderline {
+	text-decoration:none;
+}
+
+.move-todown {
+	animation: move-todown 1s infinite;
+}
+
+@keyframes move-todown {
+	0%   { opacity: 0;}
+	100% { opacity: 1; transform: translateY(10px); }	
+}
+
+.move-toleft {
+	animation: move-toleft 1s infinite;
+}
+
+@keyframes move-toleft {
+	0%   { opacity: 0;}
+	100% { opacity: 1; transform: translateX(-10px); }	
+}
+
+.text-color-red {
+	color: red;
+}
+
+.text-color-green {
+	color:green;
+}</style></head><body><div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"> <div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center">🏁</div> <div class="table outer-alignment-center">⬇️</div> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchStatement"> <div class="row">switch (var1) {
+  case '1':
+  case '2':{
+      console.log('2'); <div class="table outer-alignment-center">⬇️</div>
+    }} </div> </div> <div class="table outer-alignment-center" id="0-exit">⬇️</div> <div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px">🏠</div> </div></body></html>
