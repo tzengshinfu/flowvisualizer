@@ -694,6 +694,7 @@ function enterContinueStatement(path: NodePath<Node>) {
 	if (path.isContinueStatement()) {
 		let comments: string[] = [];
 
+		isMatchTopPathType(path, [PathType.ForStatement, PathType.ForInStatement, PathType.ForOfStatement, PathType.WhileStatement, PathType.DoWhileStatement])
 		comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.add('move-toleft'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.remove('move-toleft'); })();"${D}`);
 		comments.push(`${C}a class="link-text-nounderline text-color-green" href="#${path.parentPath.parentPath.node.start}-continue"${D}`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
@@ -754,7 +755,7 @@ function enterSwitchStatement(path: NodePath<Node>) {
 	}
 
 	if (path.isBreakStatement()) {
-		let a = getMatchTopPathType(path, [PathType.SwitchCase]);
+		let a = isMatchTopPathType(path, [PathType.SwitchCase]);
 		console.log(path);
 	}
 }
@@ -808,7 +809,7 @@ function replaceTags(code: string): string {
 	return code;
 }
 
-function getMatchTopPathType(path: NodePath<Node>, topPathTypeList: string[]): string {
+function isMatchTopPathType(path: NodePath<Node>, topPathTypeList: string[]): bool {
 	if (!path.parentPath) {
 		return path.type;
 	}
@@ -816,7 +817,7 @@ function getMatchTopPathType(path: NodePath<Node>, topPathTypeList: string[]): s
 		return path.parentPath.type;
 	}
 	else {
-		return getMatchTopPathType(path.parentPath, topPathTypeList);
+		return isMatchTopPathType(path.parentPath, topPathTypeList);
 	}
 }
 
