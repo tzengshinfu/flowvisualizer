@@ -18,4 +18,7 @@ export enum PathType {
 	DoWhileStatement = 'DoWhileStatement',
 	WhileStatement = 'WhileStatement',
 	LabelStatement = 'LabelStatement',
+	ForStatement = 'ForStatement',
+	ForInStatement = 'ForInStatement',
+	ForOfStatement = 'ForOfStatement',
 }
