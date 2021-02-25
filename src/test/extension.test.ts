@@ -694,9 +694,22 @@ function enterContinueStatement(path: NodePath<Node>) {
 	if (path.isContinueStatement()) {
 		let comments: string[] = [];
 
-		isMatchTopPathType(path, [PathType.ForStatement, PathType.ForInStatement, PathType.ForOfStatement, PathType.WhileStatement, PathType.DoWhileStatement])
-		comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.add('move-toleft'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.remove('move-toleft'); })();"${D}`);
-		comments.push(`${C}a class="link-text-nounderline text-color-green" href="#${path.parentPath.parentPath.node.start}-continue"${D}`);
+		let topPathType = getMatchTopPathType(path, [PathType.ForStatement, PathType.ForInStatement, PathType.ForOfStatement, PathType.WhileStatement, PathType.DoWhileStatement, PathType.LabelStatement]);
+
+		switch (topPathType) {
+			case PathType.ForInStatement:
+			case PathType.ForInStatement:
+			case PathType.ForOfStatement:
+			case PathType.WhileStatement:
+			case PathType.DoWhileStatement:
+				comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.add('move-toleft'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.remove('move-toleft'); })();"${D}`);
+				comments.push(`${C}a class="link-text-nounderline text-color-green" href="#${path.parentPath.parentPath.node.start}-continue"${D}`);
+				break;
+
+			case PathType.LabelStatement:
+				break;
+		}
+
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -719,7 +732,24 @@ function enterBreakStatement(path: NodePath<Node>) {
 	if (path.isBreakStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.remove('move-todown'); })();"${D}${C}a href="#${path.parentPath.parentPath.node.start}-exit" class="link-text-nounderline text-color-red"${D}`);
+		let topPathType = getMatchTopPathType(path, [PathType.ForStatement, PathType.ForInStatement, PathType.ForOfStatement, PathType.WhileStatement, PathType.DoWhileStatement, PathType.LabelStatement, PathType.SwitchCase]);
+
+		switch (topPathType) {
+			case PathType.ForInStatement:
+			case PathType.ForInStatement:
+			case PathType.ForOfStatement:
+			case PathType.WhileStatement:
+			case PathType.DoWhileStatement:
+				comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.remove('move-todown'); })();"${D}${C}a href="#${path.parentPath.parentPath.node.start}-exit" class="link-text-nounderline text-color-red"${D}`);
+				break;
+
+			case PathType.LabelStatement:
+				break;
+
+			case PathType.SwitchCase:
+				break;
+		}
+
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -730,7 +760,25 @@ function exitBreakStatement(path: NodePath<Node>) {
 	if (path.isBreakStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`${C}/a${D}${C}/div${D}`);
+		let topPathType = getMatchTopPathType(path, [PathType.ForStatement, PathType.ForInStatement, PathType.ForOfStatement, PathType.WhileStatement, PathType.DoWhileStatement, PathType.LabelStatement, PathType.SwitchCase]);
+
+		switch (topPathType) {
+			case PathType.ForInStatement:
+			case PathType.ForInStatement:
+			case PathType.ForOfStatement:
+			case PathType.WhileStatement:
+			case PathType.DoWhileStatement:
+				comments.push(`${C}/a${D}${C}/div${D}`);
+				break;
+
+			case PathType.LabelStatement:
+				break;
+
+			case PathType.SwitchCase:
+				break;
+		}
+
+
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -754,10 +802,7 @@ function enterSwitchStatement(path: NodePath<Node>) {
 		console.log(path);
 	}
 
-	if (path.isBreakStatement()) {
-		let a = isMatchTopPathType(path, [PathType.SwitchCase]);
-		console.log(path);
-	}
+	enterBreakStatement(path);
 }
 
 function exitSwitchStatement(path: NodePath<Node>) {
@@ -778,9 +823,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		console.log(path);
 	}
 
-	if (path.isBreakStatement()) {
-		console.log(path);
-	}
+	exitBreakStatement(path);
 }
 
 function clearLeadingComments(path: NodePath<Node>) {
@@ -809,7 +852,7 @@ function replaceTags(code: string): string {
 	return code;
 }
 
-function isMatchTopPathType(path: NodePath<Node>, topPathTypeList: string[]): bool {
+function getMatchTopPathType(path: NodePath<Node>, topPathTypeList: string[]): string {
 	if (!path.parentPath) {
 		return path.type;
 	}
@@ -817,17 +860,17 @@ function isMatchTopPathType(path: NodePath<Node>, topPathTypeList: string[]): bo
 		return path.parentPath.type;
 	}
 	else {
-		return isMatchTopPathType(path.parentPath, topPathTypeList);
+		return getMatchTopPathType(path.parentPath, topPathTypeList);
 	}
 }
 
-function _getPathLevel(path: NodePath<Node>, previousLevel: string | null = null): string {
+function getPathLevel(path: NodePath<Node>, previousLevel: string | null = null): string {
 	let level = previousLevel ? previousLevel : '';
 
 	if (path.parentPath) {
 		level += '->';
 
-		return _getPathLevel(path.parentPath, level);
+		return getPathLevel(path.parentPath, level);
 	}
 	else {
 		return level;
@@ -845,7 +888,7 @@ function getPathLevelChart(sourceCode: string) {
 				return;
 			}
 
-			let level = _getPathLevel(path);
+			let level = getPathLevel(path);
 
 			pathLevel += `\n<div>${level}${path.type},parent→${path.parentPath.type},key→${path.key}`;
 
