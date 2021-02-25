@@ -1,13 +1,12 @@
 switch (var1) {
 	case '1':
-		console.log('2');
-		break;
+		console.log('1');
 
-	case '1': {
+	case '2': {
 		console.log('2');
 	}
-
-		break;
+	
+	break;
 
 	case '1': {
 		console.log('2');
