@@ -258,7 +258,7 @@ function getFlowBlockHtml_switch(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitSwitchStatement(path);
-			exitExpressionStatement(path);
+			//exitExpressionStatement(path);
 		}
 	});
 
@@ -774,6 +774,13 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		comments.push(`${C}/div${D}`); //SwitchStatement-body-cell
 		comments.push(`${C}/div${D}`); //SwitchStatement-body-row
 		comments.push(`${C}/div${D}`); //SwitchStatement-table
+		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}⬇️${C}/div${D}`);
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+		return;
+	}
+
+	if (path.key === Key.Test) {
 		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}⬇️${C}/div${D}`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
