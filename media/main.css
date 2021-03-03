@@ -48,6 +48,10 @@ body {
 	background-color: #9ACD32;
 }
 
+.backgroundcolor-lightyellow {
+	background-color: #FFFFE0;
+}
+
 .outer-alignment-center {
 	margin: 0 auto;
 }

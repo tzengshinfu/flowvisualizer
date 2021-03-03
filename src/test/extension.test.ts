@@ -258,7 +258,7 @@ function getFlowBlockHtml_switch(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitSwitchStatement(path);
-			//exitExpressionStatement(path);
+			exitExpressionStatement(path);
 		}
 	});
 
@@ -731,7 +731,7 @@ function enterSwitchStatement(path: NodePath<Node>) {
 	if (path.isSwitchStatement()) {
 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchStatement"${D}`); //SwitchStatement-table
 		comments.push(`${C}div class="row"${D}`); //SwitchStatement-expression-row
-		comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //SwitchStatement-expression-cell
+		comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top"${D}`); //SwitchStatement-expression-cell
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -743,12 +743,12 @@ function enterSwitchStatement(path: NodePath<Node>) {
 			comments.push(`${C}/div${D}`); //SwitchStatement-expression-row
 			comments.push(`${C}div class="row"${D}`); //SwitchStatement-body-row
 			comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //SwitchStatement-body-cell
-			comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchCase"${D}`); //SwitchCase-table
+			comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchCases"${D}`); //SwitchCase-table
 			comments.push(`${C}div class="row"${D}`); //SwitchCase-row
 		}
 
-		comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //SwitchCase-cell
-		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top" data-node-type="SwitchCase"${D}`); //SwitchCase-cell
+		comments.push(`${C}div class="border-3px-solid-silver border-rounded-3px backgroundcolor-lightyellow outer-alignment-center" data-node-type="SwitchCase-Ex"${D}`); //SwitchCase-ex
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -762,7 +762,8 @@ function exitSwitchStatement(path: NodePath<Node>) {
 
 	if (path.isSwitchCase()) {
 		comments.push(`${C}/div${D}`); //SwitchCase-cell
-		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}⬇️${C}/div${D}`);
+		comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top" data-node-type="SwitchCase"${D}`); //SwitchCase-cell
+		comments.push(`➡️${C}/div${D}`); //SwitchCase-cell
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -781,6 +782,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 	}
 
 	if (path.key === Key.Test) {
+		comments.push(`${C}/div${D}`); //SwitchCase-ex
 		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}⬇️${C}/div${D}`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
