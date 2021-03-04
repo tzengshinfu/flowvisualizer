@@ -130,3 +130,9 @@ body {
 .text-color-green {
 	color:green;
 }
+
+.size-20px {
+	image-rendering: crisp-edges;
+	width: 20px;
+	height: 20px;
+}
