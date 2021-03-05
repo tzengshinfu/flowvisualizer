@@ -64,6 +64,10 @@ body {
 	vertical-align: middle;
 }
 
+.inner-alignment-bottom {
+	vertical-align: bottom;
+}
+
 .inner-alignment-right {
 	text-align: right;
 }

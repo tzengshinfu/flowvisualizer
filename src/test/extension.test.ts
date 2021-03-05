@@ -761,9 +761,12 @@ function exitSwitchStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isSwitchCase()) {
+		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/downtoright-arrow.png"${D}${C}/div${D}`);
 		comments.push(`${C}/div${D}`); //SwitchCase-cell
-		comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top" data-node-type="SwitchCase"${D}`); //SwitchCase-cell
-		comments.push(`${C}img class="size-20px" src="../../media/right-arrow.png"${D}`);
+		comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-bottom" data-node-type="SwitchCase"${D}`); //SwitchCase-cell
+		comments.push(`${C}img class="size-20px" src="../../media/downtoright-arrow.png"${D}`);
+		comments.push(`${C}img class="size-20px" src="../../media/up-arrow.png"${D}`);
+		comments.push(`${C}img class="size-20px" src="../../media/righttoup-arrow.png"${D}`);
 		comments.push(`${C}/div${D}`); //SwitchCase-cell
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
