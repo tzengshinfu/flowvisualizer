@@ -258,7 +258,7 @@ function getFlowBlockHtml_switch(sourceCode: string) {
 			clearTrailingComments(path);
 			exitProgram(path);
 			exitSwitchStatement(path);
-			exitExpressionStatement(path);
+			//exitExpressionStatement(path);
 		}
 	});
 
@@ -729,9 +729,9 @@ function enterSwitchStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isSwitchStatement()) {
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchStatement"${D}`); //SwitchStatement-table
+		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchStatement"${D}`); //SwitchStatement-block
 		comments.push(`${C}div class="row"${D}`); //SwitchStatement-expression-row
-		comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top"${D}`); //SwitchStatement-expression-cell
+		comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top" data-node-type="SwitchStatement-Expression"${D}`); //SwitchStatement-expression-cell
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -741,14 +741,14 @@ function enterSwitchStatement(path: NodePath<Node>) {
 		if (path.key === 0) {
 			comments.push(`${C}/div${D}`); //SwitchStatement-expression-cell
 			comments.push(`${C}/div${D}`); //SwitchStatement-expression-row
-			comments.push(`${C}div class="row"${D}`); //SwitchStatement-body-row
-			comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //SwitchStatement-body-cell
-			comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchCases"${D}`); //SwitchCase-table
-			comments.push(`${C}div class="row"${D}`); //SwitchCase-row
+			comments.push(`${C}div class="row"${D}`); //SwitchStatement-cases-row
+			//comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //SwitchStatement-cases-cell
+			// 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center"${D}`); //SwitchCases-block
+			// 		comments.push(`${C}div class="row"${D}`); //SwitchCases-body-row
 		}
 
-		comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top" data-node-type="SwitchCase"${D}`); //SwitchCase-cell
-		comments.push(`${C}div class="border-3px-solid-silver border-rounded-3px backgroundcolor-lightyellow outer-alignment-center" data-node-type="SwitchCase-Ex"${D}`); //SwitchCase-ex
+		// 	comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //SwitchCases-body-cell
+		// 	comments.push(`${C}div class="border-3px-solid-silver border-rounded-3px backgroundcolor-lightyellow outer-alignment-center" data-node-type="SwitchCase-Value"${D}`); //SwitchCase
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -760,38 +760,40 @@ function enterSwitchStatement(path: NodePath<Node>) {
 function exitSwitchStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
-	if (path.isSwitchCase()) {
-		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/downtoright-arrow.png"${D}${C}/div${D}`);
-		comments.push(`${C}/div${D}`); //SwitchCase-cell
-		comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-bottom" data-node-type="SwitchCase"${D}`); //SwitchCase-cell
-		comments.push(`${C}img class="size-20px" src="../../media/downtoright-arrow.png"${D}`);
-		comments.push(`${C}img class="size-20px" src="../../media/up-arrow.png"${D}`);
-		comments.push(`${C}img class="size-20px" src="../../media/righttoup-arrow.png"${D}`);
-		comments.push(`${C}/div${D}`); //SwitchCase-cell
-		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
-
-		return;
-	}
-
 	if (path.isSwitchStatement()) {
-		comments.push(`${C}/div${D}`); //SwitchCase-row
-		comments.push(`${C}/div${D}`); //SwitchCase-table
-		comments.push(`${C}/div${D}`); //SwitchStatement-body-cell
-		comments.push(`${C}/div${D}`); //SwitchStatement-body-row
-		comments.push(`${C}/div${D}`); //SwitchStatement-table
+		//comments.push(`${C}/div${D}`); //SwitchStatement-cases-row
+		//comments.push(`${C}/div${D}`); //SwitchCases-block
+		comments.push(`${C}/div${D}`); //SwitchStatement-expression-cell
+		comments.push(`${C}/div${D}`); //SwitchStatement-expression-row
+		comments.push(`${C}/div${D}`); //SwitchStatement-block
 		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
 
-	if (path.key === Key.Test) {
-		comments.push(`${C}/div${D}`); //SwitchCase-ex
-		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+	if (path.isSwitchCase()) {
+		// 	comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/downtoright-arrow.png"${D}${C}/div${D}`);
+		// 	comments.push(`${C}/div${D}`); //SwitchCase-cell
+		// 	comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-bottom" data-node-type="SwitchCase"${D}`); //SwitchCase-cell
+		// 	comments.push(`${C}img class="size-20px" src="../../media/uptoright-arrow.png"${D}`);
+		// 	comments.push(`${C}img class="size-20px" src="../../media/up-arrow.png"${D}`);
+		// 	comments.push(`${C}img class="size-20px" src="../../media/righttoup-arrow.png"${D}`);
+		// 	comments.push(`${C}/div${D}`); //SwitchCase-cell
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
+
+	// if (path.key === Key.Test) {
+	// 	comments.push(`${C}/div${D}`); //SwitchCase-Value
+	// 	comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+	// 	comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+	// 	return;
+	// }
+
+
 
 	//exitBreakStatement(path);
 }
