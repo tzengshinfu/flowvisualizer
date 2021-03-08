@@ -273,9 +273,9 @@ function enterProgram(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isProgram()) {
-		comments.push(`${C}div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"${D}`);
-		comments.push(`${C}div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center"${D}${C}img class="size-20px" src="../../media/start.png"${D}${C}/div${D}`);
-		comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+		comments.push(`<div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js">`);
+		comments.push(`<div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center"><img class="size-20px" src="../../media/start.png"></div>`);
+		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -286,8 +286,8 @@ function exitProgram(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isProgram()) {
-		comments.push(`${C}div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px"${D}${C}img class="size-20px" src="../../media/end.png"${D}${C}/div${D}`);
-		comments.push(`${C}/div${D}`); //Program
+		comments.push(`<div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px"><img class="size-20px" src="../../media/end.png"></div>`);
+		comments.push(`</div>`); //Program
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -299,12 +299,12 @@ function enterIfStatement(path: NodePath<Node>) {
 
 	if (path.isIfStatement()) {
 		if (path.key === Key.Alternate) {
-			comments.push(`${C}div class="backgroundcolor-skyblue padding-5px inner-alignment-center" data-node-type="IfAlternateHead"${D}else${C}/div${D}`);
-			comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+			comments.push(`<div class="backgroundcolor-skyblue padding-5px inner-alignment-center" data-node-type="IfAlternateHead">else</div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
 		}
 
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="IfStatement"${D}`); //IfStatement
-		comments.push(`${C}div class="row"${D}`);
+		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="IfStatement">`); //IfStatement
+		comments.push(`<div class="row">`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -312,8 +312,8 @@ function enterIfStatement(path: NodePath<Node>) {
 
 	if (path.parentPath?.isIfStatement()) {
 		if (path.key === Key.Test) {
-			comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //IfConsequent
-			comments.push(`${C}div class="backgroundcolor-pink padding-5px inner-alignment-center" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+			comments.push(`<div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">`); //IfConsequent
+			comments.push(`<div class="backgroundcolor-pink padding-5px inner-alignment-center" data-node-type="IfConsequentHead" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`);
 			comments.push('if (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -321,18 +321,18 @@ function enterIfStatement(path: NodePath<Node>) {
 		}
 
 		if (path.key === Key.Consequent) {
-			comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px inner-alignment-center" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="padding-5px inner-alignment-center" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
 		}
 
 		if (path.key === Key.Alternate) {
-			comments.push(`${C}div class="cell backgroundcolor-aliceblue inner-alignment-top"${D}`); //IfAlternate
-			comments.push(`${C}div class="backgroundcolor-skyblue padding-5px inner-alignment-center" data-node-type="IfAlternateHead"${D}else${C}/div${D}`);
-			comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px inner-alignment-center" data-node-type="IfAlternateBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`);
+			comments.push(`<div class="cell backgroundcolor-aliceblue inner-alignment-top">`); //IfAlternate
+			comments.push(`<div class="backgroundcolor-skyblue padding-5px inner-alignment-center" data-node-type="IfAlternateHead">else</div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="padding-5px inner-alignment-center" data-node-type="IfAlternateBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -345,17 +345,17 @@ function exitIfStatement(path: NodePath<Node>) {
 
 	if (path.isIfStatement()) {
 		if (!path.node.alternate) {
-			comments.push(`${C}div class="cell backgroundcolor-aliceblue inner-alignment-top"${D}`); //IfAlternative
-			comments.push(`${C}div class="backgroundcolor-skyblue padding-5px inner-alignment-top inner-alignment-center" data-node-type="IfAlternateHead"${D}else${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px inner-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
-			comments.push(`${C}div class="padding-5px inner-alignment-center" data-node-type="IfAlternateBody"${D}${C}div class="inner-text-nowrap" onmouseover="(function() { document.getElementById('${path.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.node.start}-exit').classList.remove('move-todown'); })();"${D}${C}a href="#${path.node.start}-exit" class="link-text-nounderline"${D}🚪🚶${C}/a${D}${C}/div${D}${C}/div${D}`);
-			comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
-			comments.push(`${C}/div${D}`); //IfAlternative
+			comments.push(`<div class="cell backgroundcolor-aliceblue inner-alignment-top">`); //IfAlternative
+			comments.push(`<div class="backgroundcolor-skyblue padding-5px inner-alignment-top inner-alignment-center" data-node-type="IfAlternateHead">else</div>`);
+			comments.push(`<div class="padding-5px inner-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="padding-5px inner-alignment-center" data-node-type="IfAlternateBody"><div class="inner-text-nowrap" onmouseover="(function() { document.getElementById('${path.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.node.start}-exit').classList.remove('move-todown'); })();"><a href="#${path.node.start}-exit" class="link-text-nounderline">🚪🚶</a></div></div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`</div>`); //IfAlternative
 		}
 
-		comments.push(`${C}/div${D}`);
-		comments.push(`${C}/div${D}`); //IfStatement
-		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+		comments.push(`</div>`);
+		comments.push(`</div>`); //IfStatement
+		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -364,23 +364,23 @@ function exitIfStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isIfStatement()) {
 		if (path.key === 'test') {
 			comments.push(')');
-			comments.push(`${C}/div${D}`); //IfConsequentHead
+			comments.push(`</div>`); //IfConsequentHead
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
 
 		if (path.key === 'consequent') {
-			comments.push(`${C}/div${D}`); //IfConsequentBody
-			comments.push(`${C}/div${D}`); //IfConsequent
+			comments.push(`</div>`); //IfConsequentBody
+			comments.push(`</div>`); //IfConsequent
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
 
 		if (path.key === 'alternate') {
-			comments.push(`${C}/div${D}`); //IfAlternateBody
-			comments.push(`${C}/div${D}`); //IfAlternate
+			comments.push(`</div>`); //IfAlternateBody
+			comments.push(`</div>`); //IfAlternate
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
@@ -392,7 +392,7 @@ function enterForStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isForStatement()) {
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}"${D}`); //ForStatement
+		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}">`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -400,8 +400,8 @@ function enterForStatement(path: NodePath<Node>) {
 
 	if (path.parentPath?.isForStatement()) {
 		if (path.key === 'init') {
-			comments.push(`${C}div class="row"${D}`); //row
-			comments.push(`${C}div class="cell backgroundcolor-pink padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
+			comments.push(`<div class="row">`); //row
+			comments.push(`<div class="cell backgroundcolor-pink padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`); //ForStatementHead
 			comments.push('for (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -409,9 +409,9 @@ function enterForStatement(path: NodePath<Node>) {
 		}
 
 		if (path.key === 'body') {
-			comments.push(`${C}div class="row"${D}`); //row
-			comments.push(`${C}div class="cell backgroundcolor-lavenderblush padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
-			comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+			comments.push(`<div class="row">`); //row
+			comments.push(`<div class="cell backgroundcolor-lavenderblush padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`); //ForStatementBody
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -426,12 +426,12 @@ function exitForStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isForStatement()) {
-		comments.push(`${C}div class="row"${D}`);// row
-		comments.push(`${C}div class="cell backgroundcolor-pink inner-alignment-center"${D}${C}div class="rotate-90degree"${D}⤴️${C}/div${D}${C}/div${D}`);
-		comments.push(`${C}div class="cell backgroundcolor-pink"${D}⤴️${C}/div${D}`);
-		comments.push(`${C}/div${D}`); //row
-		comments.push(`${C}/div${D}`); //ForStatement
-		comments.push(`${C}div class="padding-5px inner-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+		comments.push(`<div class="row">`);// row
+		comments.push(`<div class="cell backgroundcolor-pink inner-alignment-center"><div class="rotate-90degree">⤴️</div></div>`);
+		comments.push(`<div class="cell backgroundcolor-pink">⤴️</div>`);
+		comments.push(`</div>`); //row
+		comments.push(`</div>`); //ForStatement
+		comments.push(`<div class="padding-5px inner-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -440,22 +440,22 @@ function exitForStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isForStatement()) {
 		if (path.key === 'update') {
 			comments.push(')');
-			comments.push(`${C}/div${D}`); //ForStatementHead
-			comments.push(`${C}div class="cell backgroundcolor-pink"${D}`);
-			comments.push(`${C}div id="${path.parentPath.node.start}-continue"${D}`);
-			comments.push(`${C}div class="rotate-270degree"${D}⤴️${C}/div${D}`);
-			comments.push(`${C}/div${D}`);
-			comments.push(`${C}/div${D}`);
-			comments.push(`${C}/div${D}`); //row
+			comments.push(`</div>`); //ForStatementHead
+			comments.push(`<div class="cell backgroundcolor-pink">`);
+			comments.push(`<div id="${path.parentPath.node.start}-continue">`);
+			comments.push(`<div class="rotate-270degree">⤴️</div>`);
+			comments.push(`</div>`);
+			comments.push(`</div>`);
+			comments.push(`</div>`); //row
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
 
 		if (path.key === 'body') {
-			comments.push(`${C}/div${D}`); //ForStatementBody
-			comments.push(`${C}div class="cell backgroundcolor-pink inner-alignment-middle"${D}🔄${C}/div${D}`);
-			comments.push(`${C}/div${D}`); //row
+			comments.push(`</div>`); //ForStatementBody
+			comments.push(`<div class="cell backgroundcolor-pink inner-alignment-middle">🔄</div>`);
+			comments.push(`</div>`); //row
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
@@ -470,8 +470,8 @@ function enterForOfStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isForInStatement() || path.isForOfStatement()) {
-		comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}"${D}`); //ForStatement
+		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}">`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -479,8 +479,8 @@ function enterForOfStatement(path: NodePath<Node>) {
 
 	if (path.parentPath?.isForInStatement() || path.parentPath?.isForOfStatement()) {
 		if (path.key === 'left') {
-			comments.push(`${C}div class="row"${D}`); //row
-			comments.push(`${C}div class="cell backgroundcolor-pink padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementHead
+			comments.push(`<div class="row">`); //row
+			comments.push(`<div class="cell backgroundcolor-pink padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`); //ForStatementHead
 			comments.push('for (');
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -488,8 +488,8 @@ function enterForOfStatement(path: NodePath<Node>) {
 		}
 
 		if (path.key === 'body') {
-			comments.push(`${C}div class="row"${D}`); //row
-			comments.push(`${C}div class="cell backgroundcolor-lavenderblush padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}"${D}`); //ForStatementBody
+			comments.push(`<div class="row">`); //row
+			comments.push(`<div class="cell backgroundcolor-lavenderblush padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`); //ForStatementBody
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -504,13 +504,13 @@ function exitForOfStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isForInStatement() || path.isForOfStatement()) {
-		comments.push(`${C}div class="row"${D}`);// row
-		comments.push(`${C}div class="cell backgroundcolor-pink"${D}${C}/div${D}`);
+		comments.push(`<div class="row">`);// row
+		comments.push(`<div class="cell backgroundcolor-pink"></div>`);
 
 
-		comments.push(`${C}div class="cell backgroundcolor-pink"${D}⤴️${C}/div${D}`);
-		comments.push(`${C}/div${D}`); //row
-		comments.push(`${C}/div${D}`); //ForStatement
+		comments.push(`<div class="cell backgroundcolor-pink">⤴️</div>`);
+		comments.push(`</div>`); //row
+		comments.push(`</div>`); //ForStatement
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -519,20 +519,20 @@ function exitForOfStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isForInStatement() || path.parentPath?.isForOfStatement()) {
 		if (path.key === 'right') {
 			comments.push(')');
-			comments.push(`${C}/div${D}`); //ForStatementHead
-			comments.push(`${C}div class="cell backgroundcolor-pink"${D}`);
-			comments.push(`${C}div class="rotate-270degree"${D}⤴️${C}/div${D}`);
-			comments.push(`${C}/div${D}`);
-			comments.push(`${C}/div${D}`); //row
+			comments.push(`</div>`); //ForStatementHead
+			comments.push(`<div class="cell backgroundcolor-pink">`);
+			comments.push(`<div class="rotate-270degree">⤴️</div>`);
+			comments.push(`</div>`);
+			comments.push(`</div>`); //row
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
 		}
 
 		if (path.key === 'body') {
-			comments.push(`${C}/div${D}`); //ForStatementBody
-			comments.push(`${C}div class="cell backgroundcolor-pink inner-alignment-middle"${D}🔄${C}/div${D}`);
-			comments.push(`${C}/div${D}`); //row
+			comments.push(`</div>`); //ForStatementBody
+			comments.push(`<div class="cell backgroundcolor-pink inner-alignment-middle">🔄</div>`);
+			comments.push(`</div>`); //row
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
@@ -547,8 +547,8 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isDoWhileStatement()) {
-		comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}"${D}`); //DoWhileStatement
+		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}">`); //DoWhileStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -556,8 +556,8 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 
 	if (path.parentPath?.isDoWhileStatement()) {
 		if (path.key === 'test') {
-			comments.push(`${C}div class="row"${D}`);// row
-			comments.push(`${C}div class="cell backgroundcolor-pink inner-alignment-center"${D}`);
+			comments.push(`<div class="row">`);// row
+			comments.push(`<div class="cell backgroundcolor-pink inner-alignment-center">`);
 			comments.push('while (');
 
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
@@ -566,17 +566,17 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 		}
 
 		if (path.key === 'body') {
-			comments.push(`${C}div class="row"${D}`);// row
-			comments.push(`${C}div class="cell backgroundcolor-pink inner-alignment-center"${D}`);
+			comments.push(`<div class="row">`);// row
+			comments.push(`<div class="cell backgroundcolor-pink inner-alignment-center">`);
 			comments.push('do');
-			comments.push(`${C}/div${D}`);
-			comments.push(`${C}div class="cell backgroundcolor-pink"${D}`);
-			comments.push(`${C}div class="rotate-270degree"${D}⤴️${C}/div${D}`);
-			comments.push(`${C}/div${D}`);
-			comments.push(`${C}/div${D}`); //row
+			comments.push(`</div>`);
+			comments.push(`<div class="cell backgroundcolor-pink">`);
+			comments.push(`<div class="rotate-270degree">⤴️</div>`);
+			comments.push(`</div>`);
+			comments.push(`</div>`); //row
 
-			comments.push(`${C}div class="row"${D}`);// row
-			comments.push(`${C}div class="cell backgroundcolor-lavenderblush inner-alignment-center"${D}`); //DoWhileStatementBody
+			comments.push(`<div class="row">`);// row
+			comments.push(`<div class="cell backgroundcolor-lavenderblush inner-alignment-center">`); //DoWhileStatementBody
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -591,7 +591,7 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isDoWhileStatement()) {
-		comments.push(`${C}/div${D}`); //DoWhileStatement
+		comments.push(`</div>`); //DoWhileStatement
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -600,16 +600,16 @@ function exitDoWhileStatement(path: NodePath<Node>) {
 	if (path.parentPath?.isDoWhileStatement()) {
 		if (path.key === 'test') {
 			comments.push(');');
-			comments.push(`${C}/div${D}`);
-			comments.push(`${C}div class="cell backgroundcolor-pink"${D}⤴️${C}/div${D}`);
-			comments.push(`${C}/div${D}`); //row
+			comments.push(`</div>`);
+			comments.push(`<div class="cell backgroundcolor-pink">⤴️</div>`);
+			comments.push(`</div>`); //row
 
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 		}
 		if (path.key === 'body') {
-			comments.push(`${C}/div${D}`); //DoWhileStatementBody
-			comments.push(`${C}div class="cell backgroundcolor-pink inner-alignment-middle"${D}🔄${C}/div${D}`);
-			comments.push(`${C}/div${D}`); //row
+			comments.push(`</div>`); //DoWhileStatementBody
+			comments.push(`<div class="cell backgroundcolor-pink inner-alignment-middle">🔄</div>`);
+			comments.push(`</div>`); //row
 			comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 			return;
@@ -624,7 +624,7 @@ function exitExpressionStatement(path: NodePath<Node>) {
 	if (path.isExpressionStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`${C}div class="table outer-alignment-center"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -643,8 +643,8 @@ function enterContinueStatement(path: NodePath<Node>) {
 			case PathType.ForOfStatement:
 			case PathType.WhileStatement:
 			case PathType.DoWhileStatement:
-				comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.add('move-toleft'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.remove('move-toleft'); })();"${D}`);
-				comments.push(`${C}a class="link-text-nounderline text-color-green" href="#${path.parentPath.parentPath.node.start}-continue"${D}`);
+				comments.push(`<div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.add('move-toleft'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-continue').classList.remove('move-toleft'); })();">`);
+				comments.push(`<a class="link-text-nounderline text-color-green" href="#${path.parentPath.parentPath.node.start}-continue">`);
 				break;
 
 			case PathType.LabelStatement:
@@ -661,8 +661,8 @@ function exitContinueStatement(path: NodePath<Node>) {
 	if (path.isContinueStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`${C}/a${D}`);
-		comments.push(`${C}/div${D}`);
+		comments.push(`</a>`);
+		comments.push(`</div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -680,7 +680,7 @@ function enterBreakStatement(path: NodePath<Node>) {
 			case PathType.ForOfStatement:
 			case PathType.WhileStatement:
 			case PathType.DoWhileStatement:
-				comments.push(`${C}div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.remove('move-todown'); })();"${D}${C}a href="#${path.parentPath.parentPath.node.start}-exit" class="link-text-nounderline text-color-red"${D}`);
+				comments.push(`<div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.remove('move-todown'); })();"><a href="#${path.parentPath.parentPath.node.start}-exit" class="link-text-nounderline text-color-red">`);
 				break;
 
 			case PathType.LabelStatement:
@@ -708,7 +708,7 @@ function exitBreakStatement(path: NodePath<Node>) {
 			case PathType.ForOfStatement:
 			case PathType.WhileStatement:
 			case PathType.DoWhileStatement:
-				comments.push(`${C}/a${D}${C}/div${D}`);
+				comments.push(`</a></div>`);
 				break;
 
 			case PathType.LabelStatement:
@@ -729,9 +729,12 @@ function enterSwitchStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isSwitchStatement()) {
-		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="SwitchStatement"${D}`); //SwitchStatement-block
-		comments.push(`${C}div class="row"${D}`); //SwitchStatement-expression-row
-		comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top" data-node-type="SwitchStatement-Expression"${D}`); //SwitchStatement-expression-cell
+		comments.push(`<!-- #region switchstatement-block -->`);
+		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
+		comments.push(`<!-- #region switchstatement-expression-row -->`);
+		comments.push(`<div class="row">`);
+		comments.push(`<!-- #region switchstatement-expression-cell -->`);
+		comments.push(`<div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top">`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -739,16 +742,28 @@ function enterSwitchStatement(path: NodePath<Node>) {
 
 	if (path.isSwitchCase()) {
 		if (path.key === 0) {
-			comments.push(`${C}/div${D}`); //SwitchStatement-expression-cell
-			comments.push(`${C}/div${D}`); //SwitchStatement-expression-row
-			comments.push(`${C}div class="row"${D}`); //SwitchStatement-cases-row
-			//comments.push(`${C}div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //SwitchStatement-cases-cell
-			// 		comments.push(`${C}div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center"${D}`); //SwitchCases-block
-			// 		comments.push(`${C}div class="row"${D}`); //SwitchCases-body-row
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchstatement-expression-cell -->`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchstatement-expression-row -->`);
+			comments.push(`<!-- #region switchstatement-body-row -->`);
+			comments.push(`<div class="row">`);
+			comments.push(`<!-- #region switchstatement-body-cell -->`);
+			comments.push(`<div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">`);
+			comments.push(`<!-- #region switchstatement-cases-block -->`);
+			comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
+			comments.push(`<!-- #region switchstatement-cases-row -->`);
+			comments.push(`<div class="row">`);
 		}
 
-		// 	comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"${D}`); //SwitchCases-body-cell
-		// 	comments.push(`${C}div class="border-3px-solid-silver border-rounded-3px backgroundcolor-lightyellow outer-alignment-center" data-node-type="SwitchCase-Value"${D}`); //SwitchCase
+		comments.push(`<!-- #region switchstatement-cases-cell -->`);
+		comments.push(`<div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">`);
+		comments.push(`<!-- #region switchcase-block -->`);
+		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
+		comments.push(`<!-- #region switchcase-value-row -->`);
+		comments.push(`<div class="row">`);
+		comments.push(`<!-- #region switchcase-value-cell -->`);
+		comments.push(`<div class="cell">`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -761,39 +776,109 @@ function exitSwitchStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isSwitchStatement()) {
-		//comments.push(`${C}/div${D}`); //SwitchStatement-cases-row
-		//comments.push(`${C}/div${D}`); //SwitchCases-block
-		comments.push(`${C}/div${D}`); //SwitchStatement-expression-cell
-		comments.push(`${C}/div${D}`); //SwitchStatement-expression-row
-		comments.push(`${C}/div${D}`); //SwitchStatement-block
-		comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchstatement-cases-row -->`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchstatement-cases-block -->`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchstatement-body-cell -->`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchstatement-body-row -->`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchstatement-block -->`);
+		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
 
 	if (path.isSwitchCase()) {
-		// 	comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/downtoright-arrow.png"${D}${C}/div${D}`);
-		// 	comments.push(`${C}/div${D}`); //SwitchCase-cell
-		// 	comments.push(`${C}div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-bottom" data-node-type="SwitchCase"${D}`); //SwitchCase-cell
-		// 	comments.push(`${C}img class="size-20px" src="../../media/uptoright-arrow.png"${D}`);
-		// 	comments.push(`${C}img class="size-20px" src="../../media/up-arrow.png"${D}`);
-		// 	comments.push(`${C}img class="size-20px" src="../../media/righttoup-arrow.png"${D}`);
-		// 	comments.push(`${C}/div${D}`); //SwitchCase-cell
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-body-cell -->`);
+
+		comments.push(`<!-- #region switchcase-direction-cell -->`);
+		comments.push(`<div class="cell">`);
+		comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-body-row -->`);
+
+		comments.push(`<!-- #region switchcase-footer-row -->`);
+		comments.push(`<div class="row">`);
+		comments.push(`<!-- #region switchcase-footer-cell -->`);
+		comments.push(`<div class="cell">`);
+		comments.push(`<img class="size-20px" src="../../media/downtoright-arrow.png">`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-footer-cell -->`);
+
+		comments.push(`<!-- #region switchcase-direction-cell -->`);
+		comments.push(`<div class="cell">`);
+		comments.push(`<img class="size-20px" src="../../media/righttoup-arrow.png">`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-footer-row -->`);
+
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-block -->`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchstatement-cases-cell -->`);
+		// comments.push(`<!-- #region switchcase-direction-cell -->`);
+		// comments.push(`<div class="cell">2</div>`);
+		// comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+		// comments.push(`</div>`);
+		// comments.push(`<!-- #endregion switchcase-body-row -->`);
+		// comments.push(`<!-- #region switchcase-footer-row -->`);
+		// comments.push(`<div class="row">`);
+		// comments.push(`<!-- #region switchcase-footer-cell -->`);
+		// comments.push(`<div class="cell">blank</div>`);
+		// comments.push(`<!-- #region switchcase-footer-cell -->`);
+		// comments.push(`<!-- #region switchcase-direction-cell -->`);
+		// comments.push(`<div class="cell">3</div>`);
+		// comments.push(`<!-- #region switchcase-direction-cell -->`);
+		// comments.push(`</div>`);
+		// comments.push(`<!-- #endregion switchcase-footer-row -->`);
+
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
 
-	// if (path.key === Key.Test) {
-	// 	comments.push(`${C}/div${D}`); //SwitchCase-Value
-	// 	comments.push(`${C}div class="table outer-alignment-center" id="${path.node.start}-exit"${D}${C}img class="size-20px" src="../../media/down-arrow.png"${D}${C}/div${D}`);
-	// 	comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+	if (path.key === Key.Test) {
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-value-cell -->`);
 
-	// 	return;
-	// }
+		comments.push(`<!-- #region switchcase-placeholder-cell -->`);
+		comments.push(`<div class="cell">`);
+		//comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
 
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-value-row -->`);
 
+		comments.push(`<!-- #region switchcase-body-row -->`);
+		comments.push(`<div class="row">`);
+		comments.push(`<!-- #region switchcase-body-cell -->`);
+		comments.push(`<div class="cell">`);
+
+		// comments.push(`<!-- #endregion switchcase-value-cell -->`);
+		// comments.push(`<!-- #region switchcase-direction-cell -->`);
+		// comments.push(`<div class="cell">1</div>`);
+		// comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+		// comments.push(`</div>`);
+		// comments.push(`<!-- #endregion switchcase-value-row -->`);
+		// comments.push(`<!-- #region switchcase-body-row -->`);
+		// comments.push(`<div class="row">`);
+		// comments.push(`<!-- #region switchcase-body-cell -->`);
+		// comments.push(`<div class="cell">`);
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+
+		return;
+	}
 
 	//exitBreakStatement(path);
 }
