@@ -1,4 +1,6 @@
 switch (var1) {
+	default:
+		throw '';
 	case '1':
 		console.log('1');
 
@@ -16,6 +18,8 @@ switch (var1) {
 	case '2': {
 		console.log('2');
 	}
+
+
 }
 
 // switch (var1) {

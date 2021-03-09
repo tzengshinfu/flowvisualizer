@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as parser from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
-import { Comment, Node, SwitchStatement } from '@babel/types';
+import { Comment, Node, SwitchStatement, SwitchCase } from '@babel/types';
 import * as fs from 'fs';
 import generate from "@babel/generator";
 import { C, D, CommentType, Key, PathType } from '../../src/variable';
@@ -763,13 +763,53 @@ function enterSwitchStatement(path: NodePath<Node>) {
 		comments.push(`<!-- #region switchcase-value-row -->`);
 		comments.push(`<div class="row">`);
 		comments.push(`<!-- #region switchcase-value-cell -->`);
-		comments.push(`<div class="cell">`);
+		comments.push(`<div class="cell backgroundcolor-azure">`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
 	}
 
-	//enterBreakStatement(path);
+
+
+	if (path.parentPath?.isSwitchCase() && (path.parentPath.node as SwitchCase).test === null) {
+		let noBreak = hasBreakStatement(path.parentPath);
+		let isLast = isLastSwitchCase(path.parentPath);
+
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-value-cell -->`);
+
+		if (noBreak && !isLast) {
+			comments.push(`<!-- #region switchcase-placeholder-cell -->`);
+			comments.push(`<div class="cell backgroundcolor-azure">`);
+			//comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
+		}
+
+		comments.push(`</div>`);
+		comments.push(`<!-- #endregion switchcase-value-row -->`);
+
+		comments.push(`<!-- #region switchcase-body-row -->`);
+		comments.push(`<div class="row">`);
+		comments.push(`<!-- #region switchcase-body-cell -->`);
+		comments.push(`<div class="cell">`);
+		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		// comments.push(`<!-- #endregion switchcase-value-cell -->`);
+		// comments.push(`<!-- #region switchcase-direction-cell -->`);
+		// comments.push(`<div class="cell">1</div>`);
+		// comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+		// comments.push(`</div>`);
+		// comments.push(`<!-- #endregion switchcase-value-row -->`);
+		// comments.push(`<!-- #region switchcase-body-row -->`);
+		// comments.push(`<div class="row">`);
+		// comments.push(`<!-- #region switchcase-body-cell -->`);
+		// comments.push(`<div class="cell">`);
+		comments.forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+
+		return;
+	}
+
+	enterBreakStatement(path);
 }
 
 function exitSwitchStatement(path: NodePath<Node>) {
@@ -793,17 +833,20 @@ function exitSwitchStatement(path: NodePath<Node>) {
 	}
 
 	if (path.isSwitchCase()) {
-		let noBreak = hasNoBreakStatement(path);
+		let noBreak = !hasBreakStatement(path);
+		let isLast = isLastSwitchCase(path);
+		let isDefault = path.node.test === null;
+		let noThrow = !hasThrowStatement(path);
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-body-cell -->`);
 
-		let isLast = isLastSwitchCase(path);
-
-		if (noBreak && !isLast) {
+		if (noBreak && !isLast && !isDefault) {
 			comments.push(`<!-- #region switchcase-direction-cell -->`);
 			comments.push(`<div class="cell">`);
 			comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
+			comments.push(`<br>`);
+			comments.push(`<img class="size-20px" src="../../media/up-arrow.png">`);
 			comments.push(`</div>`);
 			comments.push(`<!-- #endregion switchcase-direction-cell -->`);
 		}
@@ -811,11 +854,11 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-body-row -->`);
 
-		if (noBreak && !isLast) {
+		if (noBreak && !isLast && !isDefault) {
 			comments.push(`<!-- #region switchcase-footer-row -->`);
 			comments.push(`<div class="row">`);
 			comments.push(`<!-- #region switchcase-footer-cell -->`);
-			comments.push(`<div class="cell">`);
+			comments.push(`<div class="cell inner-alignment-center">`);
 			comments.push(`<img class="size-20px" src="../../media/downtoright-arrow.png">`);
 			comments.push(`</div>`);
 			comments.push(`<!-- #endregion switchcase-footer-cell -->`);
@@ -832,8 +875,14 @@ function exitSwitchStatement(path: NodePath<Node>) {
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-block -->`);
+
+		if (!noBreak || isLast || isDefault || noThrow) {
+			comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		}
+
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchstatement-cases-cell -->`);
+
 		// comments.push(`<!-- #region switchcase-direction-cell -->`);
 		// comments.push(`<div class="cell">2</div>`);
 		// comments.push(`<!-- #endregion switchcase-direction-cell -->`);
@@ -855,9 +904,8 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		return;
 	}
 
-	if (path.parentPath.isSwitchCase() && path.key === Key.Test) {
-		let noBreak = hasNoBreakStatement(path.parentPath);
-
+	if (path.parentPath?.isSwitchCase() && path.key === Key.Test) {
+		let noBreak = hasBreakStatement(path.parentPath);
 		let isLast = isLastSwitchCase(path.parentPath);
 
 		comments.push(`</div>`);
@@ -865,7 +913,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 
 		if (noBreak && !isLast) {
 			comments.push(`<!-- #region switchcase-placeholder-cell -->`);
-			comments.push(`<div class="cell">`);
+			comments.push(`<div class="cell backgroundcolor-azure">`);
 			//comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
 			comments.push(`</div>`);
 			comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
@@ -878,7 +926,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		comments.push(`<div class="row">`);
 		comments.push(`<!-- #region switchcase-body-cell -->`);
 		comments.push(`<div class="cell">`);
-
+		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
 		// comments.push(`<!-- #endregion switchcase-value-cell -->`);
 		// comments.push(`<!-- #region switchcase-direction-cell -->`);
 		// comments.push(`<div class="cell">1</div>`);
@@ -894,7 +942,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		return;
 	}
 
-	//exitBreakStatement(path);
+	exitBreakStatement(path);
 }
 
 function clearLeadingComments(path: NodePath<Node>) {
@@ -999,17 +1047,17 @@ function getPathLevelChart(sourceCode: string) {
 // 	}
 // }
 
-function hasNoBreakStatement(path: NodePath<Node>) {
-	let hasNoBreakStatement = false;
+function hasBreakStatement(path: NodePath<Node>) {
+	let hasBreakStatement = false;
 
 	path.traverse({
 		BreakStatement() {
-			hasNoBreakStatement = true;
+			hasBreakStatement = true;
 			return;
 		}
 	});
 
-	return !hasNoBreakStatement;
+	return hasBreakStatement;
 }
 
 function isLastSwitchCase(path: NodePath<Node>) {
@@ -1018,4 +1066,17 @@ function isLastSwitchCase(path: NodePath<Node>) {
 	}
 
 	return false;
+}
+
+function hasThrowStatement(path: NodePath<Node>) {
+	let hasThrowStatement = false;
+
+	path.traverse({
+		ThrowStatement() {
+			hasThrowStatement = true;
+			return;
+		}
+	});
+
+	return hasThrowStatement;
 }

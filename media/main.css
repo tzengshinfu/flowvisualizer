@@ -52,6 +52,10 @@ body {
 	background-color: #FFFFE0;
 }
 
+.backgroundcolor-azure {
+	background-color: azure;
+}
+
 .outer-alignment-center {
 	margin: 0 auto;
 }
