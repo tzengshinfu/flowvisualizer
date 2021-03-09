@@ -1,159 +1,305 @@
-<html><head><style type="text/css">body {
-	background-color: transparent;
-}
+<html>
 
-.table {
-	display: table;
-}
+<head>
+	<style type="text/css">
+		body {
+			background-color: transparent;
+		}
 
-.row {
-	display: table-row;
-}
+		.table {
+			display: table;
+		}
 
-.cell {
-	display: table-cell;
-}
+		.row {
+			display: table-row;
+		}
 
-.border-right-3px-solid-silver {
-	border-right: 3px solid silver;
-}
+		.cell {
+			display: table-cell;
+		}
 
-.border-3px-solid-silver {
-	border-style: solid;
-	border-color: silver;
-	border-width: 3px;
-}
+		.border-right-3px-solid-silver {
+			border-right: 3px solid silver;
+		}
 
-.backgroundcolor-pink {
-	background-color: pink;
-}
+		.border-3px-solid-silver {
+			border-style: solid;
+			border-color: silver;
+			border-width: 3px;
+		}
 
-.backgroundcolor-skyblue {
-	background-color: skyblue;
-}
+		.backgroundcolor-pink {
+			background-color: pink;
+		}
 
-.backgroundcolor-aliceblue {
-	background-color: #EEF9FD;
-}
+		.backgroundcolor-skyblue {
+			background-color: skyblue;
+		}
 
-.backgroundcolor-lavenderblush {
-	background-color: #FFF6F8;
-}
+		.backgroundcolor-aliceblue {
+			background-color: #EEF9FD;
+		}
 
-.backgroundcolor-mustard {
-	background-color: #FFDB58;
-}
+		.backgroundcolor-lavenderblush {
+			background-color: #FFF6F8;
+		}
 
-.backgroundcolor-greenyellow {
-	background-color: #9ACD32;
-}
+		.backgroundcolor-mustard {
+			background-color: #FFDB58;
+		}
 
-.backgroundcolor-lightyellow {
-	background-color: #FFFFE0;
-}
+		.backgroundcolor-greenyellow {
+			background-color: #9ACD32;
+		}
 
-.outer-alignment-center {
-	margin: 0 auto;
-}
+		.backgroundcolor-lightyellow {
+			background-color: #FFFFE0;
+		}
 
-.inner-alignment-top {
-	vertical-align: top;
-}
+		.outer-alignment-center {
+			margin: 0 auto;
+		}
 
-.inner-alignment-middle {
-	vertical-align: middle;
-}
+		.inner-alignment-top {
+			vertical-align: top;
+		}
 
-.inner-alignment-bottom {
-	vertical-align: bottom;
-}
+		.inner-alignment-middle {
+			vertical-align: middle;
+		}
 
-.inner-alignment-right {
-	text-align: right;
-}
+		.inner-alignment-bottom {
+			vertical-align: bottom;
+		}
 
-.inner-alignment-center {
-	text-align: center;
-}
+		.inner-alignment-right {
+			text-align: right;
+		}
 
-.rotate-270degree {
-	transform: rotate(270deg);
-	backface-visibility: hidden;
-}
+		.inner-alignment-center {
+			text-align: center;
+		}
 
-.rotate-90degree {
-	transform: rotate(90deg);
-	backface-visibility: hidden;
-}
+		.rotate-270degree {
+			transform: rotate(270deg);
+			backface-visibility: hidden;
+		}
 
-.padding-5px {
-	padding-top: 5px;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-bottom: 5px;
-}
+		.rotate-90degree {
+			transform: rotate(90deg);
+			backface-visibility: hidden;
+		}
 
-.border-rounded-3px {
-	border-radius: 3px;
-}
+		.padding-5px {
+			padding-top: 5px;
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-bottom: 5px;
+		}
 
-.border-rounded-50percent {
-	border-radius: 50%;
-}
+		.border-rounded-3px {
+			border-radius: 3px;
+		}
 
-.inner-text-nowrap {
-	white-space: nowrap;
-}
+		.border-rounded-50percent {
+			border-radius: 50%;
+		}
 
-.link-text-nounderline {
-	text-decoration:none;
-}
+		.inner-text-nowrap {
+			white-space: nowrap;
+		}
 
-.move-todown {
-	animation: move-todown 1s infinite;
-}
+		.link-text-nounderline {
+			text-decoration: none;
+		}
 
-@keyframes move-todown {
-	0%   { opacity: 0;}
-	100% { opacity: 1; transform: translateY(10px); }	
-}
+		.move-todown {
+			animation: move-todown 1s infinite;
+		}
 
-.move-toleft {
-	animation: move-toleft 1s infinite;
-}
+		@keyframes move-todown {
+			0% {
+				opacity: 0;
+			}
 
-@keyframes move-toleft {
-	0%   { opacity: 0;}
-	100% { opacity: 1; transform: translateX(-10px); }	
-}
+			100% {
+				opacity: 1;
+				transform: translateY(10px);
+			}
+		}
 
-.text-color-red {
-	color: red;
-}
+		.move-toleft {
+			animation: move-toleft 1s infinite;
+		}
 
-.text-color-green {
-	color:green;
-}
+		@keyframes move-toleft {
+			0% {
+				opacity: 0;
+			}
 
-.size-20px {
-	image-rendering: crisp-edges;
-	width: 20px;
-	height: 20px;
-}</style></head><body><div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js"> <div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center"><img class="size-20px" src="../../media/start.png"></div> <div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div> <!-- #region switchstatement-block --> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center"> <!-- #region switchstatement-expression-row --> <div class="row"> <!-- #region switchstatement-expression-cell --> <div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top">switch (var1) {</div> <!-- #endregion switchstatement-expression-cell --> </div> <!-- #endregion switchstatement-expression-row --> <!-- #region switchstatement-body-row --> <div class="row"> <!-- #region switchstatement-body-cell --> <div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"> <!-- #region switchstatement-cases-block --> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center"> <!-- #region switchstatement-cases-row --> <div class="row"> <!-- #region switchstatement-cases-cell --> <div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"> <!-- #region switchcase-block --> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center"> <!-- #region switchcase-value-row --> <div class="row"> <!-- #region switchcase-value-cell --> <div class="cell">
-  case '1' </div> <!-- #endregion switchcase-value-cell --> <!-- #region switchcase-placeholder-cell --> <div class="cell"> </div> <!-- #endregion switchcase-placeholder-cell --> </div> <!-- #endregion switchcase-value-row --> <!-- #region switchcase-body-row --> <div class="row"> <!-- #region switchcase-body-cell --> <div class="cell">:
-    console.log('1'); </div> <!-- #endregion switchcase-body-cell --> <!-- #region switchcase-direction-cell --> <div class="cell"> <img class="size-20px" src="../../media/uptoright-arrow.png"> </div> <!-- #endregion switchcase-direction-cell --> </div> <!-- #endregion switchcase-body-row --> <!-- #region switchcase-footer-row --> <div class="row"> <!-- #region switchcase-footer-cell --> <div class="cell"> <img class="size-20px" src="../../media/downtoright-arrow.png"> </div> <!-- #endregion switchcase-footer-cell --> <!-- #region switchcase-direction-cell --> <div class="cell"> <img class="size-20px" src="../../media/righttoup-arrow.png"> </div> <!-- #endregion switchcase-direction-cell --> </div> <!-- #endregion switchcase-footer-row --> </div> <!-- #endregion switchcase-block --> </div> <!-- #endregion switchstatement-cases-cell --> <!-- #region switchstatement-cases-cell --> <div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"> <!-- #region switchcase-block --> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center"> <!-- #region switchcase-value-row --> <div class="row"> <!-- #region switchcase-value-cell --> <div class="cell">
+			100% {
+				opacity: 1;
+				transform: translateX(-10px);
+			}
+		}
 
-  case '2' </div> <!-- #endregion switchcase-value-cell --> <!-- #region switchcase-placeholder-cell --> <div class="cell"> </div> <!-- #endregion switchcase-placeholder-cell --> </div> <!-- #endregion switchcase-value-row --> <!-- #region switchcase-body-row --> <div class="row"> <!-- #region switchcase-body-cell --> <div class="cell">:{
-      console.log('2');
-    }
+		.text-color-red {
+			color: red;
+		}
 
-    break; </div> <!-- #endregion switchcase-body-cell --> <!-- #region switchcase-direction-cell --> <div class="cell"> <img class="size-20px" src="../../media/uptoright-arrow.png"> </div> <!-- #endregion switchcase-direction-cell --> </div> <!-- #endregion switchcase-body-row --> <!-- #region switchcase-footer-row --> <div class="row"> <!-- #region switchcase-footer-cell --> <div class="cell"> <img class="size-20px" src="../../media/downtoright-arrow.png"> </div> <!-- #endregion switchcase-footer-cell --> <!-- #region switchcase-direction-cell --> <div class="cell"> <img class="size-20px" src="../../media/righttoup-arrow.png"> </div> <!-- #endregion switchcase-direction-cell --> </div> <!-- #endregion switchcase-footer-row --> </div> <!-- #endregion switchcase-block --> </div> <!-- #endregion switchstatement-cases-cell --> <!-- #region switchstatement-cases-cell --> <div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"> <!-- #region switchcase-block --> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center"> <!-- #region switchcase-value-row --> <div class="row"> <!-- #region switchcase-value-cell --> <div class="cell">
+		.text-color-green {
+			color: green;
+		}
 
-  case '1' </div> <!-- #endregion switchcase-value-cell --> <!-- #region switchcase-placeholder-cell --> <div class="cell"> </div> <!-- #endregion switchcase-placeholder-cell --> </div> <!-- #endregion switchcase-value-row --> <!-- #region switchcase-body-row --> <div class="row"> <!-- #region switchcase-body-cell --> <div class="cell">:{
-      console.log('2');
-      break;
-    } </div> <!-- #endregion switchcase-body-cell --> <!-- #region switchcase-direction-cell --> <div class="cell"> <img class="size-20px" src="../../media/uptoright-arrow.png"> </div> <!-- #endregion switchcase-direction-cell --> </div> <!-- #endregion switchcase-body-row --> <!-- #region switchcase-footer-row --> <div class="row"> <!-- #region switchcase-footer-cell --> <div class="cell"> <img class="size-20px" src="../../media/downtoright-arrow.png"> </div> <!-- #endregion switchcase-footer-cell --> <!-- #region switchcase-direction-cell --> <div class="cell"> <img class="size-20px" src="../../media/righttoup-arrow.png"> </div> <!-- #endregion switchcase-direction-cell --> </div> <!-- #endregion switchcase-footer-row --> </div> <!-- #endregion switchcase-block --> </div> <!-- #endregion switchstatement-cases-cell --> <!-- #region switchstatement-cases-cell --> <div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top"> <!-- #region switchcase-block --> <div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center"> <!-- #region switchcase-value-row --> <div class="row"> <!-- #region switchcase-value-cell --> <div class="cell">
+		.size-20px {
+			image-rendering: crisp-edges;
+			width: 20px;
+			height: 20px;
+		}
+	</style>
+</head>
 
-  case '2' </div> <!-- #endregion switchcase-value-cell --> <!-- #region switchcase-placeholder-cell --> <div class="cell"> </div> <!-- #endregion switchcase-placeholder-cell --> </div> <!-- #endregion switchcase-value-row --> <!-- #region switchcase-body-row --> <div class="row"> <!-- #region switchcase-body-cell --> <div class="cell">:{
-      console.log('2');
-    } </div> <!-- #endregion switchcase-body-cell --> <!-- #region switchcase-direction-cell --> <div class="cell"> <img class="size-20px" src="../../media/uptoright-arrow.png"> </div> <!-- #endregion switchcase-direction-cell --> </div> <!-- #endregion switchcase-body-row --> <!-- #region switchcase-footer-row --> <div class="row"> <!-- #region switchcase-footer-cell --> <div class="cell"> <img class="size-20px" src="../../media/downtoright-arrow.png"> </div> <!-- #endregion switchcase-footer-cell --> <!-- #region switchcase-direction-cell --> <div class="cell"> <img class="size-20px" src="../../media/righttoup-arrow.png"> </div> <!-- #endregion switchcase-direction-cell --> </div> <!-- #endregion switchcase-footer-row --> </div> <!-- #endregion switchcase-block --> </div> <!-- #endregion switchstatement-cases-cell -->} </div> <!-- #endregion switchstatement-cases-row --> </div> <!-- #endregion switchstatement-cases-block --> </div> <!-- #endregion switchstatement-body-cell --> </div> <!-- #endregion switchstatement-body-row --> </div> <!-- #endregion switchstatement-block --> <div class="table outer-alignment-center" id="0-exit"><img class="size-20px" src="../../media/down-arrow.png"></div> <div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px"><img class="size-20px" src="../../media/end.png"></div> </div></body></html>
+<body>
+	<div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js">
+		<div
+			class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center">
+			<img class="size-20px" src="../../media/start.png">
+		</div>
+		<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>
+		<!-- #region switchstatement-block -->
+		<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">
+			<!-- #region switchstatement-expression-row -->
+			<div class="row">
+				<!-- #region switchstatement-expression-cell -->
+				<div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top">switch (var1) {</div>
+				<!-- #endregion switchstatement-expression-cell -->
+			</div> <!-- #endregion switchstatement-expression-row -->
+			<!-- #region switchstatement-body-row -->
+			<div class="row">
+				<!-- #region switchstatement-body-cell -->
+				<div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">
+					<!-- #region switchstatement-cases-block -->
+					<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">
+						<!-- #region switchstatement-cases-row -->
+						<div class="row">
+							<!-- #region switchstatement-cases-cell -->
+							<div
+								class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">
+								<!-- #region switchcase-block -->
+								<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">
+									<!-- #region switchcase-value-row -->
+									<div class="row">
+										<!-- #region switchcase-value-cell -->
+										<div class="cell">
+											case '1' </div> <!-- #endregion switchcase-value-cell -->
+										<!-- #region switchcase-placeholder-cell -->
+										<div class="cell"> </div> <!-- #endregion switchcase-placeholder-cell -->
+									</div> <!-- #endregion switchcase-value-row -->
+									<!-- #region switchcase-body-row -->
+									<div class="row">
+										<!-- #region switchcase-body-cell -->
+										<div class="cell">:
+											console.log('1'); </div> <!-- #endregion switchcase-body-cell -->
+										<!-- #region switchcase-direction-cell -->
+										<div class="cell"> <img class="size-20px" src="../../media/uptoright-arrow.png">
+										</div> <!-- #endregion switchcase-direction-cell -->
+									</div> <!-- #endregion switchcase-body-row -->
+									<!-- #region switchcase-footer-row -->
+									<div class="row">
+										<!-- #region switchcase-footer-cell -->
+										<div class="cell"> <img class="size-20px"
+												src="../../media/downtoright-arrow.png"> </div>
+										<!-- #endregion switchcase-footer-cell -->
+										<!-- #region switchcase-direction-cell -->
+										<div class="cell"> <img class="size-20px" src="../../media/righttoup-arrow.png">
+										</div> <!-- #endregion switchcase-direction-cell -->
+									</div> <!-- #endregion switchcase-footer-row -->
+								</div> <!-- #endregion switchcase-block -->
+							</div> <!-- #endregion switchstatement-cases-cell -->
+							<!-- #region switchstatement-cases-cell -->
+							<div
+								class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">
+								<!-- #region switchcase-block -->
+								<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">
+									<!-- #region switchcase-value-row -->
+									<div class="row">
+										<!-- #region switchcase-value-cell -->
+										<div class="cell">
+
+											case '2' </div> <!-- #endregion switchcase-value-cell -->
+										<!-- #region switchcase-placeholder-cell -->
+										<div class="cell"> </div> <!-- #endregion switchcase-placeholder-cell -->
+									</div> <!-- #endregion switchcase-value-row -->
+									<!-- #region switchcase-body-row -->
+									<div class="row">
+										<!-- #region switchcase-body-cell -->
+										<div class="cell">:{
+											console.log('2');
+											}
+
+											break; </div> <!-- #endregion switchcase-body-cell -->
+									</div> <!-- #endregion switchcase-body-row -->
+								</div> <!-- #endregion switchcase-block -->
+							</div> <!-- #endregion switchstatement-cases-cell -->
+							<!-- #region switchstatement-cases-cell -->
+							<div
+								class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">
+								<!-- #region switchcase-block -->
+								<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">
+									<!-- #region switchcase-value-row -->
+									<div class="row">
+										<!-- #region switchcase-value-cell -->
+										<div class="cell">
+
+											case '1' </div> <!-- #endregion switchcase-value-cell -->
+										<!-- #region switchcase-placeholder-cell -->
+										<div class="cell"> </div> <!-- #endregion switchcase-placeholder-cell -->
+									</div> <!-- #endregion switchcase-value-row -->
+									<!-- #region switchcase-body-row -->
+									<div class="row">
+										<!-- #region switchcase-body-cell -->
+										<div class="cell">:{
+											console.log('2');
+											break;
+											} </div> <!-- #endregion switchcase-body-cell -->
+									</div> <!-- #endregion switchcase-body-row -->
+								</div> <!-- #endregion switchcase-block -->
+							</div> <!-- #endregion switchstatement-cases-cell -->
+							<!-- #region switchstatement-cases-cell -->
+							<div
+								class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">
+								<!-- #region switchcase-block -->
+								<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">
+									<!-- #region switchcase-value-row -->
+									<div class="row">
+										<!-- #region switchcase-value-cell -->
+										<div class="cell">
+
+											case '2' </div> <!-- #endregion switchcase-value-cell -->
+										<!-- #region switchcase-placeholder-cell -->
+										<div class="cell"> </div> <!-- #endregion switchcase-placeholder-cell -->
+									</div> <!-- #endregion switchcase-value-row -->
+									<!-- #region switchcase-body-row -->
+									<div class="row">
+										<!-- #region switchcase-body-cell -->
+										<div class="cell">:{
+											console.log('2');
+											} </div> <!-- #endregion switchcase-body-cell -->
+									</div> <!-- #endregion switchcase-body-row -->
+								</div> <!-- #endregion switchcase-block -->
+							</div> <!-- #endregion switchstatement-cases-cell -->}
+						</div> <!-- #endregion switchstatement-cases-row -->
+					</div> <!-- #endregion switchstatement-cases-block -->
+				</div> <!-- #endregion switchstatement-body-cell -->
+			</div> <!-- #endregion switchstatement-body-row -->
+		</div> <!-- #endregion switchstatement-block -->
+		<div class="table outer-alignment-center" id="0-exit"><img class="size-20px" src="../../media/down-arrow.png">
+		</div>
+		<div
+			class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px">
+			<img class="size-20px" src="../../media/end.png">
+		</div>
+	</div>
+</body>
+
+</html>

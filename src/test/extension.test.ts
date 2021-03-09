@@ -793,34 +793,42 @@ function exitSwitchStatement(path: NodePath<Node>) {
 	}
 
 	if (path.isSwitchCase()) {
+		let noBreak = hasNoBreakStatement(path);
+
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-body-cell -->`);
 
-		comments.push(`<!-- #region switchcase-direction-cell -->`);
-		comments.push(`<div class="cell">`);
-		comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+		let isLast = isLastSwitchCase(path);
+
+		if (noBreak && !isLast) {
+			comments.push(`<!-- #region switchcase-direction-cell -->`);
+			comments.push(`<div class="cell">`);
+			comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+		}
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-body-row -->`);
 
-		comments.push(`<!-- #region switchcase-footer-row -->`);
-		comments.push(`<div class="row">`);
-		comments.push(`<!-- #region switchcase-footer-cell -->`);
-		comments.push(`<div class="cell">`);
-		comments.push(`<img class="size-20px" src="../../media/downtoright-arrow.png">`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-footer-cell -->`);
+		if (noBreak && !isLast) {
+			comments.push(`<!-- #region switchcase-footer-row -->`);
+			comments.push(`<div class="row">`);
+			comments.push(`<!-- #region switchcase-footer-cell -->`);
+			comments.push(`<div class="cell">`);
+			comments.push(`<img class="size-20px" src="../../media/downtoright-arrow.png">`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-footer-cell -->`);
 
-		comments.push(`<!-- #region switchcase-direction-cell -->`);
-		comments.push(`<div class="cell">`);
-		comments.push(`<img class="size-20px" src="../../media/righttoup-arrow.png">`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+			comments.push(`<!-- #region switchcase-direction-cell -->`);
+			comments.push(`<div class="cell">`);
+			comments.push(`<img class="size-20px" src="../../media/righttoup-arrow.png">`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-direction-cell -->`);
 
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-footer-row -->`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-footer-row -->`);
+		}
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-block -->`);
@@ -847,15 +855,21 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		return;
 	}
 
-	if (path.key === Key.Test) {
+	if (path.parentPath.isSwitchCase() && path.key === Key.Test) {
+		let noBreak = hasNoBreakStatement(path.parentPath);
+
+		let isLast = isLastSwitchCase(path.parentPath);
+
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-value-cell -->`);
 
-		comments.push(`<!-- #region switchcase-placeholder-cell -->`);
-		comments.push(`<div class="cell">`);
-		//comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
+		if (noBreak && !isLast) {
+			comments.push(`<!-- #region switchcase-placeholder-cell -->`);
+			comments.push(`<div class="cell">`);
+			//comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
+		}
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-value-row -->`);
@@ -971,4 +985,37 @@ function getPathLevelChart(sourceCode: string) {
 	});
 
 	return `<html><body>${pathLevel}</body></html>`;
+}
+
+// function doesIncludeBreakStatement(path: NodePath<Node>, topPathTypeList: string[]): bool {
+// 	if (!path.parentPath) {
+// 		return path.type;
+// 	}
+// 	else if (topPathTypeList.includes(path.parentPath.type)) {
+// 		return path.parentPath.type;
+// 	}
+// 	else {
+// 		return getMatchTopPathType(path.parentPath, topPathTypeList);
+// 	}
+// }
+
+function hasNoBreakStatement(path: NodePath<Node>) {
+	let hasNoBreakStatement = false;
+
+	path.traverse({
+		BreakStatement() {
+			hasNoBreakStatement = true;
+			return;
+		}
+	});
+
+	return !hasNoBreakStatement;
+}
+
+function isLastSwitchCase(path: NodePath<Node>) {
+	if (path.key === (path.container as Node[]).length - 1) {
+		return true
+	}
+
+	return false;
 }
