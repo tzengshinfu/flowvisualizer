@@ -8,11 +8,11 @@ import { C, D, CommentType, Key, PathType } from '../../src/variable';
 
 describe('getFlowBlockHtml', function () {
 	it.skip('test IfStatement', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-if-statement.js', 'utf8');
+		const sourceCode = fs.readFileSync('./src/test/test-if/test-if-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_if(sourceCode);
-		const htmlFilePath = './src/test/test-if-result.html';
+		const htmlFilePath = './src/test/test-if/test-if-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-if-chart.html';
+		const chartFilePath = './src/test/test-if/test-if-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -26,11 +26,11 @@ describe('getFlowBlockHtml', function () {
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
 	it.skip('test ForStatement', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-for-statement.js', 'utf8');
+		const sourceCode = fs.readFileSync('./src/test/test-for/test-for-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_for(sourceCode);
-		const htmlFilePath = './src/test/test-for-result.html';
+		const htmlFilePath = './src/test/test-for/test-for-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-for-chart.html';
+		const chartFilePath = './src/test/test-for/test-for-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -44,11 +44,11 @@ describe('getFlowBlockHtml', function () {
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
 	it.skip('test ForOfStatement', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-forof-statement.js', 'utf8');
+		const sourceCode = fs.readFileSync('./src/test/test-forof/test-forof-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_forOf(sourceCode);
-		const htmlFilePath = './src/test/test-forof-result.html';
+		const htmlFilePath = './src/test/test-forof/test-forof-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-forof-chart.html';
+		const chartFilePath = './src/test/test-forof/test-forof-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -62,11 +62,11 @@ describe('getFlowBlockHtml', function () {
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
 	it.skip('test DoWhileStatement', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-dowhile-statement.js', 'utf8');
+		const sourceCode = fs.readFileSync('./src/test/test-dowhile/test-dowhile-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_doWhile(sourceCode);
-		const htmlFilePath = './src/test/test-dowhile-result.html';
+		const htmlFilePath = './src/test/test-dowhile/test-dowhile-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-dowhile-chart.html';
+		const chartFilePath = './src/test/test-dowhile/test-dowhile-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -80,11 +80,11 @@ describe('getFlowBlockHtml', function () {
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
 	it('test SwitchStatement', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-switch-statement.js', 'utf8');
+		const sourceCode = fs.readFileSync('./src/test/test-switch/test-switch-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_switch(sourceCode);
-		const htmlFilePath = './src/test/test-switch-result.html';
+		const htmlFilePath = './src/test/test-switch/test-switch-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-switch-chart.html';
+		const chartFilePath = './src/test/test-switch/test-switch-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -274,8 +274,8 @@ function enterProgram(path: NodePath<Node>) {
 
 	if (path.isProgram()) {
 		comments.push(`<div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js">`);
-		comments.push(`<div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center"><img class="size-20px" src="../../media/start.png"></div>`);
-		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center"><img class="size-20px" src="../../../media/start.png"></div>`);
+		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 		return;
@@ -286,7 +286,7 @@ function exitProgram(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isProgram()) {
-		comments.push(`<div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px"><img class="size-20px" src="../../media/end.png"></div>`);
+		comments.push(`<div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px"><img class="size-20px" src="../../../media/end.png"></div>`);
 		comments.push(`</div>`); //Program
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
@@ -300,7 +300,7 @@ function enterIfStatement(path: NodePath<Node>) {
 	if (path.isIfStatement()) {
 		if (path.key === Key.Alternate) {
 			comments.push(`<div class="backgroundcolor-skyblue padding-5px inner-alignment-center" data-node-type="IfAlternateHead">else</div>`);
-			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		}
 
 		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="IfStatement">`); //IfStatement
@@ -321,7 +321,7 @@ function enterIfStatement(path: NodePath<Node>) {
 		}
 
 		if (path.key === Key.Consequent) {
-			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 			comments.push(`<div class="padding-5px inner-alignment-center" data-node-type="IfConsequentBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -331,7 +331,7 @@ function enterIfStatement(path: NodePath<Node>) {
 		if (path.key === Key.Alternate) {
 			comments.push(`<div class="cell backgroundcolor-aliceblue inner-alignment-top">`); //IfAlternate
 			comments.push(`<div class="backgroundcolor-skyblue padding-5px inner-alignment-center" data-node-type="IfAlternateHead">else</div>`);
-			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 			comments.push(`<div class="padding-5px inner-alignment-center" data-node-type="IfAlternateBody" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -347,15 +347,15 @@ function exitIfStatement(path: NodePath<Node>) {
 		if (!path.node.alternate) {
 			comments.push(`<div class="cell backgroundcolor-aliceblue inner-alignment-top">`); //IfAlternative
 			comments.push(`<div class="backgroundcolor-skyblue padding-5px inner-alignment-top inner-alignment-center" data-node-type="IfAlternateHead">else</div>`);
-			comments.push(`<div class="padding-5px inner-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="padding-5px inner-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 			comments.push(`<div class="padding-5px inner-alignment-center" data-node-type="IfAlternateBody"><div class="inner-text-nowrap" onmouseover="(function() { document.getElementById('${path.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.node.start}-exit').classList.remove('move-todown'); })();"><a href="#${path.node.start}-exit" class="link-text-nounderline">🚪🚶</a></div></div>`);
-			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 			comments.push(`</div>`); //IfAlternative
 		}
 
 		comments.push(`</div>`);
 		comments.push(`</div>`); //IfStatement
-		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -411,7 +411,7 @@ function enterForStatement(path: NodePath<Node>) {
 		if (path.key === 'body') {
 			comments.push(`<div class="row">`); //row
 			comments.push(`<div class="cell backgroundcolor-lavenderblush padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`); //ForStatementBody
-			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 			comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
 			return;
@@ -431,7 +431,7 @@ function exitForStatement(path: NodePath<Node>) {
 		comments.push(`<div class="cell backgroundcolor-pink">⤴️</div>`);
 		comments.push(`</div>`); //row
 		comments.push(`</div>`); //ForStatement
-		comments.push(`<div class="padding-5px inner-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="padding-5px inner-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -470,7 +470,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isForInStatement() || path.isForOfStatement()) {
-		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}">`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -547,7 +547,7 @@ function enterDoWhileStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
 	if (path.isDoWhileStatement()) {
-		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}">`); //DoWhileStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
 
@@ -624,7 +624,7 @@ function exitExpressionStatement(path: NodePath<Node>) {
 	if (path.isExpressionStatement()) {
 		let comments: string[] = [];
 
-		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
@@ -770,10 +770,11 @@ function enterSwitchStatement(path: NodePath<Node>) {
 	}
 
 
-
+	/*
 	if (path.parentPath?.isSwitchCase() && (path.parentPath.node as SwitchCase).test === null) {
 		let noBreak = hasBreakStatement(path.parentPath);
 		let isLast = isLastSwitchCase(path.parentPath);
+		let noThrow = !hasThrowStatement(path.parentPath);
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-value-cell -->`);
@@ -781,7 +782,7 @@ function enterSwitchStatement(path: NodePath<Node>) {
 		if (noBreak && !isLast) {
 			comments.push(`<!-- #region switchcase-placeholder-cell -->`);
 			comments.push(`<div class="cell backgroundcolor-azure">`);
-			//comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
+			//comments.push(`<img class="size-20px" src="../../../media/uptoright-arrow.png">`);
 			comments.push(`</div>`);
 			comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
 		}
@@ -793,7 +794,10 @@ function enterSwitchStatement(path: NodePath<Node>) {
 		comments.push(`<div class="row">`);
 		comments.push(`<!-- #region switchcase-body-cell -->`);
 		comments.push(`<div class="cell">`);
-		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+
+		if (noThrow) {
+			comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
+		}
 		// comments.push(`<!-- #endregion switchcase-value-cell -->`);
 		// comments.push(`<!-- #region switchcase-direction-cell -->`);
 		// comments.push(`<div class="cell">1</div>`);
@@ -808,8 +812,9 @@ function enterSwitchStatement(path: NodePath<Node>) {
 
 		return;
 	}
+	*/
 
-	enterBreakStatement(path);
+	//enterBreakStatement(path);
 }
 
 function exitSwitchStatement(path: NodePath<Node>) {
@@ -826,59 +831,59 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		comments.push(`<!-- #endregion switchstatement-body-row -->`);
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchstatement-block -->`);
-		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
 
 		return;
 	}
 
 	if (path.isSwitchCase()) {
-		let noBreak = !hasBreakStatement(path);
-		let isLast = isLastSwitchCase(path);
-		let isDefault = path.node.test === null;
-		let noThrow = !hasThrowStatement(path);
+		// let noBreak = !hasBreakStatement(path);
+		// let isLast = isLastSwitchCase(path);
+		// let isDefault = path.node.test === null;
+		// let noThrow = !hasThrowStatement(path);
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-body-cell -->`);
 
-		if (noBreak && !isLast && !isDefault) {
-			comments.push(`<!-- #region switchcase-direction-cell -->`);
-			comments.push(`<div class="cell">`);
-			comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
-			comments.push(`<br>`);
-			comments.push(`<img class="size-20px" src="../../media/up-arrow.png">`);
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchcase-direction-cell -->`);
-		}
+		// if (noBreak && !isLast && !isDefault) {
+		// 	comments.push(`<!-- #region switchcase-direction-cell -->`);
+		// 	comments.push(`<div class="cell">`);
+		// 	comments.push(`<img class="size-20px" src="../../../media/uptoright-arrow.png">`);
+		// 	comments.push(`<br>`);
+		// 	comments.push(`<img class="size-20px" src="../../../media/up-arrow.png">`);
+		// 	comments.push(`</div>`);
+		// 	comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+		// }
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-body-row -->`);
 
-		if (noBreak && !isLast && !isDefault) {
-			comments.push(`<!-- #region switchcase-footer-row -->`);
-			comments.push(`<div class="row">`);
-			comments.push(`<!-- #region switchcase-footer-cell -->`);
-			comments.push(`<div class="cell inner-alignment-center">`);
-			comments.push(`<img class="size-20px" src="../../media/downtoright-arrow.png">`);
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchcase-footer-cell -->`);
+		// if (noBreak && !isLast && !isDefault) {
+		// 	comments.push(`<!-- #region switchcase-footer-row -->`);
+		// 	comments.push(`<div class="row">`);
+		// 	comments.push(`<!-- #region switchcase-footer-cell -->`);
+		// 	comments.push(`<div class="cell inner-alignment-center">`);
+		// 	comments.push(`<img class="size-20px" src="../../../media/downtoright-arrow.png">`);
+		// 	comments.push(`</div>`);
+		// 	comments.push(`<!-- #endregion switchcase-footer-cell -->`);
 
-			comments.push(`<!-- #region switchcase-direction-cell -->`);
-			comments.push(`<div class="cell">`);
-			comments.push(`<img class="size-20px" src="../../media/righttoup-arrow.png">`);
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+		// 	comments.push(`<!-- #region switchcase-direction-cell -->`);
+		// 	comments.push(`<div class="cell">`);
+		// 	comments.push(`<img class="size-20px" src="../../../media/righttoup-arrow.png">`);
+		// 	comments.push(`</div>`);
+		// 	comments.push(`<!-- #endregion switchcase-direction-cell -->`);
 
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchcase-footer-row -->`);
-		}
+		// 	comments.push(`</div>`);
+		// 	comments.push(`<!-- #endregion switchcase-footer-row -->`);
+		// }
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchcase-block -->`);
 
-		if (!noBreak || isLast || isDefault || noThrow) {
-			comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
-		}
+		// if (!noBreak || isLast || isDefault || noThrow) {
+		// 	comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
+		// }
 
 		comments.push(`</div>`);
 		comments.push(`<!-- #endregion switchstatement-cases-cell -->`);
@@ -904,6 +909,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		return;
 	}
 
+	/*
 	if (path.parentPath?.isSwitchCase() && path.key === Key.Test) {
 		let noBreak = hasBreakStatement(path.parentPath);
 		let isLast = isLastSwitchCase(path.parentPath);
@@ -914,7 +920,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		if (noBreak && !isLast) {
 			comments.push(`<!-- #region switchcase-placeholder-cell -->`);
 			comments.push(`<div class="cell backgroundcolor-azure">`);
-			//comments.push(`<img class="size-20px" src="../../media/uptoright-arrow.png">`);
+			//comments.push(`<img class="size-20px" src="../../../media/uptoright-arrow.png">`);
 			comments.push(`</div>`);
 			comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
 		}
@@ -926,7 +932,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 		comments.push(`<div class="row">`);
 		comments.push(`<!-- #region switchcase-body-cell -->`);
 		comments.push(`<div class="cell">`);
-		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../media/down-arrow.png"></div>`);
+		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		// comments.push(`<!-- #endregion switchcase-value-cell -->`);
 		// comments.push(`<!-- #region switchcase-direction-cell -->`);
 		// comments.push(`<div class="cell">1</div>`);
@@ -941,8 +947,9 @@ function exitSwitchStatement(path: NodePath<Node>) {
 
 		return;
 	}
+	*/
 
-	exitBreakStatement(path);
+	//exitBreakStatement(path);
 }
 
 function clearLeadingComments(path: NodePath<Node>) {
@@ -1034,18 +1041,6 @@ function getPathLevelChart(sourceCode: string) {
 
 	return `<html><body>${pathLevel}</body></html>`;
 }
-
-// function doesIncludeBreakStatement(path: NodePath<Node>, topPathTypeList: string[]): bool {
-// 	if (!path.parentPath) {
-// 		return path.type;
-// 	}
-// 	else if (topPathTypeList.includes(path.parentPath.type)) {
-// 		return path.parentPath.type;
-// 	}
-// 	else {
-// 		return getMatchTopPathType(path.parentPath, topPathTypeList);
-// 	}
-// }
 
 function hasBreakStatement(path: NodePath<Node>) {
 	let hasBreakStatement = false;
