@@ -1,2 +1,12 @@
-1.if 敘述句條件區塊背景顏色加深(與執行區分)
-2.修正巢狀區塊邊線
+loop->if->break;
+case->if->break;
+label->if->break;
+
+loop->if->continue;
+label->if->contiune;
+
+loop->if->throw;
+case->if->throw;
+label->if->throw;
+
+function->if->return;
