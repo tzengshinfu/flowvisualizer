@@ -1,13 +1,13 @@
 import * as assert from 'assert';
 import * as parser from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
-import { Comment, Node, SwitchStatement, SwitchCase } from '@babel/types';
+import { Node } from '@babel/types';
 import * as fs from 'fs';
 import generate from "@babel/generator";
 import { C, B, CommentType, Key, PathType } from '../../src/variable';
 
 describe('getFlowBlockHtml', function () {
-	it.skip('test IfStatement', function () {
+	it('test IfStatement', function () {
 		const sourceCode = fs.readFileSync('./src/test/test-if/test-if-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_if(sourceCode);
 		const htmlFilePath = './src/test/test-if/test-if-result.html';
@@ -789,6 +789,24 @@ function enterSwitchStatement(path: NodePath<Node>) {
 	}
 
 	if (path.isBreakStatement()) {
+		let switchCasePath = path.findParent((parentPath) => { return parentPath.isSwitchCase(); });
+
+		if (switchCasePath) {
+			if (!switchCasePath.data) {
+				switchCasePath.data = { isBreak: true, start: (path.node.start as number) };
+			}
+
+			let ifStatementPath = path.findParent((parentPath) => { return parentPath.isIfStatement(); });
+
+			if (ifStatementPath) {
+				if ((ifStatementPath.node.start as number) > (switchCasePath.node.start as number)) {
+					if (!switchCasePath.data) {
+						switchCasePath.data = { isBreak: false, start: (path.node.start as number) };
+					}
+				}
+			}
+		}
+
 		comments.push(`<div class="table outer-alignment-center" onmouseover="(function() ${C} document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.add('move-todown'); ${B})();" onmouseout="(function()${C} document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.remove('move-todown'); ${B})();"><a href="#${path.parentPath.parentPath.node.start}-exit" class="link-text-nounderline text-color-red">`);
 		addStartTags(path, comments);
 
@@ -964,19 +982,27 @@ function getPathLevelChart(sourceCode: string) {
 function hasBreakStatement(path: NodePath<Node>) {
 	let hasBreakStatement = false;
 
-	for (var a of (path as SwitchCase).node.consequent) {
-		a.
+	path.traverse({
+		BreakStatement(path) {
+			hasBreakStatement = true;
+			console.log(path);
+			return;
+		}
+	});
+
+	{
+		{
+			return;
+
+		}
 	}
-
-
-
 
 	return hasBreakStatement;
 }
 
 function isLastSwitchCase(path: NodePath<Node>) {
 	if (path.key === (path.container as Node[]).length - 1) {
-		return true
+		return true;
 	}
 
 	return false;
