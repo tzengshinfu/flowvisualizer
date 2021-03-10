@@ -3,7 +3,31 @@
 <div>->->Identifier,parent→SwitchStatement,key→discriminant,text→var1</div>
 
 <div>->->SwitchCase,parent→SwitchStatement,key→0
-<div>->->->ThrowStatement,parent→SwitchCase,key→0
+<div>->->->ExpressionStatement,parent→SwitchCase,key→0
+<div>->->->->CallExpression,parent→ExpressionStatement,key→expression
+<div>->->->->->MemberExpression,parent→CallExpression,key→callee
+<div>->->->->->->Identifier,parent→MemberExpression,key→object,text→console</div>
+
+<div>->->->->->->Identifier,parent→MemberExpression,key→property,text→log</div>
+</div>
+
+<div>->->->->->StringLiteral,parent→CallExpression,key→0,text→1</div>
+</div>
+</div>
+
+<div>->->->ExpressionStatement,parent→SwitchCase,key→1
+<div>->->->->CallExpression,parent→ExpressionStatement,key→expression
+<div>->->->->->MemberExpression,parent→CallExpression,key→callee
+<div>->->->->->->Identifier,parent→MemberExpression,key→object,text→console</div>
+
+<div>->->->->->->Identifier,parent→MemberExpression,key→property,text→log</div>
+</div>
+
+<div>->->->->->StringLiteral,parent→CallExpression,key→0,text→1</div>
+</div>
+</div>
+
+<div>->->->ThrowStatement,parent→SwitchCase,key→2
 <div>->->->->StringLiteral,parent→ThrowStatement,key→argument,text→</div>
 </div>
 </div>
@@ -42,6 +66,18 @@
 </div>
 
 <div>->->->BreakStatement,parent→SwitchCase,key→1</div>
+
+<div>->->->ExpressionStatement,parent→SwitchCase,key→2
+<div>->->->->CallExpression,parent→ExpressionStatement,key→expression
+<div>->->->->->MemberExpression,parent→CallExpression,key→callee
+<div>->->->->->->Identifier,parent→MemberExpression,key→object,text→console</div>
+
+<div>->->->->->->Identifier,parent→MemberExpression,key→property,text→log</div>
+</div>
+
+<div>->->->->->StringLiteral,parent→CallExpression,key→0,text→1</div>
+</div>
+</div>
 </div>
 
 <div>->->SwitchCase,parent→SwitchStatement,key→3
