@@ -1,10 +1,10 @@
 import * as assert from 'assert';
 import * as parser from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
-import { Node } from '@babel/types';
+import { Node, BreakStatement } from '@babel/types';
 import * as fs from 'fs';
 import generate from "@babel/generator";
-import { C, B, CommentType, Key, PathType } from '../../src/variable';
+import { C, B, CommentType, Key, PathType, JumperType } from '../../src/variable';
 
 describe('getFlowBlockHtml', function () {
 	it('test IfStatement', function () {
@@ -26,11 +26,11 @@ describe('getFlowBlockHtml', function () {
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
 	it.skip('test ForStatement', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-for/test-for-statement.js', 'utf8');
+		const sourceCode = fs.readFileSync('./src/test/test-loop/test-for-statement.js', 'utf8');
 		const flowblockHtml = getFlowBlockHtml_for(sourceCode);
-		const htmlFilePath = './src/test/test-for/test-for-result.html';
+		const htmlFilePath = './src/test/test-loop/test-for-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-for/test-for-chart.html';
+		const chartFilePath = './src/test/test-loop/test-for-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -43,12 +43,12 @@ describe('getFlowBlockHtml', function () {
 		fs.writeFileSync(chartFilePath, pathLevelChart, 'utf8');
 		assert.equal(fs.existsSync(htmlFilePath), true);
 	});
-	it.skip('test ForOfStatement', function () {
-		const sourceCode = fs.readFileSync('./src/test/test-forof/test-forof-statement.js', 'utf8');
-		const flowblockHtml = getFlowBlockHtml_forOf(sourceCode);
-		const htmlFilePath = './src/test/test-forof/test-forof-result.html';
+	it.skip('test ForXStatement', function () {
+		const sourceCode = fs.readFileSync('./src/test/test-loop/test-forx-statement.js', 'utf8');
+		const flowblockHtml = getFlowBlockHtml_forX(sourceCode);
+		const htmlFilePath = './src/test/test-loop/test-forx-result.html';
 		const pathLevelChart = getPathLevelChart(sourceCode);
-		const chartFilePath = './src/test/test-forof/test-forof-chart.html';
+		const chartFilePath = './src/test/test-loop/test-forx-chart.html';
 
 		if (fs.existsSync(htmlFilePath)) {
 			fs.unlinkSync(htmlFilePath);
@@ -167,7 +167,7 @@ function getFlowBlockHtml_for(sourceCode: string) {
 	return flowblockHtml;
 }
 
-function getFlowBlockHtml_forOf(sourceCode: string) {
+function getFlowBlockHtml_forX(sourceCode: string) {
 	let flowblockHtml = '';
 	const ast = parser.parse(sourceCode);
 	const style = fs.readFileSync('./media/main.css', 'utf8');
@@ -180,7 +180,7 @@ function getFlowBlockHtml_forOf(sourceCode: string) {
 
 			clearLeadingComments(path);
 			enterProgram(path);
-			enterForOfStatement(path);
+			enterForXStatement(path);
 		},
 		exit(path) {
 			if (path.isFile()) {
@@ -189,7 +189,7 @@ function getFlowBlockHtml_forOf(sourceCode: string) {
 
 			clearTrailingComments(path);
 			exitProgram(path);
-			exitForOfStatement(path);
+			exitForXStatement(path);
 			exitExpressionStatement(path);
 		}
 	});
@@ -466,10 +466,10 @@ function exitForStatement(path: NodePath<Node>) {
 	}
 }
 
-function enterForOfStatement(path: NodePath<Node>) {
+function enterForXStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
-	if (path.isForInStatement() || path.isForOfStatement()) {
+	if (path.isForXStatement()) {
 		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
 		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center" data-node-type="${path.type}">`); //ForStatement
 		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
@@ -477,7 +477,7 @@ function enterForOfStatement(path: NodePath<Node>) {
 		return;
 	}
 
-	if (path.parentPath?.isForInStatement() || path.parentPath?.isForOfStatement()) {
+	if (path.parentPath?.isForXStatement()) {
 		if (path.key === 'left') {
 			comments.push(`<div class="row">`); //row
 			comments.push(`<div class="cell backgroundcolor-pink padding-5px inner-alignment-center" data-node-loc-line="${path.node!.loc!.start.line}" data-node-loc-column="${path.node!.loc!.start.column}">`); //ForStatementHead
@@ -500,10 +500,10 @@ function enterForOfStatement(path: NodePath<Node>) {
 	}
 }
 
-function exitForOfStatement(path: NodePath<Node>) {
+function exitForXStatement(path: NodePath<Node>) {
 	let comments: string[] = [];
 
-	if (path.isForInStatement() || path.isForOfStatement()) {
+	if (path.isForXStatement()) {
 		comments.push(`<div class="row">`);// row
 		comments.push(`<div class="cell backgroundcolor-pink"></div>`);
 
@@ -516,7 +516,7 @@ function exitForOfStatement(path: NodePath<Node>) {
 		return;
 	}
 
-	if (path.parentPath?.isForInStatement() || path.parentPath?.isForOfStatement()) {
+	if (path.parentPath?.isForXStatement()) {
 		if (path.key === 'right') {
 			comments.push(')');
 			comments.push(`</div>`); //ForStatementHead
@@ -789,21 +789,24 @@ function enterSwitchStatement(path: NodePath<Node>) {
 	}
 
 	if (path.isBreakStatement()) {
-		let switchCasePath = path.findParent((parentPath) => { return parentPath.isSwitchCase(); });
+		let loopPath = path.findParent((parentPath) => { return parentPath.isForStatement() || parentPath.isForXStatement() || parentPath.isDoWhileStatement() || parentPath.isWhileStatement(); });
+		let casePath = path.findParent((parentPath) => { return parentPath.isSwitchCase(); });
+		let ifPath = path.findParent((parentPath) => { return parentPath.isIfStatement(); });
+		let loopPathPosition = loopPath ? (loopPath.node.start as number) : 0;
+		let casePathPosition = casePath ? (casePath.node.start as number) : 0;
+		let ifPathPosition = ifPath ? (ifPath.node.start as number) : 0;
+		let isInLoop = loopPathPosition > casePathPosition;
 
-		if (switchCasePath) {
-			if (!switchCasePath.data) {
-				switchCasePath.data = { isBreak: true, start: (path.node.start as number) };
+		//In Loop block
+		if (isInLoop) {
+			if (ifPathPosition < loopPathPosition) {
+				(loopPath as NodePath<Node>).data = !(loopPath as NodePath<Node>).data ? { type: PathType.BreakStatement, position: (path.node.start as number) } : (loopPath as NodePath<Node>).data;
 			}
-
-			let ifStatementPath = path.findParent((parentPath) => { return parentPath.isIfStatement(); });
-
-			if (ifStatementPath) {
-				if ((ifStatementPath.node.start as number) > (switchCasePath.node.start as number)) {
-					if (!switchCasePath.data) {
-						switchCasePath.data = { isBreak: false, start: (path.node.start as number) };
-					}
-				}
+		}
+		//In Case block
+		else {
+			if (ifPathPosition < casePathPosition) {
+				(casePath as NodePath<Node>).data = !(casePath as NodePath<Node>).data ? { type: PathType.BreakStatement, position: (path.node.start as number) } : (casePath as NodePath<Node>).data;
 			}
 		}
 
@@ -835,7 +838,7 @@ function exitSwitchStatement(path: NodePath<Node>) {
 	}
 
 	if (path.isSwitchCase()) {
-		let noBreak = !hasBreakStatement(path);
+		let noBreak = path.data ? (path.data as JumperType).type : '';
 		let isLast = isLastSwitchCase(path);
 
 		comments.push(`</div>`);

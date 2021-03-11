@@ -21,4 +21,15 @@ export enum PathType {
 	ForStatement = 'ForStatement',
 	ForInStatement = 'ForInStatement',
 	ForOfStatement = 'ForOfStatement',
+	BreakStatement = 'BreakStatement',
+	ContinueStatement = 'ContinueStatement',
+	ReturnStatement = 'ReturnStatement',
+	ThrowStatement = 'ThrowStatement'
 }
+
+export interface JumperType {
+	type: JumpStatements,
+	position: number
+}
+
+export type JumpStatements = PathType.BreakStatement | PathType.ContinueStatement | PathType.ReturnStatement | PathType.ThrowStatement;
