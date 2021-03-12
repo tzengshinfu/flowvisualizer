@@ -1,9 +1,10 @@
 case->if->break;
 loop->if->break;
 
-loop->if->continue;
+loop->if/case->continue;
 
-case->if->throw;
-loop->if->throw;
+try->if/case->throw;
+if/case->throw;
+loop->if/case->throw;
 
-function->if->return;
+function->if/case->return;
