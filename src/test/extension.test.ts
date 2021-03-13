@@ -712,6 +712,11 @@ function exitBreakStatement(path: NodePath<Node>) {
 	}
 }
 
+function renderBreakStatement(path: NodePath<Node>, isEnter: boolean) {
+
+
+}
+
 function renderSwitchStatement(path: NodePath<Node>, isEnter: boolean) {
 	let comments: string[] = [];
 
