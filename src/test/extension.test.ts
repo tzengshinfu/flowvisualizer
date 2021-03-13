@@ -246,19 +246,22 @@ function getFlowBlockHtml_switch(sourceCode: string) {
 				return;
 			}
 
-			clearLeadingComments(path);
-			enterProgram(path);
-			enterSwitchStatement(path);
+			let isEnter = true;
+
+			clearPathComments(path, isEnter);
+			renderProgram(path, isEnter);
+			renderSwitchStatement(path, isEnter);
 		},
 		exit(path) {
 			if (path.isFile()) {
 				return;
 			}
 
-			clearTrailingComments(path);
-			exitProgram(path);
-			exitSwitchStatement(path);
-			//exitExpressionStatement(path);
+			let isEnter = false;
+
+			clearPathComments(path, isEnter);
+			renderProgram(path, isEnter);
+			renderSwitchStatement(path, isEnter);
 		}
 	});
 
@@ -269,28 +272,27 @@ function getFlowBlockHtml_switch(sourceCode: string) {
 	return flowblockHtml;
 }
 
-function enterProgram(path: NodePath<Node>) {
+function renderProgram(path: NodePath<Node>, isEnter: boolean) {
 	let comments: string[] = [];
 
-	if (path.isProgram()) {
-		comments.push(`<div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js">`);
-		comments.push(`<div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center"><img class="size-20px" src="../../../media/start.png"></div>`);
-		comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
-		addStartTags(path, comments);
+	if (isEnter) {
+		if (path.isProgram()) {
+			comments.push(`<div class="padding-5px" data-node-type="Program" data-src-file-path="./src/test/test-if-then-else.js">`);
+			comments.push(`<div class="table backgroundcolor-mustard border-3px-solid-silver border-rounded-50percent padding-5px outer-alignment-center"><img class="size-20px" src="../../../media/start.png"></div>`);
+			comments.push(`<div class="table outer-alignment-center"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
+			addHtmlTags(path, comments, isEnter);
 
-		return;
+			return;
+		}
 	}
-}
+	else {
+		if (path.isProgram()) {
+			comments.push(`<div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px"><img class="size-20px" src="../../../media/end.png"></div>`);
+			comments.push(`</div>`); //Program
+			addHtmlTags(path, comments, isEnter);
 
-function exitProgram(path: NodePath<Node>) {
-	let comments: string[] = [];
-
-	if (path.isProgram()) {
-		comments.push(`<div class="table border-rounded-50percent border-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-5px"><img class="size-20px" src="../../../media/end.png"></div>`);
-		comments.push(`</div>`); //Program
-		addEndTags(path, comments);
-
-		return;
+			return;
+		}
 	}
 }
 
@@ -672,123 +674,6 @@ function exitContinueStatement(path: NodePath<Node>) {
 function enterBreakStatement(path: NodePath<Node>) {
 	if (path.isBreakStatement()) {
 		let comments: string[] = [];
-		let topPathType = getMatchTopPathType(path, [PathType.ForStatement, PathType.ForInStatement, PathType.ForOfStatement, PathType.WhileStatement, PathType.DoWhileStatement, PathType.LabelStatement, PathType.SwitchCase]);
-
-		switch (topPathType) {
-			case PathType.ForInStatement:
-			case PathType.ForInStatement:
-			case PathType.ForOfStatement:
-			case PathType.WhileStatement:
-			case PathType.DoWhileStatement:
-				comments.push(`<div class="table outer-alignment-center" onmouseover="(function() { document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.add('move-todown'); })();" onmouseout="(function(){ document.getElementById('${path.parentPath.parentPath.node.start}-exit').classList.remove('move-todown'); })();"><a href="#${path.parentPath.parentPath.node.start}-exit" class="link-text-nounderline text-color-red">`);
-				break;
-
-			case PathType.LabelStatement:
-				break;
-
-			case PathType.SwitchCase:
-				break;
-		}
-
-		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
-
-		return;
-	}
-}
-
-function exitBreakStatement(path: NodePath<Node>) {
-	if (path.isBreakStatement()) {
-		let comments: string[] = [];
-
-		let topPathType = getMatchTopPathType(path, [PathType.ForStatement, PathType.ForInStatement, PathType.ForOfStatement, PathType.WhileStatement, PathType.DoWhileStatement, PathType.LabelStatement, PathType.SwitchCase]);
-
-		switch (topPathType) {
-			case PathType.ForInStatement:
-			case PathType.ForInStatement:
-			case PathType.ForOfStatement:
-			case PathType.WhileStatement:
-			case PathType.DoWhileStatement:
-				comments.push(`</a></div>`);
-				break;
-
-			case PathType.LabelStatement:
-				break;
-
-			case PathType.SwitchCase:
-				break;
-		}
-
-
-		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
-
-		return;
-	}
-}
-
-function enterSwitchStatement(path: NodePath<Node>) {
-	let comments: string[] = [];
-
-	if (path.isSwitchStatement()) {
-		comments.push(`<!-- #region switchstatement-block -->`);
-		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
-		comments.push(`<!-- #region switchstatement-expression-row -->`);
-		comments.push(`<div class="row">`);
-		comments.push(`<!-- #region switchstatement-expression-cell -->`);
-		comments.push(`<div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top">`);
-		addStartTags(path, comments);
-
-		return;
-	}
-
-	if (path.isSwitchCase()) {
-		if (path.key === 0) {
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchstatement-expression-cell -->`);
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchstatement-expression-row -->`);
-			comments.push(`<!-- #region switchstatement-body-row -->`);
-			comments.push(`<div class="row">`);
-			comments.push(`<!-- #region switchstatement-body-cell -->`);
-			comments.push(`<div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">`);
-			comments.push(`<!-- #region switchstatement-cases-block -->`);
-			comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
-			comments.push(`<!-- #region switchstatement-cases-row -->`);
-			comments.push(`<div class="row">`);
-		}
-
-		comments.push(`<!-- #region switchstatement-cases-cell -->`);
-		comments.push(`<div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">`);
-		comments.push(`<!-- #region switchcase-block -->`);
-		comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
-		comments.push(`<!-- #region switchcase-value-row -->`);
-		comments.push(`<div class="row">`);
-		comments.push(`<!-- #region switchcase-value-cell -->`);
-		comments.push(`<div class="cell backgroundcolor-azure">`);
-		addStartTags(path, comments);
-
-		return;
-	}
-
-	//switchcase body
-	if (path.parentPath?.isSwitchCase() && path.key === 0) {
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-value-cell -->`);
-		comments.push(`<!-- #region switchcase-placeholder-cell -->`);
-		comments.push(`<div class="cell backgroundcolor-azure">`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-value-row -->`);
-		comments.push(`<!-- #region switchcase-body-row -->`);
-		comments.push(`<div class="row">`);
-		comments.push(`<!-- #region switchcase-body-cell -->`);
-		comments.push(`<div class="cell">`);
-		addStartTags(path, comments);
-
-		return;
-	}
-
-	if (path.isBreakStatement()) {
 		let loopPath = path.findParent((parentPath) => { return parentPath.isForStatement() || parentPath.isForXStatement() || parentPath.isDoWhileStatement() || parentPath.isWhileStatement(); });
 		let casePath = path.findParent((parentPath) => { return parentPath.isSwitchCase(); });
 		let ifPath = path.findParent((parentPath) => { return parentPath.isIfStatement(); });
@@ -817,72 +702,9 @@ function enterSwitchStatement(path: NodePath<Node>) {
 	}
 }
 
-function exitSwitchStatement(path: NodePath<Node>) {
-	let comments: string[] = [];
-
-	if (path.isSwitchStatement()) {
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchstatement-cases-row -->`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchstatement-cases-block -->`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchstatement-body-cell -->`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchstatement-body-row -->`);
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchstatement-block -->`);
-		comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
-		addEndTags(path, comments);
-
-		return;
-	}
-
-	if (path.isSwitchCase()) {
-		let noBreak = path.data ? (path.data as JumperType).type : '';
-		let isLast = isLastSwitchCase(path);
-
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-body-cell -->`);
-
-		if (noBreak && !isLast) {
-			comments.push(`<!-- #region switchcase-direction-cell -->`);
-			comments.push(`<div class="cell">`);
-			comments.push(`<img class="size-20px" src="../../../media/uptoright-arrow.png">`);
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchcase-direction-cell -->`);
-		}
-
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-body-row -->`);
-
-		if (noBreak && !isLast) {
-			comments.push(`<!-- #region switchcase-footer-row -->`);
-			comments.push(`<div class="row">`);
-			comments.push(`<!-- #region switchcase-footer-cell -->`);
-			comments.push(`<div class="cell inner-alignment-center">`);
-			comments.push(`<img class="size-20px" src="../../../media/downtoright-arrow.png">`);
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchcase-footer-cell -->`);
-			comments.push(`<!-- #region switchcase-direction-cell -->`);
-			comments.push(`<div class="cell">`);
-			comments.push(`<img class="size-20px" src="../../../media/righttoup-arrow.png">`);
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchcase-direction-cell -->`);
-			comments.push(`</div>`);
-			comments.push(`<!-- #endregion switchcase-footer-row -->`);
-		}
-
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchcase-block -->`);
-
-		comments.push(`</div>`);
-		comments.push(`<!-- #endregion switchstatement-cases-cell -->`);
-		addEndTags(path, comments);
-
-		return;
-	}
-
+function exitBreakStatement(path: NodePath<Node>) {
 	if (path.isBreakStatement()) {
+		let comments: string[] = [];
 		comments.push(`</a></div>`);
 		addEndTags(path, comments);
 
@@ -890,12 +712,137 @@ function exitSwitchStatement(path: NodePath<Node>) {
 	}
 }
 
-function clearLeadingComments(path: NodePath<Node>) {
-	path.node.leadingComments = null;
-}
+function renderSwitchStatement(path: NodePath<Node>, isEnter: boolean) {
+	let comments: string[] = [];
 
-function clearTrailingComments(path: NodePath<Node>) {
-	path.node.trailingComments = null;
+	if (isEnter) {
+		if (path.isSwitchStatement()) {
+			comments.push(`<!-- #region switchstatement-block -->`);
+			comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
+			comments.push(`<!-- #region switchstatement-expression-row -->`);
+			comments.push(`<div class="row">`);
+			comments.push(`<!-- #region switchstatement-expression-cell -->`);
+			comments.push(`<div class="cell border-3px-solid-silver backgroundcolor-pink inner-alignment-top">`);
+			addHtmlTags(path, comments, isEnter);
+
+			return;
+		}
+
+		if (path.isSwitchCase()) {
+			if (path.key === 0) {
+				comments.push(`</div>`);
+				comments.push(`<!-- #endregion switchstatement-expression-cell -->`);
+				comments.push(`</div>`);
+				comments.push(`<!-- #endregion switchstatement-expression-row -->`);
+				comments.push(`<!-- #region switchstatement-body-row -->`);
+				comments.push(`<div class="row">`);
+				comments.push(`<!-- #region switchstatement-body-cell -->`);
+				comments.push(`<div class="cell border-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">`);
+				comments.push(`<!-- #region switchstatement-cases-block -->`);
+				comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
+				comments.push(`<!-- #region switchstatement-cases-row -->`);
+				comments.push(`<div class="row">`);
+			}
+
+			comments.push(`<!-- #region switchstatement-cases-cell -->`);
+			comments.push(`<div class="cell border-right-3px-solid-silver backgroundcolor-lavenderblush inner-alignment-top">`);
+			comments.push(`<!-- #region switchcase-block -->`);
+			comments.push(`<div class="table border-3px-solid-silver border-rounded-3px outer-alignment-center">`);
+			comments.push(`<!-- #region switchcase-value-row -->`);
+			comments.push(`<div class="row">`);
+			comments.push(`<!-- #region switchcase-value-cell -->`);
+			comments.push(`<div class="cell backgroundcolor-azure">`);
+			addHtmlTags(path, comments, isEnter);
+
+			return;
+		}
+
+		//switchcase body
+		if (path.parentPath?.isSwitchCase() && path.key === 0) {
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-value-cell -->`);
+			comments.push(`<!-- #region switchcase-placeholder-cell -->`);
+			comments.push(`<div class="cell backgroundcolor-azure">`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-placeholder-cell -->`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-value-row -->`);
+			comments.push(`<!-- #region switchcase-body-row -->`);
+			comments.push(`<div class="row">`);
+			comments.push(`<!-- #region switchcase-body-cell -->`);
+			comments.push(`<div class="cell">`);
+			addHtmlTags(path, comments, isEnter);
+
+			return;
+		}
+
+		enterBreakStatement(path);
+	}
+	else {
+		if (path.isSwitchStatement()) {
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchstatement-cases-row -->`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchstatement-cases-block -->`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchstatement-body-cell -->`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchstatement-body-row -->`);
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchstatement-block -->`);
+			comments.push(`<div class="table outer-alignment-center" id="${path.node.start}-exit"><img class="size-20px" src="../../../media/down-arrow.png"></div>`);
+			addEndTags(path, comments);
+
+			return;
+		}
+
+		if (path.isSwitchCase()) {
+			let noBreak = path.data ? (path.data as JumperType).type : '';
+			let isLast = isLastSwitchCase(path);
+
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-body-cell -->`);
+
+			if (noBreak && !isLast) {
+				comments.push(`<!-- #region switchcase-direction-cell -->`);
+				comments.push(`<div class="cell">`);
+				comments.push(`<img class="size-20px" src="../../../media/uptoright-arrow.png">`);
+				comments.push(`</div>`);
+				comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+			}
+
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-body-row -->`);
+
+			if (noBreak && !isLast) {
+				comments.push(`<!-- #region switchcase-footer-row -->`);
+				comments.push(`<div class="row">`);
+				comments.push(`<!-- #region switchcase-footer-cell -->`);
+				comments.push(`<div class="cell inner-alignment-center">`);
+				comments.push(`<img class="size-20px" src="../../../media/downtoright-arrow.png">`);
+				comments.push(`</div>`);
+				comments.push(`<!-- #endregion switchcase-footer-cell -->`);
+				comments.push(`<!-- #region switchcase-direction-cell -->`);
+				comments.push(`<div class="cell">`);
+				comments.push(`<img class="size-20px" src="../../../media/righttoup-arrow.png">`);
+				comments.push(`</div>`);
+				comments.push(`<!-- #endregion switchcase-direction-cell -->`);
+				comments.push(`</div>`);
+				comments.push(`<!-- #endregion switchcase-footer-row -->`);
+			}
+
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchcase-block -->`);
+
+			comments.push(`</div>`);
+			comments.push(`<!-- #endregion switchstatement-cases-cell -->`);
+			addEndTags(path, comments);
+
+			return;
+		}
+
+		exitBreakStatement(path);
+	}
 }
 
 function replaceTags(code: string): string {
@@ -982,27 +929,6 @@ function getPathLevelChart(sourceCode: string) {
 	return `<html><body>${pathLevel}</body></html>`;
 }
 
-function hasBreakStatement(path: NodePath<Node>) {
-	let hasBreakStatement = false;
-
-	path.traverse({
-		BreakStatement(path) {
-			hasBreakStatement = true;
-			console.log(path);
-			return;
-		}
-	});
-
-	{
-		{
-			return;
-
-		}
-	}
-
-	return hasBreakStatement;
-}
-
 function isLastSwitchCase(path: NodePath<Node>) {
 	if (path.key === (path.container as Node[]).length - 1) {
 		return true;
@@ -1011,10 +937,20 @@ function isLastSwitchCase(path: NodePath<Node>) {
 	return false;
 }
 
-function addStartTags(path: NodePath<Node>, comments: string[]) {
-	comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+function clearPathComments(path: NodePath<Node>, isEnter: boolean = true) {
+	if (isEnter) {
+		path.node.leadingComments = null;
+	}
+	else {
+		path.node.trailingComments = null;
+	}
 }
 
-function addEndTags(path: NodePath<Node>, comments: string[]) {
-	comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+function addHtmlTags(path: NodePath<Node>, comments: string[], isEnter: boolean = true) {
+	if (isEnter) {
+		comments.reverse().forEach((comment) => { path.addComment(CommentType.Leading, comment, false); });
+	}
+	else {
+		comments.forEach((comment) => { path.addComment(CommentType.Trailing, comment, false); });
+	}
 }
