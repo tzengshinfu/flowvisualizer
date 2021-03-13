@@ -1,5 +1,5 @@
-case->if->break;
-loop->if->break;
+Vcase->if->break;
+Vloop->if->break;
 
 loop->if/case->continue;
 
