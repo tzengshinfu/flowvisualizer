@@ -1,0 +1,866 @@
+<html>
+
+<head>
+	<style type="text/css">
+		body {
+			background-color: transparent;
+		}
+
+		table {
+			border-spacing: 0px;
+		}
+
+		td {
+			padding: 0px;
+		}
+
+		img {
+			image-rendering: crisp-edges;
+			width: 20px;
+			height: 20px;
+		}
+
+		.border-right-3px-solid-silver {
+			border-right: 3px solid silver;
+		}
+
+		.border-left-3px-solid-silver {
+			border-left: 3px solid silver;
+		}
+
+		.border-all-3px-solid-silver {
+			border-style: solid;
+			border-color: silver;
+			border-width: 3px;
+		}
+
+		.border-top-3px-solid-silver {
+			border-top: 3px solid silver;
+		}
+
+		.border-bottom-3px-solid-silver {
+			border-bottom: 3px solid silver;
+		}
+
+		.backgroundcolor-pink {
+			background-color: pink;
+		}
+
+		.backgroundcolor-skyblue {
+			background-color: skyblue;
+		}
+
+		.backgroundcolor-aliceblue {
+			background-color: #EEF9FD;
+		}
+
+		.backgroundcolor-lavenderblush {
+			background-color: #FFF6F8;
+		}
+
+		.backgroundcolor-mustard {
+			background-color: #FFDB58;
+		}
+
+		.backgroundcolor-greenyellow {
+			background-color: #9ACD32;
+		}
+
+		.backgroundcolor-lightyellow {
+			background-color: #FFFFE0;
+		}
+
+		.backgroundcolor-azure {
+			background-color: azure;
+		}
+
+		.backgroundcolor-platinum {
+			background-color: #E5E4E2;
+		}
+
+		.backgroundcolor-snow {
+			background-color: #FAF9F7;
+		}
+
+		.backgroundcolor-honeydew {
+			background-color: honeydew;
+		}
+
+		.backgroundcolor-ghostwhite {
+			background-color: ghostwhite;
+		}
+
+		.backgroundcolor-green-200 {
+			background-color: #BBF7D0;
+		}
+
+		.backgroundcolor-green-50 {
+			background-color: #F0FDF4;
+		}
+
+		.backgroundcolor-violet {
+			background-color: #DDDDFF;
+		}
+
+		.backgroundcolor-orange-200 {
+			background-color: #FED7AA;
+		}
+
+		.backgroundcolor-orange-50 {
+			background-color: #FFF7ED;
+		}
+
+		.backgroundcolor-gray-200 {
+			background-color: #E5E7EB;
+		}
+
+		.backgroundcolor-gray-50 {
+			background-color: #F9FAFB;
+		}
+
+		.backgroundcolor-red-200 {
+			background-color: #FECACA;
+		}
+
+		.backgroundcolor-red-50 {
+			background-color: #FEF2F2;
+		}
+
+		.backgroundcolor-blue-50 {
+			background-color: #EFF6FF;
+		}
+
+		.backgroundcolor-blue-200 {
+			background-color: #BFDBFE;
+		}
+
+		.backgroundcolor-lime-500 {
+			background-color: #84CC16;
+		}
+
+		.backgroundcolor-yellow-200 {
+			background-color: #FDE68A;
+		}
+
+		.backgroundcolor-yellow-50 {
+			background-color: #FEFCE8;
+		}
+
+		.outer-alignment-center {
+			margin: 0 auto;
+		}
+
+		.inner-alignment-top {
+			vertical-align: top;
+		}
+
+		.inner-alignment-middle {
+			vertical-align: middle;
+		}
+
+		.inner-alignment-bottom {
+			vertical-align: bottom;
+		}
+
+		.inner-alignment-right {
+			text-align: right;
+		}
+
+		.inner-alignment-center {
+			text-align: center;
+		}
+
+		.rotate-270degree {
+			transform: rotate(270deg);
+			backface-visibility: hidden;
+		}
+
+		.rotate-90degree {
+			transform: rotate(90deg);
+			backface-visibility: hidden;
+		}
+
+		.padding-all-5px {
+			padding-top: 5px;
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-bottom: 5px;
+		}
+
+		.padding-leftright-5px {
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		.padding-topbottom-5px {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+
+		.border-rounded-3px {
+			border-radius: 3px;
+		}
+
+		.border-rounded-50percent {
+			border-radius: 50%;
+		}
+
+		.inner-text-nowrap {
+			white-space: nowrap;
+		}
+
+		.link-text-nounderline {
+			text-decoration: none;
+		}
+
+		.move-todown {
+			animation: move-todown 1s infinite;
+		}
+
+		.text-boldface {
+			font-weight: bold;
+		}
+
+		@keyframes move-todown {
+			0% {
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateY(10px);
+			}
+		}
+
+		.move-toleft {
+			animation: move-toleft 1s infinite;
+		}
+
+		@keyframes move-toleft {
+			0% {
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateX(-10px);
+			}
+		}
+
+		.move-toright {
+			animation: move-toright 1s infinite;
+		}
+
+		@keyframes move-toright {
+			0% {
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateX(10px);
+			}
+		}
+
+		.text-color-red-600 {
+			color: red;
+		}
+
+		.text-color-green {
+			color: green;
+		}
+
+		.text-color-blue {
+			color: blue;
+		}
+
+		.text-color-black {
+			color: black;
+		}
+
+		.text-color-gray-700 {
+			color: #3F3F46;
+		}
+
+		.text-strikethrough {
+			text-decoration: line-through;
+		}
+
+		.text-color-orange-500 {
+			color: orangered;
+		}
+
+		.text-color-cyan-600 {
+			color: cadetblue;
+		}
+
+		..text-color-purple-700 {
+			color: purple;
+		}
+
+		.text-color-sky-600 {
+			color: royalblue;
+		}
+
+		.text-color-orange {
+			color: orange;
+		}
+
+		.translucent {
+			opacity: 0.5;
+		}
+
+		.hide {
+			display: none;
+		}
+
+		.show {
+			display: block;
+		}
+
+		/*#region 光箱效果(參考https://www.ucamc.com/e-learning/css/237-css3-target-onclick-lightbox)*/
+		/* 光箱未開啟 */
+		.lightbox {
+			display: none;
+		}
+
+		/* 光箱已開啟 */
+		.lightbox:target {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* 光箱內容 */
+		.lightbox table {
+			position: relative;
+		}
+
+		/* 光箱遮罩 */
+		.lightbox .close::before {
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			background-color: rgba(0, 0, 0, .7);
+			content: "";
+			cursor: default;
+		}
+
+		/*#endregion*/
+
+		/*#region 工具提示效果(參考https://www.w3schools.com/css/css_tooltip.asp)*/
+		/* 工具提示容器 */
+		.tooltip {
+			position: relative;
+			display: inline-block;
+			border-bottom: 1px dashed blue;
+		}
+
+		/* 工具提示文字內容 */
+		.tooltip .tooltip-text {
+			visibility: hidden;
+			background-color: #E5E4E2;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px;
+			position: absolute;
+			z-index: 1;
+			top: -5px;
+			left: 110%;
+			overflow: visible;
+			white-space: nowrap;
+		}
+
+		/* 工具提示箭頭 */
+		.tooltip .tooltip-text::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			right: 100%;
+			margin-top: -5px;
+			border-width: 5px;
+			border-style: solid;
+			border-color: transparent #E5E4E2 transparent transparent;
+		}
+
+		/* 工具提示滑鼠移過顯示文字 */
+		.tooltip:hover .tooltip-text {
+			visibility: visible;
+		}
+
+		/*#endregion*/
+		.hidden-warning-sign {
+			opacity: 0;
+			cursor: default;
+			position: absolute;
+			bottom: -9px;
+			left: 50%;
+			transform: translate(-50%);
+		}
+
+		.hidden-warning-sign:hover {
+			opacity: 1;
+			cursor: default;
+			position: absolute;
+			bottom: -9px;
+			left: 50%;
+			transform: translate(-50%);
+		}
+
+		.hidden-warning-sign-wrapper {
+			position: relative;
+		}
+	</style>
+</head>
+
+<body>
+	<table name="Program-block" class="padding-leftright-5px">
+		<tr>
+			<td>
+				<table name="Start-block" class="backgroundcolor-mustard border-all-3px-solid-silver border-rounded-50percent padding-all-5px outer-alignment-center">
+					<tr>
+						<td><img src="../../../media/start.png"></td>
+					</tr>
+				</table>
+				<!--name="Start-block"-->
+				<table name="Next-block" class="outer-alignment-center padding-all-5px">
+					<tr>
+						<td><img src="../../../media/down-arrow.png"></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<table name="ExpressionStatement-block" class="outer-alignment-center padding-all-5px " title="">
+					<tr>
+						<td>console.log( <span class="tooltip">test<div name="test" class="tooltip-text"> <span class="tooltip">test<div name="test" class="tooltip-text">test </div></span> </div></span> </td>
+					</tr>
+				</table>
+				<!--name="ExpressionStatement-block"-->
+				<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+					<tr>
+						<td><img src="../../../media/down-arrow.png"></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<table name="VariableDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center " title="">
+					<tr name="VariableDeclaration-level" class="">
+						<td name="VariableDeclaration-Id-unit" class="">
+							<table name="VariableDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center " title="">
+								<tr name="VariableDeclaration-level" class="">
+									<td name="VariableDeclaration-Id-unit" class="">
+										var test = </td>
+									<!--name="VariableDeclaration-Id-unit"-->
+									<td name="VariableDeclaration-Body-unit" class=""> </td>
+									<!--name="VariableDeclaration-Id-unit"-->
+									<td name="VariableDeclaration-Body-unit" class="">test2; </td>
+									<!--name="VariableDeclaration-Body-unit"-->
+								</tr name="VariableDeclaration-level" class="">
+							</table>
+							<!--name="VariableDeclaration-block"-->
+							<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+								<tr>
+									<td><img src="../../../media/down-arrow.png"></td>
+								</tr>
+							</table>
+							<!--name="Next-block"-->
+						</td>
+						<!--name="VariableDeclaration-Body-unit"-->
+					</tr name="VariableDeclaration-level" class="">
+				</table>
+				<!--name="VariableDeclaration-block"-->
+				<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+					<tr>
+						<td><img src="../../../media/down-arrow.png"></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<table name="ExpressionStatement-block" class="outer-alignment-center padding-all-5px " title="">
+					<tr>
+						<td>
+							console.log( <a href="#test" onclick="changeFunctionStatementBlockParameterTooltips(&quot;test&quot;, &quot;[\&quot;'test'\&quot;]&quot;)"> <a href="#test" onclick="changeFunctionStatementBlockParameterTooltips(&quot;test&quot;, &quot;[\&quot;'test'\&quot;]&quot;)">test </a> </a>('test')); </td>
+					</tr>
+				</table>
+				<!--name="ExpressionStatement-block"-->
+				<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+					<tr>
+						<td><img src="../../../media/down-arrow.png"></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<table name="VariableDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center " title="">
+					<tr name="VariableDeclaration-level" class="">
+						<td name="VariableDeclaration-Id-unit" class="">
+							<table name="VariableDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center " title="">
+								<tr name="VariableDeclaration-level" class="">
+									<td name="VariableDeclaration-Id-unit" class="">
+										var test = </td>
+									<!--name="VariableDeclaration-Id-unit"-->
+									<td name="VariableDeclaration-Body-unit" class=""> </td>
+									<!--name="VariableDeclaration-Id-unit"-->
+									<td name="VariableDeclaration-Body-unit" class=""> <a href="#test" onclick="changeFunctionStatementBlockParameterTooltips(&quot;test&quot;, &quot;[\&quot;'test'\&quot;]&quot;)"> <a href="#test" onclick="changeFunctionStatementBlockParameterTooltips(&quot;test&quot;, &quot;[\&quot;'test'\&quot;]&quot;)">test </a> </a>('test'); </td>
+									<!--name="VariableDeclaration-Body-unit"-->
+								</tr name="VariableDeclaration-level" class="">
+							</table>
+							<!--name="VariableDeclaration-block"-->
+							<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+								<tr>
+									<td><img src="../../../media/down-arrow.png"></td>
+								</tr>
+							</table>
+							<!--name="Next-block"-->
+						</td>
+						<!--name="VariableDeclaration-Body-unit"-->
+					</tr name="VariableDeclaration-level" class="">
+				</table>
+				<!--name="VariableDeclaration-block"-->
+				<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+					<tr>
+						<td><img src="../../../media/down-arrow.png"></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<table name="VariableDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center " title="">
+					<tr name="VariableDeclaration-level" class="">
+						<td name="VariableDeclaration-Id-unit" class="">
+							<table name="VariableDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center " title="">
+								<tr name="VariableDeclaration-level" class="">
+									<td name="VariableDeclaration-Id-unit" class="">
+										var [result1, result2] = </td>
+									<!--name="VariableDeclaration-Id-unit"-->
+									<td name="VariableDeclaration-Body-unit" class=""> </td>
+									<!--name="VariableDeclaration-Id-unit"-->
+									<td name="VariableDeclaration-Body-unit" class=""> <a href="#t3" onclick="changeFunctionStatementBlockParameterTooltips(&quot;t3&quot;, &quot;[\&quot;t3(t2(\\\&quot;'(1,)'\\\&quot;, '\\\&quot;(,2)\\\&quot;'), ',3', '4,')\&quot;,\&quot;',5'\&quot;,\&quot;'6,'\&quot;]&quot;)"> <a href="#t3" onclick="changeFunctionStatementBlockParameterTooltips(&quot;t3&quot;, &quot;[\&quot;t3(t2(\\\&quot;'(1,)'\\\&quot;, '\\\&quot;(,2)\\\&quot;'), ',3', '4,')\&quot;,\&quot;',5'\&quot;,\&quot;'6,'\&quot;]&quot;)">t3 </a> </a>( <a href="#t3" onclick="changeFunctionStatementBlockParameterTooltips(&quot;t3&quot;, &quot;[\&quot;t2(\\\&quot;'(1,)'\\\&quot;, '\\\&quot;(,2)\\\&quot;')\&quot;,\&quot;',3'\&quot;,\&quot;'4,'\&quot;]&quot;)"> <a href="#t3" onclick="changeFunctionStatementBlockParameterTooltips(&quot;t3&quot;, &quot;[\&quot;t2(\\\&quot;'(1,)'\\\&quot;, '\\\&quot;(,2)\\\&quot;')\&quot;,\&quot;',3'\&quot;,\&quot;'4,'\&quot;]&quot;)">t3 </a> </a>( <a href="#t2" onclick="changeFunctionStatementBlockParameterTooltips(&quot;t2&quot;, &quot;[\&quot;\\\&quot;'(1,)'\\\&quot;\&quot;,\&quot;'\\\&quot;(,2)\\\&quot;'\&quot;]&quot;)"> <a href="#t2" onclick="changeFunctionStatementBlockParameterTooltips(&quot;t2&quot;, &quot;[\&quot;\\\&quot;'(1,)'\\\&quot;\&quot;,\&quot;'\\\&quot;(,2)\\\&quot;'\&quot;]&quot;)">t2 </a> </a>("'(1,)'", '"(,2)"'), ',3', '4,'), ',5', '6,'); </td>
+									<!--name="VariableDeclaration-Body-unit"-->
+								</tr name="VariableDeclaration-level" class="">
+							</table>
+							<!--name="VariableDeclaration-block"-->
+							<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+								<tr>
+									<td><img src="../../../media/down-arrow.png"></td>
+								</tr>
+							</table>
+							<!--name="Next-block"-->
+						</td>
+						<!--name="VariableDeclaration-Body-unit"-->
+					</tr name="VariableDeclaration-level" class="">
+				</table>
+				<!--name="VariableDeclaration-block"-->
+				<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+					<tr>
+						<td><img src="../../../media/down-arrow.png"></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<div id="t3" data-declare-function-parameter-json="[\&quot;param1\&quot;,\&quot;param2\&quot;,\&quot;param3\&quot;]" class="lightbox"> <a href="#" class="close"></a>
+					<table name="FunctionDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center">
+						<tr name="FunctionDeclaration-Id-level" class="">
+							<td name="FunctionDeclaration-Id-unit" class="backgroundcolor-mustard inner-alignment-top">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+								t3( <span class="tooltip">param1<div name="param1" class="tooltip-text">param1 </div></span>, <span class="tooltip">param2<div name="param2" class="tooltip-text">param2 </div></span>, <span class="tooltip">param3<div name="param3" class="tooltip-text">param3 </div></span> </td>
+							<!--name="FunctionDeclaration-Id-unit"-->
+						</tr>
+						<!--name="FunctionDeclaration-Id-level"-->
+						<tr name="FunctionDeclaration-Body-level">
+							<td name="FunctionDeclaration-Body-unit" class="backgroundcolor-lightyellow padding-all-5px inner-alignment-center">
+								<table name="Next-block" class="outer-alignment-center padding-all-5px">
+									<tr>
+										<td><img src="../../../media/down-arrow.png"></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+								<table class="outer-alignment-center " title="">
+									<tr>
+										<td>
+											return (<a href="#testFunction2" onclick="changeFunctionStatementBlockParameterTooltips(&quot;testFunction2&quot;, &quot;[\&quot;param1\&quot;,\&quot;param2\&quot;,\&quot;param3\&quot;]&quot;)"> <a href="#testFunction2" onclick="changeFunctionStatementBlockParameterTooltips(&quot;testFunction2&quot;, &quot;[\&quot;param1\&quot;,\&quot;param2\&quot;,\&quot;param3\&quot;]&quot;)">testFunction2 </a> </a>( <span class="tooltip">param1<div name="param1" class="tooltip-text"> <span class="tooltip">param1<div name="param1" class="tooltip-text">param1 </div></span> </div></span>, <span class="tooltip">param2<div name="param2" class="tooltip-text"> <span class="tooltip">param2<div name="param2" class="tooltip-text">param2 </div></span> </div></span>, <span class="tooltip">param3<div name="param3" class="tooltip-text"> <span class="tooltip">param3<div name="param3" class="tooltip-text">param3 </div></span> </div></span>) + 1); </td>
+									</tr>
+								</table>
+								<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+									<tr>
+										<td><a href="#"><img src="../../../media/end-arrow.png"></a></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+								<table name="ExpressionStatement-block" class="outer-alignment-center padding-all-5px text-strikethrough translucent" title="unreachable code">
+									<tr>
+										<td>
+											console.log('unreachable'); </td>
+									</tr>
+								</table>
+								<!--name="ExpressionStatement-block"-->
+								<table name="Next-block" class="outer-alignment-center padding-all-5px text-strikethrough translucent">
+									<tr>
+										<td><img src="../../../media/down-arrow.png"></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+							</td>
+							<!--name="ForStatement-Body-unit"-->
+						</tr>
+						<!--name="ForStatement-Body-level"-->
+					</table>
+					<!--name="FunctionDeclaration-block"-->
+				</div>
+				<!--id="t3"-->
+				<div id="t2" data-declare-function-parameter-json="[\&quot;param1\&quot;,\&quot;param2\&quot;]" class="lightbox"> <a href="#" class="close"></a>
+					<table name="FunctionDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center">
+						<tr name="FunctionDeclaration-Id-level" class="">
+							<td name="FunctionDeclaration-Id-unit" class="backgroundcolor-mustard inner-alignment-top">
+
+
+								t2( <span class="tooltip">param1<div name="param1" class="tooltip-text">param1 </div></span>, <span class="tooltip">param2<div name="param2" class="tooltip-text">param2 </div></span> </td>
+							<!--name="FunctionDeclaration-Id-unit"-->
+						</tr>
+						<!--name="FunctionDeclaration-Id-level"-->
+						<tr name="FunctionDeclaration-Body-level">
+							<td name="FunctionDeclaration-Body-unit" class="backgroundcolor-lightyellow padding-all-5px inner-alignment-center">
+								<table name="Next-block" class="outer-alignment-center padding-all-5px">
+									<tr>
+										<td><img src="../../../media/down-arrow.png"></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+								if (1) <table class="outer-alignment-center " title="">
+									<tr>
+										<td>
+											return (<span class="tooltip">param1<div name="param1" class="tooltip-text"> <span class="tooltip">param1<div name="param1" class="tooltip-text">param1 </div></span> </div></span> + <span class="tooltip">param2<div name="param2" class="tooltip-text"> <span class="tooltip">param2<div name="param2" class="tooltip-text">param2 </div></span> </div></span> </td>
+									</tr>
+								</table>
+								<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+									<tr>
+										<td><a href="#"><img src="../../../media/end-arrow.png"></a></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+								<table name="ExpressionStatement-block" class="outer-alignment-center padding-all-5px text-strikethrough translucent" title="unreachable code">
+									<tr>
+										<td>
+											console.log('unreachable'); </td>
+									</tr>
+								</table>
+								<!--name="ExpressionStatement-block"-->
+								<table name="Next-block" class="outer-alignment-center padding-all-5px text-strikethrough translucent">
+									<tr>
+										<td><img src="../../../media/down-arrow.png"></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+								<table name="ExpressionStatement-block" class="outer-alignment-center padding-all-5px " title="">
+									<tr>
+										<td>
+
+											console.log('reachable'); </td>
+									</tr>
+								</table>
+								<!--name="ExpressionStatement-block"-->
+								<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+									<tr>
+										<td><img src="../../../media/down-arrow.png"></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+							</td>
+							<!--name="ForStatement-Body-unit"-->
+						</tr>
+						<!--name="ForStatement-Body-level"-->
+					</table>
+					<!--name="FunctionDeclaration-block"-->
+				</div>
+				<!--id="t2"-->
+				<div id="testFunction2" data-declare-function-parameter-json="[\&quot;param1\&quot;,\&quot;param2\&quot;,\&quot;param3\&quot;]" class="lightbox"> <a href="#" class="close"></a>
+					<table name="FunctionDeclaration-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center">
+						<tr name="FunctionDeclaration-Id-level" class="">
+							<td name="FunctionDeclaration-Id-unit" class="backgroundcolor-mustard inner-alignment-top">
+
+								testFunction2( <span class="tooltip">param1<div name="param1" class="tooltip-text">param1 </div></span>, <span class="tooltip">param2<div name="param2" class="tooltip-text">param2 </div></span>, <span class="tooltip">param3<div name="param3" class="tooltip-text">param3 </div></span> </td>
+							<!--name="FunctionDeclaration-Id-unit"-->
+						</tr>
+						<!--name="FunctionDeclaration-Id-level"-->
+						<tr name="FunctionDeclaration-Body-level">
+							<td name="FunctionDeclaration-Body-unit" class="backgroundcolor-lightyellow padding-all-5px inner-alignment-center">
+								<table name="Next-block" class="outer-alignment-center padding-all-5px">
+									<tr>
+										<td><img src="../../../media/down-arrow.png"></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+								<table class="outer-alignment-center " title="">
+									<tr>
+										<td>
+											return (<span class="tooltip">param1<div name="param1" class="tooltip-text"> <span class="tooltip">param1<div name="param1" class="tooltip-text">param1 </div></span> </div></span> + <span class="tooltip">param2<div name="param2" class="tooltip-text"> <span class="tooltip">param2<div name="param2" class="tooltip-text">param2 </div></span> </div></span> + <span class="tooltip">param3<div name="param3" class="tooltip-text"> <span class="tooltip">param3<div name="param3" class="tooltip-text">param3 </div></span> </div></span> </td>
+									</tr>
+								</table>
+								<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+									<tr>
+										<td><a href="#"><img src="../../../media/end-arrow.png"></a></td>
+									</tr>
+								</table>
+								<!--name="Next-block"-->
+							</td>
+							<!--name="ForStatement-Body-unit"-->
+						</tr>
+						<!--name="ForStatement-Body-level"-->
+					</table>
+					<!--name="FunctionDeclaration-block"-->
+				</div>
+				<!--id="testFunction2"-->
+				<table name="End-block" class="border-rounded-50percent border-all-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-all-5px">
+					<tr>
+						<td><img src="../../../media/end.png"></td>
+					</tr>
+				</table>
+				<!--name="End-block"-->
+			</td>
+		</tr>
+	</table>
+	<!--name="Program-block"-->
+	<script>'use strict';
+
+		function changeFunctionStatementBlockParameterTooltips(functionName, callFunctionParameterJson) {
+			const functionStatementLightBox = document.querySelector(`div#${functionName}`);
+
+			if (functionStatementLightBox) {
+				const declareFunctionParameters = JSON.parse(functionStatementLightBox.dataset.declareFunctionParameterJson.replace(/\\/g, ''));
+				const callFunctionParameters = JSON.parse(callFunctionParameterJson);
+
+				for (const [parameterIndex, declareFunctionParameter] of declareFunctionParameters.entries()) {
+					const callFunctionParameter = callFunctionParameters[parameterIndex];
+					const highlightFunctionParameters = Array.from(functionStatementLightBox.querySelectorAll(`span[name="${declareFunctionParameter}"]`));
+
+					for (const highlightFunctionParameter of highlightFunctionParameters) {
+						const tooltipText = highlightFunctionParameter.querySelector('div.tooltip-text');
+
+						if (tooltipText) {
+							tooltipText.innerHTML = callFunctionParameter.replace(/"/g, `<span class="text-color-cyan-600">"</span>`).replace(/'/g, `<span class="text-color-orange-500">'</span>`);
+						}
+					}
+				}
+			}
+		}
+
+		function toggleCatchStatementBlock(node) {
+			const tryStatementBlock = ((node) => {
+				let parentNode = node.parentNode;
+
+				while (parentNode.getAttribute('name') !== 'TryStatement-block') {
+					parentNode = parentNode.parentNode;
+				}
+
+				return parentNode;
+			})(node);
+			const catachStatementLevels = tryStatementBlock.querySelectorAll('td[name="TryStatement-Catch-unit"], td[name="TryStatement-Catch-Body-unit"]');
+
+			catachStatementLevels.forEach((catachStatementLevel) => { catachStatementLevel.classList.toggle('hide'); });
+		}
+
+		function moveOrStopFlowIcon(node, statementType) {
+			const parentStatementName = ((statementType) => {
+				let parentStatementName = [];
+
+				switch (statementType) {
+					case 'ContinueStatement':
+						parentStatementName = ['ForStatement-block', 'ForXStatement-block', 'DoWhileStatement-block', 'WhileStatement-block'];
+						break;
+					case 'BreakStatement':
+						parentStatementName = ['ForStatement-block', 'ForXStatement-block', 'DoWhileStatement-block', 'WhileStatement-block', 'SwitchStatement-block'];
+						break;
+				}
+
+				return parentStatementName;
+			})(statementType);
+			const parentStatementBlock = ((node, parentStatementName) => {
+				let parentNode = node.parentNode;
+
+				while (!parentStatementName.includes(parentNode.getAttribute('name'))) {
+					parentNode = parentNode.parentNode;
+				}
+
+				return parentNode;
+			})(node, parentStatementName);
+
+			switch (statementType) {
+				case 'ContinueStatement': {
+					const continueFlowIcon = Array.from(parentStatementBlock.querySelectorAll('img')).find((img) => {
+						return img.name.startsWith(statementType);
+					});
+
+					if (continueFlowIcon) {
+						continueFlowIcon.classList.toggle('move-toleft');
+					}
+
+					break;
+				}
+
+				case 'BreakStatement': {
+					const breakFlowIcon = Array.from(parentStatementBlock.parentNode.querySelectorAll('img')).find((img) => {
+						return img.name.startsWith(statementType) && img.dataset.start === parentStatementBlock.dataset.start && img.dataset.end === parentStatementBlock.dataset.end;
+					});
+
+					if (breakFlowIcon) {
+						breakFlowIcon.classList.toggle('move-todown');
+					}
+
+					break;
+				}
+			}
+		}
+
+		function changeVariableDeclaratorTooltip(node) {
+			const varialbleName = node.getAttribute('name');
+			const variableValueNode = document.querySelector(`td[data-variable-name="${varialbleName}"]`);
+			const isUndefined = ((node, variableValueNode) => {
+				//未宣告變數
+				if (!variableValueNode) {
+					return true;
+				}
+				else {
+					//在使用變數之前宣告
+					if (parseInt(variableValueNode.dataset.start, 10) < parseInt(node.dataset.start, 10)) {
+						return false;
+					}
+					//在使用變數之後宣告
+					else {
+						return true;
+					}
+				}
+
+			})(node, variableValueNode);
+			const tooltipTextNode = node.querySelector('div.tooltip-text');
+
+			if (tooltipTextNode) {
+				if (!isUndefined) {
+					const variableValue = variableValueNode.innerText.replace(';', '').trim();
+					tooltipTextNode.innerHTML = variableValue.replace(/"/g, `<span class="text-color-cyan-600">"</span>`).replace(/'/g, `<span class="text-color-orange-500">'</span>`);
+				}
+				else {
+					tooltipTextNode.innerHTML = `<span class=".text-color-purple-700"><i>undefined</i></span>`;
+				}
+			}
+		}
+	</script>
+</body>
+
+</html>

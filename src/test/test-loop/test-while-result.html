@@ -1,0 +1,566 @@
+<html>
+
+<head>
+	<style type="text/css">
+		body {
+			background-color: transparent;
+		}
+
+		table {
+			border-spacing: 0px;
+		}
+
+		td {
+			padding: 0px;
+		}
+
+		img {
+			image-rendering: crisp-edges;
+			width: 20px;
+			height: 20px;
+		}
+
+		.border-right-3px-solid-silver {
+			border-right: 3px solid silver;
+		}
+
+		.border-left-3px-solid-silver {
+			border-left: 3px solid silver;
+		}
+
+		.border-all-3px-solid-silver {
+			border-style: solid;
+			border-color: silver;
+			border-width: 3px;
+		}
+
+		.border-top-3px-solid-silver {
+			border-top: 3px solid silver;
+		}
+
+		.backgroundcolor-pink {
+			background-color: pink;
+		}
+
+		.backgroundcolor-skyblue {
+			background-color: skyblue;
+		}
+
+		.backgroundcolor-aliceblue {
+			background-color: #EEF9FD;
+		}
+
+		.backgroundcolor-lavenderblush {
+			background-color: #FFF6F8;
+		}
+
+		.backgroundcolor-mustard {
+			background-color: #FFDB58;
+		}
+
+		.backgroundcolor-greenyellow {
+			background-color: #9ACD32;
+		}
+
+		.backgroundcolor-lightyellow {
+			background-color: #FFFFE0;
+		}
+
+		.backgroundcolor-azure {
+			background-color: azure;
+		}
+
+		.backgroundcolor-platinum {
+			background-color: #E5E4E2;
+		}
+
+		.backgroundcolor-snow {
+			background-color: #FAF9F7;
+		}
+
+		.backgroundcolor-honeydew {
+			background-color: honeydew;
+		}
+
+		.backgroundcolor-ghostwhite {
+			background-color: #DDDDFF;
+		}
+
+		.outer-alignment-center {
+			margin: 0 auto;
+		}
+
+		.inner-alignment-top {
+			vertical-align: top;
+		}
+
+		.inner-alignment-middle {
+			vertical-align: middle;
+		}
+
+		.inner-alignment-bottom {
+			vertical-align: bottom;
+		}
+
+		.inner-alignment-right {
+			text-align: right;
+		}
+
+		.inner-alignment-center {
+			text-align: center;
+		}
+
+		.rotate-270degree {
+			transform: rotate(270deg);
+			backface-visibility: hidden;
+		}
+
+		.rotate-90degree {
+			transform: rotate(90deg);
+			backface-visibility: hidden;
+		}
+
+		.padding-all-5px {
+			padding-top: 5px;
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-bottom: 5px;
+		}
+
+		.padding-leftright-5px {
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		.padding-topbottom-5px {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+
+		.border-rounded-3px {
+			border-radius: 3px;
+		}
+
+		.border-rounded-50percent {
+			border-radius: 50%;
+		}
+
+		.inner-text-nowrap {
+			white-space: nowrap;
+		}
+
+		.link-text-nounderline {
+			text-decoration: none;
+		}
+
+		.move-todown {
+			animation: move-todown 1s infinite;
+		}
+
+		@keyframes move-todown {
+			0% {
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateY(10px);
+			}
+		}
+
+		.move-toleft {
+			animation: move-toleft 1s infinite;
+		}
+
+		@keyframes move-toleft {
+			0% {
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateX(-10px);
+			}
+		}
+
+		.move-toright {
+			animation: move-toright 1s infinite;
+		}
+
+		@keyframes move-toright {
+			0% {
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateX(10px);
+			}
+		}
+
+		.text-color-red-600 {
+			color: red;
+		}
+
+		.text-color-green {
+			color: green;
+		}
+
+		.text-color-blue {
+			color: blue;
+		}
+
+		.text-color-black {
+			color: black;
+		}
+
+		.text-strikethrough {
+			text-decoration: line-through;
+		}
+
+		.text-color-orange-500 {
+			color: orangered;
+		}
+
+		.text-color-cyan-600 {
+			color: cadetblue;
+		}
+
+		.translucent {
+			opacity: 0.5;
+		}
+
+		.hide {
+			display: none;
+		}
+
+		.show {
+			display: block;
+		}
+
+		/*#region 光箱效果(參考https://www.ucamc.com/e-learning/css/237-css3-target-onclick-lightbox)*/
+		/* 光箱未開啟 */
+		.lightbox {
+			display: none;
+		}
+
+		/* 光箱已開啟 */
+		.lightbox:target {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* 光箱內容 */
+		.lightbox table {
+			position: relative;
+		}
+
+		/* 光箱遮罩 */
+		.lightbox .close::before {
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			background-color: rgba(0, 0, 0, .7);
+			content: "";
+			cursor: default;
+		}
+
+		/*#endregion*/
+
+		/*#region 工具提示效果(參考https://www.w3schools.com/css/css_tooltip.asp)*/
+		/* 工具提示容器 */
+		.tooltip {
+			position: relative;
+			display: inline-block;
+			border-bottom: 1px dashed blue;
+		}
+
+		/* 工具提示文字內容 */
+		.tooltip .tooltip-text {
+			visibility: hidden;
+			background-color: #E5E4E2;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px;
+			position: absolute;
+			z-index: 1;
+			top: -5px;
+			left: 110%;
+			overflow: visible;
+			white-space: nowrap;
+		}
+
+		/* 工具提示箭頭 */
+		.tooltip .tooltip-text::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			right: 100%;
+			margin-top: -5px;
+			border-width: 5px;
+			border-style: solid;
+			border-color: transparent #E5E4E2 transparent transparent;
+		}
+
+		/* 工具提示滑鼠移過顯示文字 */
+		.tooltip:hover .tooltip-text {
+			visibility: visible;
+		}
+
+		/*#endregion*/
+		.hidden-warning-sign {
+			opacity: 0;
+			cursor: default;
+			position: absolute;
+			bottom: -9px;
+			left: 50%;
+			transform: translate(-50%);
+		}
+
+		.hidden-warning-sign:hover {
+			opacity: 1;
+			cursor: default;
+			position: absolute;
+			bottom: -9px;
+			left: 50%;
+			transform: translate(-50%);
+		}
+
+		.hidden-warning-sign-wrapper {
+			position: relative;
+		}
+	</style>
+</head>
+
+<body>
+	<table name="Program-block" class="padding-leftright-5px">
+		<tr>
+			<td>
+				<table name="Start-block" class="backgroundcolor-mustard border-all-3px-solid-silver border-rounded-50percent padding-all-5px outer-alignment-center">
+					<tr>
+						<td><img src="../../../media/start.png"></td>
+					</tr>
+				</table>
+				<!--name="Start-block"-->
+				<table name="Next-block" class="outer-alignment-center padding-all-5px">
+					<tr>
+						<td><img src="../../../media/down-arrow.png"></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<table name="WhileStatement-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center " title="" data-start="0" data-end="61" data-start="0" data-end="61">
+					<tr name="WhileStatement-Test-level" class="">
+						<td name="WhileStatement-Test-unit" class="backgroundcolor-pink inner-alignment-center"> while (test >= 10 ) </td>
+						<!--name="WhileStatement-Test-unit"-->
+						<td class="backgroundcolor-pink"><img name="ContinueStatement" src="../../../media/uptoleft-arrow.png" data-start="7" data-end="17"></td>
+					</tr>
+					<!--name="WhileStatement-Test-level"-->
+					<tr name="WhileStatement-Body-level" class="">
+						<td name="WhileStatement-Body-unit" class="backgroundcolor-lavenderblush padding-all-5px inner-alignment-center">
+							<table name="Next-block" class="outer-alignment-center padding-all-5px">
+								<tr>
+									<d><img src="../../../media/down-arrow.png">
+						</td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<table class="outer-alignment-center " title="">
+					<tr>
+						<td>
+							continue; </td>
+					</tr>
+				</table>
+				<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+					<tr>
+						<td><a href="#" onclick="moveOrStopFlowIcon(this, 'ContinueStatement')"><img src="../../../media/next-arrow.png"></a></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+				<table name="ExpressionStatement-block" class="outer-alignment-center padding-all-5px text-strikethrough translucent" title="unreachable code">
+					<tr>
+						<td>
+
+							console.log('while'); </td>
+					</tr>
+				</table>
+				<!--name="ExpressionStatement-block"-->
+				<table name="Next-block" class="outer-alignment-center padding-all-5px text-strikethrough translucent">
+					<tr>
+						<td><img src="../../../media/down-arrow.png"></td>
+					</tr>
+				</table>
+				<!--name="Next-block"-->
+			</td>
+			<!--name="WhileStatement-Body-unit"-->
+			<td class="backgroundcolor-pink inner-alignment-middle"><img src="../../../media/cycle-arrow.png"></td>
+		</tr>
+		<!--name="WhileStatement-Body-level"-->
+		<tr class="">
+			<td class="backgroundcolor-pink inner-alignment-center"><img src="../../../media/down-arrow.png"> or <img src="../../../media/downtoright-arrow.png"></td>
+			<td class="backgroundcolor-pink"><img src="../../../media/righttoup-arrow.png"></td>
+		</tr>
+	</table>
+	<!--name="WhileStatement-block"-->
+	<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+		<tr>
+			<td><img name="BreakStatement" src="../../../media/down-arrow.png" data-start="0" data-end="61"></td>
+		</tr>
+	</table>
+	<!--name="Next-block"-->
+	<table name="WhileStatement-block" class="border-all-3px-solid-silver border-rounded-3px outer-alignment-center " title="" data-start="63" data-end="121" data-start="63" data-end="121">
+		<tr name="WhileStatement-Test-level" class="">
+			<td name="WhileStatement-Test-unit" class="backgroundcolor-pink inner-alignment-center"> while (test >= 10 ) </td>
+			<!--name="WhileStatement-Test-unit"-->
+			<td class="backgroundcolor-pink"><img name="ContinueStatement" src="../../../media/uptoleft-arrow.png" data-start="70" data-end="80"></td>
+		</tr>
+		<!--name="WhileStatement-Test-level"-->
+		<tr name="WhileStatement-Body-level" class="">
+			<td name="WhileStatement-Body-unit" class="backgroundcolor-lavenderblush padding-all-5px inner-alignment-center">
+				<table name="Next-block" class="outer-alignment-center padding-all-5px">
+					<tr>
+						<d><img src="../../../media/down-arrow.png">
+			</td>
+		</tr>
+	</table>
+	<!--name="Next-block"-->
+	<table class="outer-alignment-center " title="">
+		<tr>
+			<td>
+				break; </td>
+		</tr>
+	</table>
+	<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+		<tr>
+			<td><a href="#" onclick="moveOrStopFlowIcon(this, 'BreakStatement')"><img src="../../../media/end-arrow.png"></a></td>
+		</tr>
+	</table>
+	<!--name="Next-block"-->
+	<table name="ExpressionStatement-block" class="outer-alignment-center padding-all-5px text-strikethrough translucent" title="unreachable code">
+		<tr>
+			<td>
+
+				console.log('while'); </td>
+		</tr>
+	</table>
+	<!--name="ExpressionStatement-block"-->
+	<table name="Next-block" class="outer-alignment-center padding-all-5px text-strikethrough translucent">
+		<tr>
+			<td><img src="../../../media/down-arrow.png"></td>
+		</tr>
+	</table>
+	<!--name="Next-block"-->
+	</td>
+	<!--name="WhileStatement-Body-unit"-->
+	<td class="backgroundcolor-pink inner-alignment-middle"><img src="../../../media/cycle-arrow.png"></td>
+	</tr>
+	<!--name="WhileStatement-Body-level"-->
+	<tr class="">
+		<td class="backgroundcolor-pink inner-alignment-center"><img src="../../../media/down-arrow.png"> or <img src="../../../media/downtoright-arrow.png"></td>
+		<td class="backgroundcolor-pink"><img src="../../../media/righttoup-arrow.png"></td>
+	</tr>
+	</table>
+	<!--name="WhileStatement-block"-->
+	<table name="Next-block" class="outer-alignment-center padding-all-5px ">
+		<tr>
+			<td><img name="BreakStatement" src="../../../media/down-arrow.png" data-start="63" data-end="121"></td>
+		</tr>
+	</table>
+	<!--name="Next-block"-->
+	<table name="End-block" class="border-rounded-50percent border-all-3px-solid-silver outer-alignment-center backgroundcolor-greenyellow padding-all-5px">
+		<tr>
+			<td><img src="../../../media/end.png"></td>
+		</tr>
+	</table>
+	<!--name="End-block"-->
+	</td>
+	</tr>
+	</table>
+	<!--name="Program-block"-->
+	<script>//@ts-check
+'use strict';
+
+function changeFunctionStatementBlockParameterTooltips(functionName, callFunctionParameterJson) {
+	let functionStatementBlock = document.getElementById(functionName);
+
+	if (functionStatementBlock) {
+		let declareFunctionParameters = JSON.parse(functionStatementBlock.dataset.declareFunctionParameterJson.replace(/\\/g, ''));
+		let callFunctionParameters = JSON.parse(callFunctionParameterJson);
+
+		for (let [parameterIndex, declareFunctionParameter] of declareFunctionParameters.entries()) {
+			let callFunctionParameter = callFunctionParameters[parameterIndex];
+			let currentFunctionParameters = Array.from(functionStatementBlock.getElementsByTagName('div')).filter((div) => { return div.getAttribute('name') === declareFunctionParameter; });
+
+			for (let currentFunctionParameter of currentFunctionParameters) {
+				currentFunctionParameter.innerHTML = callFunctionParameter.replace(/\"/g, `<span class="text-color-cyan-600">\"</span>`).replace(/\'/g, `<span class="text-color-orange-500">'</span>`);
+			}
+		}
+	}
+}
+
+function toggleCatchStatementBlock(node) {
+	let tryStatementLevels = Array.from(((node) => {
+		let parentNode = node.parentNode;
+
+		while (parentNode.getAttribute('name') !== 'TryStatement-block') {
+			parentNode = parentNode.parentNode;
+		}
+
+		return parentNode;
+	})(node).getElementsByTagName('tr'));
+	let catachStatementLevels = tryStatementLevels.filter((tr) => { return ['TryStatement-Catch-level', 'TryStatement-Catch-Body-level'].includes(tr.getAttribute('name')); });
+	catachStatementLevels.forEach((catachStatementLevel) => { catachStatementLevel.classList.toggle('hide'); });
+}
+
+function moveOrStopFlowIcon(node, statementType) {
+	let parentStatementName = ((statementType) => {
+		let parentStatementName = [];
+
+		switch (statementType) {
+			case 'ContinueStatement':
+				parentStatementName = ['ForStatement-block', 'ForXStatement-block', 'DoWhileStatement-block', 'WhileStatement-block'];
+				break;
+			case 'BreakStatement':
+				parentStatementName = ['ForStatement-block', 'ForXStatement-block', 'DoWhileStatement-block', 'WhileStatement-block', 'SwitchStatement-block'];
+				break;
+		}
+
+		return parentStatementName;
+	})(statementType);
+	let parentStatementBlock = ((node, parentStatementName) => {
+		let parentNode = node.parentNode;
+
+		while (!parentStatementName.includes(parentNode.getAttribute('name'))) {
+			parentNode = parentNode.parentNode;
+		}
+
+		return parentNode;
+	})(node, parentStatementName);
+
+	switch (statementType) {
+		case 'ContinueStatement':
+			let continueFlowIcon = Array.from(parentStatementBlock.getElementsByTagName('IMG')).find((img) => {
+				return img.name.startsWith(statementType);
+			});
+			if (continueFlowIcon) { continueFlowIcon.classList.toggle('move-toleft'); }
+			break;
+
+		case 'BreakStatement':
+			let breakFlowIcon = Array.from(parentStatementBlock.parentNode.getElementsByTagName('IMG')).find((img) => {
+				return img.name.startsWith(statementType) && img.dataset.start === parentStatementBlock.dataset.start && img.dataset.end === parentStatementBlock.dataset.end;
+			});
+			if (breakFlowIcon) { breakFlowIcon.classList.toggle('move-todown'); }
+			break;
+	}
+}
+	</script>
+</body>
+
+</html>

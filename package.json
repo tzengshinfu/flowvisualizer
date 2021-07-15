@@ -1,0 +1,76 @@
+{
+	"name": "flow-visualizer",
+	"displayName": "Flow Visualizer",
+	"description": "提供VSCode將程式碼邏輯流程可視化的功能",
+	"version": "0.0.1",
+	"publisher": "tzengshinfu",
+	"icon": "images/flow-visualizer.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tzengshinfu/flowvisualizer"
+	},
+	"engines": {
+		"vscode": "^1.50.0"
+	},
+	"categories": [
+		"Visualization"
+	],
+	"activationEvents": [
+		"onCommand:flowVisualizer.generateFlowBlock"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "flowVisualizer.generateFlowBlock",
+				"title": "Generate flow block",
+				"icon": "/media/flow-visualizer.png",
+				"url": "https://icon-icons.com/icon/flowchart/161130"
+			}
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "flowVisualizer.generateFlowBlock",
+					"when": "editorLangId == javascript",
+					"group": "navigation"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint . --ext .ts,.tsx",
+		"watch": "tsc -w -p ./",
+		"test": "mocha --r ts-node/register --timeout 999999 --colors src/test/*.ts"
+	},
+	"dependencies": {
+		"@babel/core": "^7.12.10",
+		"@babel/generator": "^7.12.11",
+		"@babel/parser": "^7.12.11",
+		"@babel/traverse": "^7.12.12"
+	},
+	"devDependencies": {
+		"@babel/types": "^7.12.12",
+		"@types/assert": "^1.5.3",
+		"@types/babel__core": "^7.1.12",
+		"@types/babel__generator": "^7.6.2",
+		"@types/babel__traverse": "^7.11.0",
+		"@types/chai": "^4.2.14",
+		"@types/jsdom": "^16.2.11",
+		"@types/mocha": "^8.2.0",
+		"@types/node": "^14.14.20",
+		"@types/vscode": "^1.50.0",
+		"@typescript-eslint/eslint-plugin": "^3.0.2",
+		"@typescript-eslint/parser": "^3.0.2",
+		"assert": "^2.0.0",
+		"chai": "^4.2.0",
+		"eslint": "^7.1.0",
+		"jsdom": "^16.6.0",
+		"jsdom-global": "^3.0.2",
+		"mocha": "^8.2.1",
+		"ts-node": "^9.1.1",
+		"typescript": "^4.0.2"
+	}
+}
